@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700");
+div#kt_aside {
+  width: max-content;
+  height: 100vh;
+  position: relative;
+  box-shadow: 1px 0px 3px #afafaf;
+      padding: 0px 20px;
+ul{
+  li{
+    padding: 5px 20px;
+    margin-bottom: 7px;
+    &:hover{
+      background-color: #f1f1f1;
+      padding: 5px 20px;
+      margin-bottom: 7px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    a{
+
+      p {
+        font-size: 15px;
+        margin: 14px 14px;
+        color: #6f6f6f !important;
+        cursor:pointer;
+      }
+      i{
+        display: flex;
+        align-items: center;
+        
+        .container-icon {
+          width: 20px;
+      }
+      }
+    }
+
+
+  }
+
+}
+
+} 
+div#kt_aside_logo {
+  margin-right: 25px;
+
+
+}
+ 
+div#kt_aside_footer {
+  position: absolute;
+  bottom: 0;
+  padding: 9px 20px;
+  border-radius: 4px;
+
+  div#kt_header_user_menu_toggle{
+    padding: 9px 20px;
+    &:hover{
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+  }
+  p{
+    margin-left: 22px;
+    color: gray;
+  }
+}

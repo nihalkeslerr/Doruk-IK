@@ -1,7 +1,5 @@
 import React from "react";
-import dropdownHeaderBg from "../../assets/media/misc/dropdown-header-bg.png";
-import unitedStates from "../../assets/media/flags/united-states.svg";
-import avatar1 from "../../assets/media/avatars/300-16.jpg";
+import avatar1 from "../../../assets/media/avatars/300-16.jpg";
 function Footer() {
   return (
       <div
@@ -13,7 +11,7 @@ function Footer() {
           id="kt_header_user_menu_toggle"
         >
           <div
-            className="cursor-pointer symbol symbol-40px"
+            className="cursor-pointer symbol symbol-40px d-flex  justify-content-center align-items-center mb-0"
             data-kt-menu-trigger="click"
             data-kt-menu-overflow="true"
             data-kt-menu-placement="top-start"
@@ -23,6 +21,7 @@ function Footer() {
             title="User profile"
           >
             <img src={avatar1} alt="image" />
+            <p className="mb-0 pl-1 cursor-pointer">My Account</p>
           </div>
 
         </div>

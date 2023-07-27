@@ -1,7 +1,15 @@
 import React from "react";
 import Logo from "./Logo";
-import Footer from "../Footer/Footer";
+import Footer from "../Wrapper/Footer/Footer";
 import "./style.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { faCalendar } from '@fortawesome/free-solid-svg-icons'
+import { faUserGroup } from '@fortawesome/free-solid-svg-icons'
+import { faPlane } from '@fortawesome/free-solid-svg-icons'
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons'
+import { faFileLines } from '@fortawesome/free-solid-svg-icons'
+
 function Header() {
   return (
     <div>
@@ -15,16 +23,23 @@ function Header() {
             <ul className="nav flex-column w-100" id="kt_aside_nav_tabs">
               <li className="mw-100 " title="Projects">
                 <a className="" href="#kt_aside_nav_tab_projects">
-                  <i className="ki-duotone ki-element-11 ">
-                    <span></span>
+                  <i className="ki-duotone ki-element-11 w-100">
+                  <div className="container-icon">
+                  <FontAwesomeIcon icon={faHouse} style={{color: "#afafaf"}} size="xl" />
+                  </div>
                     <p className="">Main Page</p>
-                  </i>
+                    </i>
                 </a>
+                
               </li>
               <li className="mw-100" title="Menu">
                 <a className="" href="#kt_aside_nav_tab_menu">
                   <i className="ki-duotone ki-element-11">
-                    <p>Calendar</p>
+                  <div className="container-icon">
+                  <FontAwesomeIcon icon={faCalendar} style={{color: "#afafaf"}} size="xl" />
+                  </div>
+                   <p>Calendar</p>
+                   
                   </i>
                 </a>
               </li>
@@ -35,14 +50,18 @@ function Header() {
                   href="#kt_aside_nav_tab_subscription"
                 >
                   <i className="ki-duotone ki-element-11">
-                    <p>Employees</p>
+                  <div className="container-icon">
+                  <FontAwesomeIcon icon={faUserGroup} style={{color: "#afafaf"}} size="xl" />
+                  </div>  <p>Employees</p>
                   </i>
                 </a>
               </li>
               <li className="mw-100" title="Tasks">
                 <a className="" href="#kt_aside_nav_tab_tasks">
                   <i className="ki-duotone ki-element-11">
-                    <p>Permissions</p>
+                  <div className="container-icon">
+                  <FontAwesomeIcon icon={faPlane} style={{color: "#afafaf"}} size="xl" />
+                   </div> <p>Permissions</p>
                   </i>
                 </a>
               </li>
@@ -53,7 +72,9 @@ function Header() {
                   href="#kt_aside_nav_tab_notifications"
                 >
                   <i className="ki-duotone ki-element-11">
-                    <p>Expenses</p>
+                  <div className="container-icon">
+                  <FontAwesomeIcon icon={faCreditCard} style={{color: "#afafaf"}} size="xl" />
+                    </div><p>Expenses</p>
                   </i>
                 </a>
               </li>
@@ -64,7 +85,9 @@ function Header() {
                   href="#kt_aside_nav_tab_authors"
                 >
                   <i className="ki-duotone ki-element-11">
-                    <p>Raports+</p>
+                  <div className="container-icon">
+                  <FontAwesomeIcon icon={faFileLines} style={{color: "#afafaf"}} size="xl" />
+                  </div> <p>Raports+</p>
                   </i>
                 </a>
               </li>
