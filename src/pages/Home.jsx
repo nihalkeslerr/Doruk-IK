@@ -1,9 +1,15 @@
 import React from 'react'
-import Header from '../component/Aside/sidebar'
+import Sidebar from '../component/Aside/Sidebar/sidebar'
+import Header from '../component/Wrapper/Header/Header'
 function Home() {
   return (
     <div>
-        <Header></Header>
+      <div className='d-flex'>
+      <Sidebar></Sidebar>
+       <Header className="flex-1"></Header>
+        
+        </div>
+
     </div>
   )
 }
