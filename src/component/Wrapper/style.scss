@@ -1,0 +1,35 @@
+div#kt_header\ w-100 {
+  flex: 1;
+  height: 100vh;
+  .kt-header-inside {
+    flex: 1;
+
+    div#kt_header_container {
+      flex: 1 1;
+      box-shadow: 1px 1px 3px #afafaf;
+    }
+    h1 {
+      color: #2d2d2d !important;
+    }
+    .d-flex.float-right {
+      color: gray;
+      a {
+        background-color: #ffedd9 !important;
+        &:hover {
+          background-color: #ffe5c7 !important;
+        }
+      }
+    }
+  }
+}
+
+div#kt_content {
+  padding-top: 20px;
+}
+
+@media (min-width: 992px) {
+  .aside-secondary-enabled.aside-fixed.wrapper.d-flex.flex-column.flex-row-fluid {
+    transition: padding-left 0.3s ease;
+    padding-left: 200px;
+  }
+}

@@ -21,7 +21,7 @@ function Footer() {
           title="User profile"
         >
           <img src={avatar1} alt="image" />
-          <p className="mb-0 pl-1 cursor-pointer">My Account</p>
+          <p className="mb-0 pl-1 cursor-pointer d-none d-lg-block ">Hesabım</p>
         </div>
       </div>
     </div>

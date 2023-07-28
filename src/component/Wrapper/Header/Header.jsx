@@ -3,26 +3,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
 function Header() {
   return (
-    <div
-      id="kt_header w-100"
-      className="header"
-      data-kt-sticky="true"
-      data-kt-sticky-name="header"
-      data-kt-sticky-offset="{default: '200px', lg: '300px'}"
-    >
+
       <div
-        className="w-100 container-xxl d-flex align-items-center justify-content-between"
+        className="d-flex w-100 align-items-center justify-content-space-around py-5 container-xxl d-flex align-items-center justify-content-between"
         id="kt_header_container"
       >
         <div
-          className="page-title d-flex flex-column align-items-start justify-content-center flex-wrap mt-n5 mt-lg-0 me-lg-2 pb-2 pb-lg-0"
-          data-kt-swapper="true"
-          data-kt-swapper-mode="prepend"
-          data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}"
+          className=" d-flex flex-column align-items-start justify-content-center flex-wrap mt-n5 mt-lg-0 me-lg-2 pb-2 pb-lg-0"
+          
         >
           <div className="d-flex p-3">
             {" "}
-            <h1 className="text-dark fw-bold my-0 fs-1">Dashboard</h1>
+            <h1 className="text-dark fw-bold my-0 fs-1">Pano</h1>
           </div>
           {/* Hangi yolda olduğunu gösteriyor  <ul className="breadcrumb fw-semibold fs-base my-1">
                 <li className="breadcrumb-item text-muted">
@@ -32,7 +24,7 @@ function Header() {
                 <li className="breadcrumb-item text-dark">Default</li>
             </ul> */}
         </div>
-        <div className="d-flex d-lg-none align-items-center ms-n4 me-2">
+{/*         <div className="d-flex d-lg-none align-items-center ms-n4 me-2">
           <div
             className="btn btn-icon btn-active-icon-primary"
             id="kt_aside_mobile_toggle"
@@ -42,7 +34,7 @@ function Header() {
               <span className="path2"></span>
             </i>
           </div>
-        </div>
+        </div> */}
         <div className="d-flex float-right">
           <div className="d-flex ms-3">
             <a
@@ -52,21 +44,10 @@ function Header() {
               data-bs-target="#kt_modal_invite_friends"
             >
               <i className="ki-duotone ki-plus fs-2 text-primary me-0 me-md-2"></i>
-              <span className="d-none d-md-inline">New Member</span>
+              <span className="d-none d-md-inline">Yeni Üye</span>
             </a>
           </div>
-          <div className="d-flex ms-3">
-            <a
-              href="#"
-              className="btn btn-flex flex-center bg-body btn-color-gray-700 btn-active-color-primary w-40px w-md-auto h-40px px-0 px-md-6"
-              data-bs-toggle="modal"
-              data-bs-target="#kt_modal_create_app"
-              id="kt_toolbar_primary_button"
-            >
-              <i className="ki-duotone ki-document fs-2 text-primary me-0 me-md-2"></i>
-              <span className="d-none d-md-inline">New App</span>
-            </a>
-          </div>
+
           <div className="d-flex align-items-center ms-3">
             <a
               href="#"
@@ -140,14 +121,13 @@ function Header() {
                       <span className="path4"></span>
                     </i>
                   </span>
-                  <span className="menu-title">System</span>
+                  <span className="menu-title">Sistem</span>
                 </a>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
