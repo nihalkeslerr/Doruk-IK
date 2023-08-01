@@ -9,18 +9,19 @@ import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { faPlane } from "@fortawesome/free-solid-svg-icons";
 import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
+import { Link,useLocation } from "react-router-dom";
 
 function Header() {
   const [isClose, setIsClose] = useState(false);
   const [iconColor, setIconColor] = useState(false);
-
+  const location = useLocation();
   const changeIconColor = () => {
-    console.log(iconColor)
-    setIconColor(true)
+    console.log(iconColor);
+    setIconColor(true);
   };
 
   return (
-    <div id="kt_aside" className="sidebar">
+    <div id="kt_aside" className="sidebar  d-none d-lg-block">
       <div className="aside-primary d-flex flex-column align-items-lg-center flex-row-auto mx-100 ">
         <Logo></Logo>
         <div
@@ -34,199 +35,209 @@ function Header() {
             <li
               className="mw-100 "
               title="Projects"
-              onMouseEnter={()=>{setIconColor(true)}}
-              onMouseLeave={()=>{setIconColor(false)}}
+              onMouseEnter={() => {
+                setIconColor(true);
+              }}
+              onMouseLeave={() => {
+                setIconColor(false);
+              }}
             >
-              <a className="" href="#kt_aside_nav_tab_projects">
+              <Link
+                to="main"
+                isActive={() => location.pathname === "main"}
+              >
                 <i className="ki-duotone ki-element-11 w-100">
                   <div className="container-icon">
                     {iconColor && (
-                       <FontAwesomeIcon
-                       icon={faHouse}
-                       style={{ color: "#fabf7e" }}
-                       size="xl"
-                     />
-                    )
-                    }
-                    {
-                      !iconColor && (
-                        <FontAwesomeIcon
+                      <FontAwesomeIcon
+                        icon={faHouse}
+                        style={{ color: "#fabf7e" }}
+                        size="xl"
+                      />
+                    )}
+                    {!iconColor && (
+                      <FontAwesomeIcon
                         icon={faHouse}
                         style={{ color: "#d5d5d5" }}
                         size="xl"
                       />
-                     )
-                    }
+                    )}
                   </div>
                   <div className="d-flex deneme">
-                    <p className="	d-none d-lg-block">Ana Sayfa</p>
+                    <p className="">Ana Sayfa</p>
                   </div>
                 </i>
-              </a>
+              </Link>
             </li>
-            <li className="mw-100" title="Menu"
-            onMouseEnter={()=>{setIconColor(true)}}
-            onMouseLeave={()=>{setIconColor(false)}}>
-              <a className="" href="#kt_aside_nav_tab_menu">
+            <li
+              className="mw-100"
+              title="Menu"
+              onMouseEnter={() => {
+                setIconColor(true);
+              }}
+              onMouseLeave={() => {
+                setIconColor(false);
+              }}
+            >
+              <Link className="" to="/calendar">
                 <i className="ki-duotone ki-element-11">
                   <div className="container-icon">
-                  {iconColor && (
-                       <FontAwesomeIcon
-                       icon={faCalendar}
-                       style={{ color: "#fabf7e" }}
-                       size="xl"
-                     />
-                    )
-                    }
-                    {
-                      !iconColor && (
-                        <FontAwesomeIcon
+                    {iconColor && (
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        style={{ color: "#fabf7e" }}
+                        size="xl"
+                      />
+                    )}
+                    {!iconColor && (
+                      <FontAwesomeIcon
                         icon={faCalendar}
                         style={{ color: "#d5d5d5" }}
                         size="xl"
                       />
-                     )
-                    }
+                    )}
                   </div>
                   <div className="d-flex deneme">
-                    <p className="	d-none d-lg-block">Takvim</p>
+                    <p className="">Takvim</p>
                   </div>
                 </i>
-              </a>
+              </Link>
             </li>
-            <li className="mw-100" title="Subscription"
-            onMouseEnter={()=>{setIconColor(true)}}
-            onMouseLeave={()=>{setIconColor(false)}}>
-              <a
-                className=""
-                data-bs-toggle="tab"
-                href="#kt_aside_nav_tab_subscription"
-              >
+            <li
+              className="mw-100"
+              title="Subscription"
+              onMouseEnter={() => {
+                setIconColor(true);
+              }}
+              onMouseLeave={() => {
+                setIconColor(false);
+              }}
+            >
+              <Link className="" data-bs-toggle="tab" to="employees">
                 <i className="ki-duotone ki-element-11">
                   <div className="container-icon">
-                  {iconColor && (
-                       <FontAwesomeIcon
-                       icon={faUserGroup}
-                       style={{ color: "#fabf7e" }}
-                       size="xl"
-                     />
-                    )
-                    }
-                    {
-                      !iconColor && (
-                        <FontAwesomeIcon
+                    {iconColor && (
+                      <FontAwesomeIcon
+                        icon={faUserGroup}
+                        style={{ color: "#fabf7e" }}
+                        size="xl"
+                      />
+                    )}
+                    {!iconColor && (
+                      <FontAwesomeIcon
                         icon={faUserGroup}
                         style={{ color: "#d5d5d5" }}
                         size="xl"
                       />
-                     )
-                    }
+                    )}
                   </div>{" "}
                   <div className="d-flex deneme">
-                    <p className="	d-none d-lg-block">Çalışanlar</p>
+                    <p className="">Çalışanlar</p>
                   </div>
                 </i>
-              </a>
+              </Link>
             </li>
-            <li className="mw-100" title="Tasks"
-             onMouseEnter={()=>{setIconColor(true)}}
-             onMouseLeave={()=>{setIconColor(false)}}>
-              <a className="" href="#kt_aside_nav_tab_tasks">
+            <li
+              className="mw-100"
+              title="Tasks"
+              onMouseEnter={() => {
+                setIconColor(true);
+              }}
+              onMouseLeave={() => {
+                setIconColor(false);
+              }}
+            >
+              <Link className="" to="permissions">
                 <i className="ki-duotone ki-element-11">
                   <div className="container-icon">
-                  {iconColor && (
-                       <FontAwesomeIcon
-                       icon={faPlane}
-                       style={{ color: "#fabf7e" }}
-                       size="xl"
-                     />
-                    )
-                    }
-                    {
-                      !iconColor && (
-                        <FontAwesomeIcon
+                    {iconColor && (
+                      <FontAwesomeIcon
+                        icon={faPlane}
+                        style={{ color: "#fabf7e" }}
+                        size="xl"
+                      />
+                    )}
+                    {!iconColor && (
+                      <FontAwesomeIcon
                         icon={faPlane}
                         style={{ color: "#d5d5d5" }}
                         size="xl"
                       />
-                     )
-                    }
+                    )}
                   </div>{" "}
                   <div className="d-flex deneme">
-                    <p className="	d-none d-lg-block">İzinler</p>
+                    <p className="">İzinler</p>
                   </div>
                 </i>
-              </a>
+              </Link>
             </li>
-            <li className="mw-100" title="Notifications"
-            onMouseEnter={()=>{setIconColor(true)}}
-            onMouseLeave={()=>{setIconColor(false)}}>
-              <a
-                className=""
-                data-bs-toggle="tab"
-                href="#kt_aside_nav_tab_notifications"
-              >
+            <li
+              className="mw-100"
+              title="Notifications"
+              onMouseEnter={() => {
+                setIconColor(true);
+              }}
+              onMouseLeave={() => {
+                setIconColor(false);
+              }}
+            >
+              <Link className="" data-bs-toggle="tab" to="expenses">
                 <i className="ki-duotone ki-element-11">
                   <div className="container-icon">
-                  {iconColor && (
-                       <FontAwesomeIcon
-                       icon={faCreditCard}
-                       style={{ color: "#fabf7e" }}
-                       size="xl"
-                     />
-                    )
-                    }
-                    {
-                      !iconColor && (
-                        <FontAwesomeIcon
+                    {iconColor && (
+                      <FontAwesomeIcon
+                        icon={faCreditCard}
+                        style={{ color: "#fabf7e" }}
+                        size="xl"
+                      />
+                    )}
+                    {!iconColor && (
+                      <FontAwesomeIcon
                         icon={faCreditCard}
                         style={{ color: "#d5d5d5" }}
                         size="xl"
                       />
-                     )
-                    }
-                   
+                    )}
                   </div>
                   <div className="d-flex deneme">
-                    <p className="	d-none d-lg-block">Harcamalar</p>
+                    <p className="">Harcamalar</p>
                   </div>
                 </i>
-              </a>
+              </Link>
             </li>
-            <li className="mw-100" title="Authors"
-            onMouseEnter={()=>{setIconColor(true)}}
-            onMouseLeave={()=>{setIconColor(false)}}>
-              <a
-                className=""
-                data-bs-toggle="tab"
-                href="#kt_aside_nav_tab_authors"
-              >
+            <li
+              className="mw-100"
+              title="Authors"
+              onMouseEnter={() => {
+                setIconColor(true);
+              }}
+              onMouseLeave={() => {
+                setIconColor(false);
+              }}
+            >
+              <Link className="" data-bs-toggle="tab" to="reports">
                 <i className="ki-duotone ki-element-11">
                   <div className="container-icon">
-                  {iconColor && (
-                       <FontAwesomeIcon
-                       icon={faFileLines}
-                       style={{ color: "#fabf7e" }}
-                       size="xl"
-                     />
-                    )
-                    }
-                    {
-                      !iconColor && (
-                        <FontAwesomeIcon
+                    {iconColor && (
+                      <FontAwesomeIcon
+                        icon={faFileLines}
+                        style={{ color: "#fabf7e" }}
+                        size="xl"
+                      />
+                    )}
+                    {!iconColor && (
+                      <FontAwesomeIcon
                         icon={faFileLines}
                         style={{ color: "#d5d5d5" }}
                         size="xl"
                       />
-                     )
-                    }
-                   
+                    )}
                   </div>{" "}
                   <div className="d-flex deneme">
-                    <p className="	d-none d-lg-block">Raporlar+</p>
+                    <p className="">Raporlar+</p>
                   </div>
                 </i>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

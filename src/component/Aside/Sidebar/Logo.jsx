@@ -1,7 +1,7 @@
 import React from "react";
-import logo from '../../../assets/media/logos/dorukLogo.png'
+import logo from "../../../assets/media/logos/dorukLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons"
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 function Logo() {
   return (
@@ -11,20 +11,20 @@ function Logo() {
         id="kt_aside_logo"
       >
         <a href="../../demo7/dist/index.html">
-          <img src={logo}  className="h-35px" alt="" />
+          <img src={logo} className="h-35px" alt="" />
         </a>
       </div>
-      <div className="d-flex d-lg-none align-items-center justify-content-center">
-          <div
-            className="btn btn-icon btn-active-icon-primary"
-            id="kt_aside_mobile_toggle"
-          >
-            <i className="ki-duotone ki-abstract-14 fs-1">
+{/*       <div className="d-flex d-lg-none align-items-center justify-content-center">
+        <div
+          className="btn btn-icon btn-active-icon-primary"
+          id="kt_aside_mobile_toggle"
+        >
+          <i className="ki-duotone ki-abstract-14 fs-1">
             <FontAwesomeIcon icon={faBars} />
-            </i>
-          </div>
-        </div> 
-      </div>
+          </i>
+        </div>
+      </div> */}
+    </div>
   );
 }
 

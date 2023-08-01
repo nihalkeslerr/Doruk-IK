@@ -5,7 +5,7 @@ import Content from "./Content/Content";
 import './style.scss'
 function Index() {
   return (
-    <div className=" aside-secondary-enabled aside-fixed wrapper d-flex flex-column flex-row-fluid ">
+    <div className="  aside-secondary-enabled aside-fixed wrapper d-flex flex-column flex-row-fluid ">
       <div
         id="kt_header w-100"
         className="header"
