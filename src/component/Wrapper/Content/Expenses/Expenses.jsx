@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+
 
 function Expenses() {
   return (
-    <div>Expenses</div>
-  )
+    <div>
+Expenses
+    </div>
+  );
 }
 
-export default Expenses
+export default Expenses;

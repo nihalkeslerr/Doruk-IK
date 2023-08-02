@@ -2,9 +2,8 @@ import React from 'react'
 
 function Employees() {
   return (
-    <div className="content d-flex flex-column flex-column-fluid" id="kt_content">
       <div className="container-xxl" id="kt_content_container">
-        <div className="card">
+        <div className="card card-flush">
           <div className="card-header border-0 pt-6">
             <div className="card-title">
               <div className="d-flex align-items-center position-relative my-1">
@@ -231,7 +230,7 @@ function Employees() {
               </div>
             </div>
           </div>
-          <div className="card-body py-4">
+          <div className="card-body">
             <table className="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
               <thead>
                 <tr className="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
@@ -242,7 +241,6 @@ function Employees() {
                   </th>
                   <th className="min-w-125px">User</th>
                   <th className="min-w-125px">Role</th>
-                  <th className="min-w-125px">Last login</th>
                   <th className="min-w-125px">Two-step</th>
                   <th className="min-w-125px">Joined Date</th>
                   <th className="text-end min-w-100px">Actions</th>
@@ -269,9 +267,7 @@ function Employees() {
                     </div>
                   </td>
                   <td>Administrator</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">Yesterday</div>
-                  </td>
+                
                   <td></td>
                   <td>20 Dec 2023, 10:10 pm</td>
                   <td className="text-end">
@@ -305,9 +301,7 @@ function Employees() {
                     </div>
                   </td>
                   <td>Analyst</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">20 mins ago</div>
-                  </td>
+                  
                   <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
@@ -345,9 +339,7 @@ function Employees() {
                     </div>
                   </td>
                   <td>Developer</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">3 days ago</div>
-                  </td>
+                
                   <td></td>
                   <td>20 Dec 2023, 6:43 am</td>
                   <td className="text-end">
@@ -383,9 +375,7 @@ function Employees() {
                     </div>
                   </td>
                   <td>Support</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">5 hours ago</div>
-                  </td>
+              
                   <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
@@ -423,9 +413,7 @@ function Employees() {
                     </div>
                   </td>
                   <td>Developer</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">2 days ago</div>
-                  </td>
+                
                   <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
@@ -461,9 +449,7 @@ function Employees() {
                     </div>
                   </td>
                   <td>Administrator</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">5 days ago</div>
-                  </td>
+              
                   <td></td>
                   <td>19 Aug 2023, 10:30 am</td>
                   <td className="text-end">
@@ -499,9 +485,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Trial</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">3 weeks ago</div>
-                  </td>
                   <td></td>
                   <td>10 Mar 2023, 10:10 pm</td>
                   <td className="text-end">
@@ -535,9 +518,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Administrator</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">Yesterday</div>
-                  </td>
                   <td></td>
                   <td>21 Feb 2023, 9:23 pm</td>
                   <td className="text-end">
@@ -571,9 +551,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Analyst</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">20 mins ago</div>
-                  </td>
                   <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
@@ -611,9 +588,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Developer</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">3 days ago</div>
-                  </td>
                   <td></td>
                   <td>22 Sep 2023, 9:23 pm</td>
                   <td className="text-end">
@@ -647,9 +621,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Support</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">5 hours ago</div>
-                  </td>
                   <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
@@ -688,9 +659,6 @@ function Employees() {
                   </td>
                   <td>Developer</td>
                   <td>
-                    <div className="badge badge-light fw-bold">2 days ago</div>
-                  </td>
-                  <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
                   <td>10 Mar 2023, 10:10 pm</td>
@@ -725,9 +693,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Administrator</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">5 days ago</div>
-                  </td>
                   <td></td>
                   <td>20 Dec 2023, 5:30 pm</td>
                   <td className="text-end">
@@ -763,9 +728,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Trial</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">3 weeks ago</div>
-                  </td>
                   <td></td>
                   <td>21 Feb 2023, 11:30 am</td>
                   <td className="text-end">
@@ -799,9 +761,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Administrator</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">Yesterday</div>
-                  </td>
                   <td></td>
                   <td>15 Apr 2023, 10:30 am</td>
                   <td className="text-end">
@@ -835,9 +794,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Analyst</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">20 mins ago</div>
-                  </td>
                   <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
@@ -875,9 +831,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Developer</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">3 days ago</div>
-                  </td>
                   <td></td>
                   <td>25 Jul 2023, 9:23 pm</td>
                   <td className="text-end">
@@ -913,9 +866,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Support</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">5 hours ago</div>
-                  </td>
                   <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
@@ -954,9 +904,6 @@ function Employees() {
                   </td>
                   <td>Developer</td>
                   <td>
-                    <div className="badge badge-light fw-bold">2 days ago</div>
-                  </td>
-                  <td>
                     <div className="badge badge-light-success fw-bold">Enabled</div>
                   </td>
                   <td>20 Dec 2023, 6:05 pm</td>
@@ -991,9 +938,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Administrator</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">5 days ago</div>
-                  </td>
                   <td></td>
                   <td>22 Sep 2023, 2:40 pm</td>
                   <td className="text-end">
@@ -1029,9 +973,6 @@ function Employees() {
                     </div>
                   </td>
                   <td>Trial</td>
-                  <td>
-                    <div className="badge badge-light fw-bold">3 weeks ago</div>
-                  </td>
                   <td></td>
                   <td>25 Oct 2023, 8:43 pm</td>
                   <td className="text-end">
@@ -1052,7 +993,6 @@ function Employees() {
           </div>
         </div>
       </div>
-    </div>
   )
 }
 

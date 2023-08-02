@@ -9,6 +9,7 @@ import Reports from "./Reports/Reports";
 function Content() {
   return (
     <>
+     <div className="content d-flex flex-column flex-column-fluid" id="kt_content">
     <Routes>
       <Route path='main/*' element={<Main />}  ></Route>
       <Route path='calendar/*' element={<Calendar />}  ></Route>
@@ -19,7 +20,7 @@ function Content() {
     </Routes>
 
 
-    
+    </div>
     </>
   );
 }

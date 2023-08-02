@@ -42,7 +42,7 @@ function Header() {
                 setIconColor(false);
               }}
             >
-              <Link
+              <Link className="sidebarLink"
                 to="main"
                 isActive={() => location.pathname === "main"}
               >

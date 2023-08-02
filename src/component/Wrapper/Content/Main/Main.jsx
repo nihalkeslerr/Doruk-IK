@@ -2,10 +2,7 @@ import React from 'react'
 
 function Main() {
   return (
-    <div
-      className="content d-flex flex-column flex-column-fluid"
-      id="kt_content"
-    >
+ <>
         <div className="d-flex d-lg-none align-items-start justify-content-start mb-5" style={{marginLeft:"15px"}} data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}">
             {" "}
             <h1 className="text-dark fw-bold my-0 fs-1">Pano</h1>
@@ -3523,7 +3520,7 @@ function Main() {
           </div>
         </div>
       </div>
-    </div>
+      </>
   )
 }
 
