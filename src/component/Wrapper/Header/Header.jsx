@@ -16,7 +16,11 @@ function Header() {
           data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}"
         >
           {" "}
-          <h1 className="text-dark fw-bold my-0 fs-1">Pano</h1>
+          <h1 className="text-dark fw-bold my-0 fs-1">
+            
+            Pano
+          
+          </h1>
         </div>
         <div className="d-flex d-lg-none flex-column align-items-start justify-content-center flex-wrap mt-lg-0 me-lg-2 pb-lg-0">
           <div

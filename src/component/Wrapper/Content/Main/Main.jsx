@@ -1,12 +1,18 @@
-import React from 'react'
+import React from "react";
 
 function Main() {
   return (
- <>
-        <div className="d-flex d-lg-none align-items-start justify-content-start mb-5" style={{marginLeft:"15px"}} data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}">
-            {" "}
-            <h1 className="text-dark fw-bold my-0 fs-1">Pano</h1>
-          </div>
+    <>
+      <div
+        className="d-flex d-lg-none align-items-start justify-content-start mb-5"
+        style={{ marginLeft: "15px" }}
+        data-kt-swapper="true"
+        data-kt-swapper-mode="prepend"
+        data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}"
+      >
+        {" "}
+        <h1 className="text-dark fw-bold my-0 fs-1">Pano</h1>
+      </div>
       <div className="container-xxl" id="kt_content_container">
         <div className="row gy-5 g-xxl-8">
           <div className="col-xxl-4">
@@ -3520,8 +3526,8 @@ function Main() {
           </div>
         </div>
       </div>
-      </>
-  )
+    </>
+  );
 }
 
-export default Main
+export default Main;

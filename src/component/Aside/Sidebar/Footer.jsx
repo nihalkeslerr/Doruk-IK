@@ -3,7 +3,7 @@ import avatar1 from "../../../assets/media/avatars/300-16.jpg";
 function Footer() {
   return (
     <div
-      classNameName="aside-footer d-flex flex-column align-items-center flex-column-auto sidebarFooter"
+      className="aside-footer d-flex flex-column align-items-center flex-column-auto sidebarFooter"
       id="kt_aside_footer"
     >
       <div

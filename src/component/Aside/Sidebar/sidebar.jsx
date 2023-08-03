@@ -44,7 +44,7 @@ function Header() {
             >
               <Link className="sidebarLink"
                 to="main"
-                isActive={() => location.pathname === "main"}
+               
               >
                 <i className="ki-duotone ki-element-11 w-100">
                   <div className="container-icon">
