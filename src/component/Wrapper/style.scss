@@ -65,7 +65,7 @@ div#kt_content {
   outline: 0 !important;
   background-color: #f0f8ff !important;
   &:hover {
-    background-color: #c5dbff !important;
+    background-color: #badfff !important;
   }
 }
 
@@ -125,10 +125,23 @@ form#kt_modal_add_user_form {
 
 
 @media (min-width: 992px) {
-  .aside-secondary-enabled.aside-fixed.wrapper.d-flex.flex-column.flex-row-fluid {
-    transition: padding-left 0.3s ease;
+  .aside-secondary-enabled.aside-fixed.wrapper.d-flex.flex-column.flex-row-fluid.open {
+    transition: width 0.5s;
     padding-left: 200px;
   }
+  .aside-secondary-enabled.aside-fixed.wrapper.d-flex.flex-column.flex-row-fluid.close {
+    padding-left: 80px;
+    transition: width 0.5s;
+  }
+  .card-body{
+    overflow-y: scroll !important;
+  }
+ 
+
+}
+@media (max-width: 992px) {
+
+  
 }
 
 @media (min-width: 1400px) {

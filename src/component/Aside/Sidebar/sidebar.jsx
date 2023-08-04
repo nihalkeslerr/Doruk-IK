@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Logo from "./Logo";
 import Footer from "./Footer";
 import "../style.scss";
+import "../../Wrapper/style.scss"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
@@ -9,29 +10,41 @@ import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { faPlane } from "@fortawesome/free-solid-svg-icons";
 import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import { faFileLines } from "@fortawesome/free-solid-svg-icons";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { GenerealContext } from "../../../Context/GeneralContext";
 
 function Header() {
-  const [isClose, setIsClose] = useState(false);
+  const { display, setDisplay}=useContext(GenerealContext);
+
   const [iconColor, setIconColor] = useState(false);
   const location = useLocation();
-  const changeIconColor = () => {
-    console.log(iconColor);
-    setIconColor(true);
-  };
+
+  useEffect(()=>{
+    console.log("display",display);
+  })
 
   return (
-    <div id="kt_aside" className="sidebar  d-none d-lg-block">
+    <div id="kt_aside" className={`sidebar d-none d-lg-block ${display}`}>
       <div className="aside-primary d-flex flex-column align-items-lg-center flex-row-auto mx-100 ">
-        <Logo></Logo>
+        <div className="logo d-flex flex-column align-items-start justify-content-center flex-wrap">
+          <div
+            className="btn btn-icon btn-active-icon-primary"
+            id="kt_aside_mobile_toggle"
+          >
+            <i className="menu ki-duotone ki-abstract-14 fs-1"
+            onClick={() => setDisplay(display === "open" ? "close" : "open")}>
+              <FontAwesomeIcon icon={faBars} />
+            </i>
+            <Logo></Logo>
+          </div>
+        </div>
+
         <div
           className="aside-nav d-flex flex-column align-items-center flex-column-fluid pt-1 pt-lg-0"
           id="kt_aside_nav"
         >
-          <ul
-            className="nav flex-column w-100 d-flex align-items-center"
-            id="kt_aside_nav_tabs"
-          >
+          <ul className="" id="kt_aside_nav_tabs">
             <li
               className="mw-100 "
               title="Projects"
@@ -42,10 +55,7 @@ function Header() {
                 setIconColor(false);
               }}
             >
-              <Link className="sidebarLink"
-                to="main"
-               
-              >
+              <Link className="sidebarLink" to="main">
                 <i className="ki-duotone ki-element-11 w-100">
                   <div className="container-icon">
                     {iconColor && (
