@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import profilePhoto from "../../../../assets/media/avatars/300-6.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -6,15 +6,25 @@ import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import Modal from 'react-modal';
+import Modal from "react-modal";
+import { Link } from "react-router-dom";
+import { GenerealContext } from "../../../../Context/GeneralContext";
 
 function Employees() {
-  const [modalIsOpen,setModalIsOpen] = useState(false);
+  const {employeeInfo, setemployeeInfo,onChangeInput,employees,setEmployees} = useContext(GenerealContext);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const toggleModal =()=>{
-      setModalIsOpen(!modalIsOpen);
-  }
+  const toggleModal = () => {
+    setModalIsOpen(!modalIsOpen);
+  };
+  
 
+  useEffect(() => {
+      console.log("employee: ", employees)
+  }, [employees]);
+
+
+  console.log("employeeInfo", employeeInfo);
 
   return (
     <>
@@ -155,15 +165,17 @@ function Employees() {
                   </i>
                   Dışa Aktar
                 </button>
-                <button
-                  type="button"
-                  className="btn btnAdd"
-                  data-bs-toggle="modal"
-                  data-bs-target="#kt_modal_add_user"
-                  onClick={toggleModal}
-                >
-                  <i className="ki-duotone ki-plus fs-2"></i>Çalışan Ekle
-                </button>
+                <Link to="#">
+                  <button
+                    type="button"
+                    className="btn btnAdd"
+                    data-bs-toggle="modal"
+                    data-bs-target="#kt_modal_add_user"
+                    onClick={toggleModal}
+                  >
+                    <i className="ki-duotone ki-plus fs-2"></i>Çalışan Ekle
+                  </button>
+                </Link>
               </div>
               <div
                 className="d-flex justify-content-end align-items-center d-none"
@@ -281,299 +293,466 @@ function Employees() {
                 overlayClassName="about-modal-overlay"
                 ariaHideApp={false}
               >
-               <div
-                className="  "
-                id="kt_modal_add_user"
-                tabIndex="-1"
-              >
-                <div className="modal-dialog modal-dialog-centered ">
-                  <div className="modal-content">
-                    <div className="modal-header" id="kt_modal_add_user_header">
-                      <h2 className="fw-bold">Çalışan Ekle</h2>
+                <div className="  " id="kt_modal_add_user" tabIndex="-1">
+                  <div className="modal-dialog modal-dialog-centered ">
+                    <div className="modal-content">
                       <div
-                        className="btn btn-icon btn-sm btn-active-icon-primary"
-                        data-kt-users-modal-action="close"
+                        className="modal-header"
+                        id="kt_modal_add_user_header"
                       >
-                        <i className="ki-duotone ki-cross fs-1">
-                        <div className="container-icon">
-                      <FontAwesomeIcon
-                        icon={faXmark}
-                        style={{ color: "#1a4489" }}
-                        size="sm"
-                      />
-                    </div>
-                        </i>
-                      </div>
-                    </div>
-                    <div className="modal-body px-5 my-7">
-                      <form
-                        id="kt_modal_add_user_form"
-                        className="form"
-                        action="#"
-                      >
+                        <h2 className="fw-bold">Çalışan Ekle</h2>
                         <div
-                          className="d-flex flex-column scroll-y px-5 px-lg-10"
-                          id="kt_modal_add_user_scroll"
-                          data-kt-scroll="true"
-                          data-kt-scroll-activate="true"
-                          data-kt-scroll-max-height="auto"
-                          data-kt-scroll-dependencies="#kt_modal_add_user_header"
-                          data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-                          data-kt-scroll-offset="300px"
+                          className="btn btn-icon btn-sm btn-active-icon-primary"
+                          data-kt-users-modal-action="close"
                         >
-                          <div className="fv-row mb-7">
-                            <label className="d-block fw-semibold fs-6 mb-5">
-                              Fotoğraf
-                            </label>
-                            <div
-                              className="image-input image-input-outline image-input-placeholder"
-                              data-kt-image-input="true"
-                            >
-                              <div
-                                className="image-input-wrapper w-125px h-125px"
-                                style={{
-                                  backgroundImage: `url(${profilePhoto})`,
-                                }}
-                              ></div>
-                              <label
-                                className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                data-kt-image-input-action="change"
-                                data-bs-toggle="tooltip"
-                                title="Change avatar"
-                              >
-                                <i className="ki-duotone ki-pencil fs-7">
-                                <div className="container-icon">
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        style={{ color: "#1a4489" }}
-                        size="sm"
-                      />
-                    </div>
-                                </i>
-                                <input
-                                  type="file"
-                                  name="avatar"
-                                  accept=".png, .jpg, .jpeg"
-                                />
-                                <input type="hidden" name="avatar_remove" />
+                          <i className="ki-duotone ki-cross fs-1">
+                            <div className="container-icon">
+                              <FontAwesomeIcon
+                                icon={faXmark}
+                                style={{ color: "#1a4489" }}
+                                size="sm"
+                              />
+                            </div>
+                          </i>
+                        </div>
+                      </div>
+                      <div className="modal-body px-5 my-7">
+                        <form
+                          id="kt_modal_add_user_form"
+                          className="form"
+                          action="#"
+                        >
+                          <div
+                            className="d-flex flex-column scroll-y px-5 px-lg-10"
+                            id="kt_modal_add_user_scroll"
+                            data-kt-scroll="true"
+                            data-kt-scroll-activate="true"
+                            data-kt-scroll-max-height="auto"
+                            data-kt-scroll-dependencies="#kt_modal_add_user_header"
+                            data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
+                            data-kt-scroll-offset="300px"
+                          >
+                            <div className="border-bottom mb-6">
+                              <p className="fs-12">Kişisel bilgiler</p>
+                            </div>
+
+                            <div className="d-flex justify-content-between">
+                              <div className=" mb-7">
+                                <label className="d-block fw-semibold fs-6 mb-5">
+                                  Fotoğraf
+                                </label>
+                                <div
+                                  className="image-input image-input-outline image-input-placeholder"
+                                  data-kt-image-input="true"
+                                >
+                                  <div
+                                    className="image-input-wrapper w-125px h-125px"
+                                    style={{
+                                      backgroundImage: `url(${profilePhoto})`,
+                                    }}
+                                  ></div>
+                                  <label
+                                    className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                    data-kt-image-input-action="change"
+                                    data-bs-toggle="tooltip"
+                                    title="Change avatar"
+                                  >
+                                    <i className="ki-duotone ki-pencil fs-7">
+                                      <div className="container-icon">
+                                        <FontAwesomeIcon
+                                          icon={faPenToSquare}
+                                          style={{ color: "#1a4489" }}
+                                          size="sm"
+                                        />
+                                      </div>
+                                    </i>
+                                    <input
+                                      type="file"
+                                      name="avatar"
+                                      accept=".png, .jpg, .jpeg"
+                                    />
+                                    <input type="hidden" name="avatar_remove" />
+                                  </label>
+                                  <span
+                                    className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                    data-kt-image-input-action="cancel"
+                                    data-bs-toggle="tooltip"
+                                    title="Cancel avatar"
+                                  >
+                                    <i className="ki-duotone ki-cross fs-2">
+                                      <div className="container-icon">
+                                        <FontAwesomeIcon
+                                          icon={faXmark}
+                                          style={{ color: "#1a4489" }}
+                                          size="sm"
+                                        />
+                                      </div>
+                                    </i>
+                                  </span>
+                                  <span
+                                    className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                    data-kt-image-input-action="remove"
+                                    data-bs-toggle="tooltip"
+                                    title="Remove avatar"
+                                  >
+                                    <i className="ki-duotone ki-cross fs-2">
+                                      <div className="container-icon">
+                                        <FontAwesomeIcon
+                                          icon={faXmark}
+                                          style={{ color: "#1a4489" }}
+                                          size="xs"
+                                        />
+                                      </div>
+                                    </i>
+                                  </span>
+                                </div>
+                                {/*   <div className="form-text">
+                                Kabul edilen fotoğraf <br /> formatları: 
+                                 png, jpg, jpeg.
+                              </div> */}
+                              </div>
+
+                              <div className="ml-5 information">
+                                <div class="row">
+                                  <div class="col">
+                                    <div className="fv-row mb-7">
+                                      <label className="required fw-semibold fs-6 mb-2">
+                                        İsim
+                                      </label>
+                                      <input
+                                        type="text"
+                                        name="firstName"
+                                        className="form-control form-control-solid mb-3 mb-lg-0"
+                                        placeholder="İsim"
+                                        onChange={onChangeInput}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div className="fv-row mb-7">
+                                      <label className="required fw-semibold fs-6 mb-2">
+                                        Soyisim
+                                      </label>
+                                      <input
+                                        type="text"
+                                        name="lastName"
+                                        className="form-control form-control-solid mb-3 mb-lg-0"
+                                        placeholder="Soyisim"
+                                        onChange={onChangeInput}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col">
+                                    <div className="fv-row mb-7">
+                                      <label className="required fw-semibold fs-6 mb-2">
+                                        E-posta
+                                      </label>
+                                      <input
+                                        type="email"
+                                        name="email"
+                                        className="form-control form-control-solid mb-3 mb-lg-0"
+                                        placeholder="ornek@gmail.com"
+                                        onChange={onChangeInput}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div className="fv-row mb-7">
+                                      <label className="required fw-semibold fs-6 mb-2">
+                                        Telefon
+                                      </label>
+                                      <input
+                                        type="number"
+                                        name="phoneNumber"
+                                        className="form-control form-control-solid mb-3 mb-lg-0"
+                                        placeholder="(5--) --- -- --"
+                                        onChange={onChangeInput}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="border-bottom mb-6">
+                              <p className="fs-12">Çalışma Bilgileri</p>
+                            </div>
+                            <div className="ml-5">
+                              <div class="row">
+                                <div class="col">
+                                  <div className="fv-row mb-7">
+                                    <label className="required fw-semibold fs-6 mb-2">
+                                      Departman
+                                    </label>
+                                    <select
+                                      class="form-select"
+                                      aria-label="Default select example"
+                                    >
+                                      <option selected>
+                                       Seç
+                                      </option>
+                                      <option value="1">Yazılım</option>
+                                      <option value="2">Satış</option>
+                                      <option value="3">Hukuk</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col">
+                                  <div className="fv-row mb-7">
+                                    <label className="required fw-semibold fs-6 mb-2">
+                                    Çalışma Şekli
+                                    </label>
+                                    <select
+                                      class="form-select"
+                                      aria-label="Default select example"
+                                    >
+                                      <option selected>
+                                       Seç
+                                      </option>
+                                      <option value="1">Tam zamanlı</option>
+                                      <option value="2">Yarı Zamanlı</option>
+                                      <option value="3">Stajyer</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col">
+                                  <div className="fv-row mb-7">
+                                    <label className="required fw-semibold fs-6 mb-2">
+                                      Erişim Türü
+                                    </label>
+                                    <select
+                                      class="form-select"
+                                      aria-label="Default select example"
+                                    >
+                                      <option selected>
+                                        Seç
+                                      </option>
+                                      <option value="1">Hesap Sahibi</option>
+                                      <option value="2">Yönetici</option>
+                                      <option value="3">Çalışan</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col">
+                                  <div className="fv-row mb-7">
+                                    <label className="required fw-semibold fs-6 mb-2">
+                                    Çalışan Tipi
+                                    </label>
+                                    <select
+                                      class="form-select"
+                                      aria-label="Default select example"
+                                    >
+                                      <option selected>
+                                       Seç
+                                      </option>
+                                      <option value="1">Danışman</option>
+                                      <option value="2">Stajyer</option>
+                                      <option value="3">Normal</option>
+                                      <option value="3">Sözleşmeli</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                             
+                            </div>
+
+                            <div className="border-bottom mb-6">
+                              <p className="fs-12">İşe Giriş Bilgileri</p>
+                            </div>
+
+
+                            <div>
+                            <div class="row">
+                                <div class="col">
+                                  <div className="fv-row mb-7">
+                                    <label className="required fw-semibold fs-6 mb-2">
+                                      İşe Başlama Tarihi
+                                    </label>
+                                    <input
+                                      type="date"
+                                      name="email"
+                                      className="form-control form-control-solid mb-3 mb-lg-0"
+                                      placeholder="ornek@gmail.com"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col">
+                                  <div className="fv-row mb-7">
+                                    <label className="required fw-semibold fs-6 mb-2">
+                                      Telefon
+                                    </label>
+                                    <input
+                                      type="number"
+                                      name="phoneNumber"
+                                      className="form-control form-control-solid mb-3 mb-lg-0"
+                                      placeholder="(5--) --- -- --"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+
+                            {/* <div className="mb-5">
+                              <label className="required fw-semibold fs-6 mb-5">
+                                Rolü
                               </label>
-                              <span
-                                className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                data-kt-image-input-action="cancel"
-                                data-bs-toggle="tooltip"
-                                title="Cancel avatar"
-                              >
-                                <i className="ki-duotone ki-cross fs-2">
-                                <div className="container-icon">
-                      <FontAwesomeIcon
-                        icon={faXmark}
-                        style={{ color: "#1a4489" }}
-                        size="sm"
-                      />
-                    </div>
-                                </i>
+                              <div className="d-flex fv-row">
+                                <div className="form-check form-check-custom form-check-solid">
+                                  <input
+                                    className="form-check-input me-3"
+                                    name="user_role"
+                                    type="radio"
+                                    value="0"
+                                    id="kt_modal_update_role_option_0"
+                                    checked="checked"
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="kt_modal_update_role_option_0"
+                                  >
+                                    <div className="fw-bold text-gray-800">
+                                      Administrator
+                                    </div>
+                                    <div className="text-gray-600">
+                                      Best for business owners and company
+                                      administrators
+                                    </div>
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="separator separator-dashed my-5"></div>
+                              <div className="d-flex fv-row">
+                                <div className="form-check form-check-custom form-check-solid">
+                                  <input
+                                    className="form-check-input me-3"
+                                    name="user_role"
+                                    type="radio"
+                                    value="1"
+                                    id="kt_modal_update_role_option_1"
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="kt_modal_update_role_option_1"
+                                  >
+                                    <div className="fw-bold text-gray-800">
+                                      Developer
+                                    </div>
+                                    <div className="text-gray-600">
+                                      Best for developers or people primarily
+                                      using the API
+                                    </div>
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="separator separator-dashed my-5"></div>
+                              <div className="d-flex fv-row">
+                                <div className="form-check form-check-custom form-check-solid">
+                                  <input
+                                    className="form-check-input me-3"
+                                    name="user_role"
+                                    type="radio"
+                                    value="2"
+                                    id="kt_modal_update_role_option_2"
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="kt_modal_update_role_option_2"
+                                  >
+                                    <div className="fw-bold text-gray-800">
+                                      Analyst
+                                    </div>
+                                    <div className="text-gray-600">
+                                      Best for people who need full access to
+                                      analytics data, but don't need to update
+                                      business settings
+                                    </div>
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="separator separator-dashed my-5"></div>
+                              <div className="d-flex fv-row">
+                                <div className="form-check form-check-custom form-check-solid">
+                                  <input
+                                    className="form-check-input me-3"
+                                    name="user_role"
+                                    type="radio"
+                                    value="3"
+                                    id="kt_modal_update_role_option_3"
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="kt_modal_update_role_option_3"
+                                  >
+                                    <div className="fw-bold text-gray-800">
+                                      Support
+                                    </div>
+                                    <div className="text-gray-600">
+                                      Best for employees who regularly refund
+                                      payments and respond to disputes
+                                    </div>
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="separator separator-dashed my-5"></div>
+                              <div className="d-flex fv-row">
+                                <div className="form-check form-check-custom form-check-solid">
+                                  <input
+                                    className="form-check-input me-3"
+                                    name="user_role"
+                                    type="radio"
+                                    value="4"
+                                    id="kt_modal_update_role_option_4"
+                                  />
+                                  <label
+                                    className="form-check-label"
+                                    htmlFor="kt_modal_update_role_option_4"
+                                  >
+                                    <div className="fw-bold text-gray-800">
+                                      Trial
+                                    </div>
+                                    <div className="text-gray-600">
+                                      Best for people who need to preview
+                                      content data, but don't need to make any
+                                      updates
+                                    </div>
+                                  </label>
+                                </div>
+                              </div>
+                            </div> */}
+                          </div>
+
+                          <div className="text-center pt-10">
+                            <button
+                              type="reset"
+                              className="btn btn-light me-3"
+                              data-kt-users-modal-action="cancel"
+                            >
+                              Discard
+                            </button>
+                            <button
+                              type="submit"
+                              className="btn btn-primary"
+                              data-kt-users-modal-action="submit"
+                            >
+                              <span className="indicator-label">Submit</span>
+                              <span className="indicator-progress">
+                                Please wait...
+                                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                               </span>
-                              <span
-                                className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                data-kt-image-input-action="remove"
-                                data-bs-toggle="tooltip"
-                                title="Remove avatar"
-                              >
-                                <i className="ki-duotone ki-cross fs-2">
-                                <div className="container-icon">
-                      <FontAwesomeIcon
-                        icon={faXmark}
-                        style={{ color: "#1a4489" }}
-                        size="xs"
-                      />
-                    </div>
-                                </i>
-                              </span>
-                            </div>
-                            <div className="form-text">
-                              Kabul edilen fotoğraf formatları: png, jpg, jpeg.
-                            </div>
+                            </button>
                           </div>
-                          <div className="fv-row mb-7">
-                            <label className="required fw-semibold fs-6 mb-2">
-                              İsim
-                            </label>
-                            <input
-                              type="text"
-                              name="user_name"
-                              className="form-control form-control-solid mb-3 mb-lg-0"
-                              placeholder="Full name"
-                            />
-                          </div>
-                          <div className="fv-row mb-7">
-                            <label className="required fw-semibold fs-6 mb-2">
-                              E-posta
-                            </label>
-                            <input
-                              type="email"
-                              name="user_email"
-                              className="form-control form-control-solid mb-3 mb-lg-0"
-                              placeholder="example@domain.com"
-                            />
-                          </div>
-                          <div className="mb-5">
-                            <label className="required fw-semibold fs-6 mb-5">
-                              Rolü
-                            </label>
-                            <div className="d-flex fv-row">
-                              <div className="form-check form-check-custom form-check-solid">
-                                <input
-                                  className="form-check-input me-3"
-                                  name="user_role"
-                                  type="radio"
-                                  value="0"
-                                  id="kt_modal_update_role_option_0"
-                                  checked="checked"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="kt_modal_update_role_option_0"
-                                >
-                                  <div className="fw-bold text-gray-800">
-                                    Administrator
-                                  </div>
-                                  <div className="text-gray-600">
-                                    Best for business owners and company
-                                    administrators
-                                  </div>
-                                </label>
-                              </div>
-                            </div>
-                            <div className="separator separator-dashed my-5"></div>
-                            <div className="d-flex fv-row">
-                              <div className="form-check form-check-custom form-check-solid">
-                                <input
-                                  className="form-check-input me-3"
-                                  name="user_role"
-                                  type="radio"
-                                  value="1"
-                                  id="kt_modal_update_role_option_1"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="kt_modal_update_role_option_1"
-                                >
-                                  <div className="fw-bold text-gray-800">
-                                    Developer
-                                  </div>
-                                  <div className="text-gray-600">
-                                    Best for developers or people primarily
-                                    using the API
-                                  </div>
-                                </label>
-                              </div>
-                            </div>
-                            <div className="separator separator-dashed my-5"></div>
-                            <div className="d-flex fv-row">
-                              <div className="form-check form-check-custom form-check-solid">
-                                <input
-                                  className="form-check-input me-3"
-                                  name="user_role"
-                                  type="radio"
-                                  value="2"
-                                  id="kt_modal_update_role_option_2"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="kt_modal_update_role_option_2"
-                                >
-                                  <div className="fw-bold text-gray-800">
-                                    Analyst
-                                  </div>
-                                  <div className="text-gray-600">
-                                    Best for people who need full access to
-                                    analytics data, but don't need to update
-                                    business settings
-                                  </div>
-                                </label>
-                              </div>
-                            </div>
-                            <div className="separator separator-dashed my-5"></div>
-                            <div className="d-flex fv-row">
-                              <div className="form-check form-check-custom form-check-solid">
-                                <input
-                                  className="form-check-input me-3"
-                                  name="user_role"
-                                  type="radio"
-                                  value="3"
-                                  id="kt_modal_update_role_option_3"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="kt_modal_update_role_option_3"
-                                >
-                                  <div className="fw-bold text-gray-800">
-                                    Support
-                                  </div>
-                                  <div className="text-gray-600">
-                                    Best for employees who regularly refund
-                                    payments and respond to disputes
-                                  </div>
-                                </label>
-                              </div>
-                            </div>
-                            <div className="separator separator-dashed my-5"></div>
-                            <div className="d-flex fv-row">
-                              <div className="form-check form-check-custom form-check-solid">
-                                <input
-                                  className="form-check-input me-3"
-                                  name="user_role"
-                                  type="radio"
-                                  value="4"
-                                  id="kt_modal_update_role_option_4"
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="kt_modal_update_role_option_4"
-                                >
-                                  <div className="fw-bold text-gray-800">
-                                    Trial
-                                  </div>
-                                  <div className="text-gray-600">
-                                    Best for people who need to preview content
-                                    data, but don't need to make any updates
-                                  </div>
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-center pt-10">
-                          <button
-                            type="reset"
-                            className="btn btn-light me-3"
-                            data-kt-users-modal-action="cancel"
-                          >
-                            Discard
-                          </button>
-                          <button
-                            type="submit"
-                            className="btn btn-primary"
-                            data-kt-users-modal-action="submit"
-                          >
-                            <span className="indicator-label">Submit</span>
-                            <span className="indicator-progress">
-                              Please wait...
-                              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                          </button>
-                        </div>
-                      </form>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </Modal>
-
-             
-              
-
-
             </div>
           </div>
           <div className="card-body">
@@ -590,10 +769,15 @@ function Employees() {
                 </tr>
               </thead>
               <tbody className="text-gray-600 fw-semibold">
-                <tr>
+
+
+
+                {
+                  employees.map((employee)=>(
+                    <tr>
                   <td className="d-flex align-items-center">
                     <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="">
+                      <Link to="general">
                         <div className="symbol-label">
                           <img
                             src={profilePhoto}
@@ -601,15 +785,47 @@ function Employees() {
                             className="w-100"
                           />
                         </div>
-                      </a>
+                      </Link>
                     </div>
                     <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
+                      <Link
+                        to="general"
+                        className="text-gray-800 text-hover-primary mb-1"
+                      >
+                       {employee.fullName}
+                      </Link>
+                    </div>
+                  </td>
+                  <td>{employee.title}</td>
+
+                  <td>{employee.email}</td>
+                  <td>{employee.phoneNumber}</td>
+                </tr>
+                  ))
+                }
+            
+
+  {/*          
+                      <tr>
+                  <td className="d-flex align-items-center">
+                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                      <Link to="general">
+                        <div className="symbol-label">
+                          <img
+                            src={profilePhoto}
+                            alt="Emma Smith"
+                            className="w-100"
+                          />
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="d-flex flex-column">
+                      <Link
+                        to="general"
                         className="text-gray-800 text-hover-primary mb-1"
                       >
                         Emma Smith
-                      </a>
+                      </Link>
                     </div>
                   </td>
                   <td>Administrator</td>
@@ -617,7 +833,35 @@ function Employees() {
                   <td>deneme@gmail.com</td>
                   <td>0 (524) 532 54 63</td>
                 </tr>
-                <tr>
+                  <tr>
+                  <td className="d-flex align-items-center">
+                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                      <Link to="general">
+                        <div className="symbol-label">
+                          <img
+                            src={profilePhoto}
+                            alt="Emma Smith"
+                            className="w-100"
+                          />
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="d-flex flex-column">
+                      <Link
+                        to="general"
+                        className="text-gray-800 text-hover-primary mb-1"
+                      >
+                      </Link>
+                    </div>
+                  </td>
+                  <td>Administrator</td>
+
+                  <td>deneme@gmail.com</td>
+                  <td>0 (524) 532 54 63</td>
+                </tr>
+           
+
+                 <tr>
                   <td className="d-flex align-items-center">
                     <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
                       <a href="../../demo7/dist/apps/user-management/users/view.html">
@@ -1005,7 +1249,7 @@ function Employees() {
                   <td>Developer</td>
                   <td>deneme@gmail.com</td>
                   <td>0 (524) 532 54 63</td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
           </div>

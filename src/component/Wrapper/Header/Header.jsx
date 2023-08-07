@@ -4,6 +4,8 @@ import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { GenerealContext } from "../../../Context/GeneralContext";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 function Header() {
   const { CloseSidebar } = useContext(GenerealContext);
 
@@ -20,7 +22,8 @@ function Header() {
           data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}"
         >
           {" "}
-          <h1 className="text-dark fw-bold my-0 fs-1">Pano</h1>
+                <h1 className="text-dark fw-bold my-0 fs-1">Pano</h1>
+      
         </div>
         <div
           className="d-flex d-lg-none flex-column align-items-start justify-content-center flex-wrap mt-lg-0 me-lg-2 pb-lg-0"
@@ -55,7 +58,7 @@ function Header() {
           </div>
         </div> */}
       <div className="d-flex float-right">
-      <div className="d-flex align-items-center ms-3">
+        <div className="d-flex align-items-center ms-3">
           <a
             href="#"
             className="btn btn-icon flex-center bg-body btn-color-gray-600 btn-active-color-primary h-40px"
@@ -68,7 +71,7 @@ function Header() {
             </i>
             <i className="ki-duotone ki-moon theme-dark-show fs-2"></i>
           </a>
-         </div>
+        </div>
         <div className="d-flex align-items-center ms-3">
           <a
             href="#"

@@ -2,7 +2,10 @@ import React from 'react'
 
 function AppRoutes() {
   return (
-    <div>AppRoutes</div>
+    <div>
+Approutes
+
+    </div>
   )
 }
 

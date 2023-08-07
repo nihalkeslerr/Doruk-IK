@@ -16,6 +16,8 @@ const events = [
 function Schedule() {
   return (
     <>
+      <div className="container-xxl" id="kt_content_container">
+      <div className="card card-flush">
       <Calendar
       className="calendar"
         localizer={localizer}
@@ -24,8 +26,8 @@ function Schedule() {
         endAccessor="end"
         style={{ height: 700 }}
       />
-
- 
+</div>
+</div>
     </>
   );
 }

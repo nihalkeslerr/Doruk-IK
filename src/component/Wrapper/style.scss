@@ -25,6 +25,7 @@ div#kt_header\ w-100 {
 
 div#kt_content {
   padding-top: 20px;
+  padding-bottom: 20px;
   background-color: #f6f6f6;
 }
 .card .card-body {
@@ -87,12 +88,12 @@ div#kt_content {
 }
 
 .about-modal {
-  max-width: 70%;
+  width: 80%;
   background: #fff;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
-  padding: 40px;
+  padding: 20px;
   position: relative;
-  height: 80%;
+  height: 90%;
 
   .modal-close-btn {
     position: absolute;
@@ -116,12 +117,17 @@ div#kt_content {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(#fff, 0.8);
+  background: #3f3f3f96;
 }
 form#kt_modal_add_user_form {
   overflow-x: scroll;
   height: 500px;
 }
+.information {
+  flex: 1;
+  margin-left: 45px;
+}
+
 
 
 @media (min-width: 992px) {
