@@ -1,13 +1,45 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleHalfStroke } from "@fortawesome/free-solid-svg-icons";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { GenerealContext } from "../../../Context/GeneralContext";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 function Header() {
   const { CloseSidebar } = useContext(GenerealContext);
+
+  const location = useLocation();
+  const getTitleFromPath = (path) => {
+    const parts = path.split('/');
+    const lastPart = parts[parts.length - 1];
+
+    if(lastPart=== "main"){
+      return "Pano"
+    }
+    if(lastPart=== "calendar"){
+      return "Takvim"
+    }
+    if(lastPart=== "employees"){
+      return "Çalışanlar"
+    }
+    if(lastPart=== "permissions"){
+      return "İzinler"
+    }
+    if(lastPart=== "expenses"){
+      return "Harcamalar"
+    }
+    if(lastPart=== "reports"){
+      return "Raporlar"
+    }
+    
+    return lastPart;
+
+  };
+
+  const dynamicTitle = getTitleFromPath(location.pathname);
+
 
   return (
     <div
@@ -22,8 +54,7 @@ function Header() {
           data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}"
         >
           {" "}
-                <h1 className="text-dark fw-bold my-0 fs-1">Pano</h1>
-      
+                <h1 className="text-dark fw-bold my-0 fs-1"> {dynamicTitle}</h1>
         </div>
         <div
           className="d-flex d-lg-none flex-column align-items-start justify-content-center flex-wrap mt-lg-0 me-lg-2 pb-lg-0"
@@ -149,6 +180,21 @@ function Header() {
               </a>
             </div>
           </div>
+        </div>
+
+        <div className="d-flex align-items-center ms-3">
+          <a
+            href="#"
+            className="btn btn-icon flex-center bg-body btn-color-gray-600 btn-active-color-primary h-40px"
+            data-kt-menu-trigger="{default:'click', lg: 'hover'}"
+            data-kt-menu-attach="parent"
+            data-kt-menu-placement="bottom-end"
+          >
+            <i className="ki-duotone ki-night-day theme-light-show fs-2">
+              <FontAwesomeIcon icon={faGear}  />
+            </i>
+            <i className="ki-duotone ki-moon theme-dark-show fs-2"></i>
+          </a>
         </div>
       </div>
     </div>

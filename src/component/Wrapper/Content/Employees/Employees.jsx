@@ -9,22 +9,86 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import { GenerealContext } from "../../../../Context/GeneralContext";
+import axios from "axios";
 
 function Employees() {
-  const {employeeInfo, setemployeeInfo,onChangeInput,employees,setEmployees} = useContext(GenerealContext);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const toggleModal = () => {
-    setModalIsOpen(!modalIsOpen);
-  };
-  
+  const {
+    employeeInfo,
+    setemployeeInfo,
+    employees,
+    setEmployees,
+    toggleModal,
+    modalIsOpen,
+    setModalIsOpen,
+  } = useContext(GenerealContext);
 
   useEffect(() => {
-      console.log("employee: ", employees)
+    console.log("employees: ", employees);
   }, [employees]);
 
-
   console.log("employeeInfo", employeeInfo);
+
+  const [selected, setSelected] = useState("seç");
+
+  useEffect(() => {
+    //Çalışanlar verisi çekme işlemi
+    const fetchEmployees = () => {
+      axios
+        .get("http://localhost:3004/employees")
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("response:", response);
+            setEmployees(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    fetchEmployees();
+  }, []);
+
+  const addEmployeeSubmit = () => {
+    const allFieldsEmpty =
+      !employeeInfo.firstName ||
+      !employeeInfo.lastName ||
+      !employeeInfo.title ||
+      !employeeInfo.email ||
+      !employeeInfo.phoneNumber ||
+      !employeeInfo.departman ||
+      !employeeInfo.jobType ||
+      !employeeInfo.accessType ||
+      !employeeInfo.employeeType ||
+      !employeeInfo.dateOfStart;
+
+    if (allFieldsEmpty) {
+      alert("Alanlar Boş bırakılamaz");
+    } else {
+      axios
+        .post("http://localhost:3004/employees", employeeInfo)
+        .then((response) => {
+          if (response.status === 201) {
+            console.log("Başarıyla oluşturuldu", response);
+            setEmployees((prevEmployees) => [...prevEmployees, employeeInfo]);
+            toggleModal();
+          } else {
+            console.log("işlem gerçekleşemedi", response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      /*      setEmployees((prevEmployees) => [...prevEmployees, employeeInfo]);
+       */
+    }
+  };
+
+  const onChangeInput = (e) => {
+    console.log("butona basıldıııı");
+    setemployeeInfo({ ...employeeInfo, [e.target.name]: e.target.value });
+    console.log("employee list:", employeeInfo);
+  };
 
   return (
     <>
@@ -261,13 +325,6 @@ function Employees() {
                         </div>
                         <div className="text-center">
                           <button
-                            type="reset"
-                            className="btn btn-light me-3"
-                            data-kt-users-modal-action="cancel"
-                          >
-                            Discard
-                          </button>
-                          <button
                             type="submit"
                             className="btn btn-primary"
                             data-kt-users-modal-action="submit"
@@ -304,6 +361,7 @@ function Employees() {
                         <div
                           className="btn btn-icon btn-sm btn-active-icon-primary"
                           data-kt-users-modal-action="close"
+                          onClick={toggleModal}
                         >
                           <i className="ki-duotone ki-cross fs-1">
                             <div className="container-icon">
@@ -484,36 +542,50 @@ function Employees() {
                                 <div class="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
-                                      Departman
+                                      Unvan
                                     </label>
                                     <select
                                       class="form-select"
                                       aria-label="Default select example"
+                                      onChange={onChangeInput}
+                                      defaultValue={selected}
+                                      name="title"
                                     >
-                                      <option selected>
-                                       Seç
+                                      <option selected>Seç</option>
+                                      <option value="Front-End Geliştirici">
+                                        Front-End Geliştirici
                                       </option>
-                                      <option value="1">Yazılım</option>
-                                      <option value="2">Satış</option>
-                                      <option value="3">Hukuk</option>
+                                      <option value="PHP Geliştirici">
+                                        PHP Geliştirici
+                                      </option>
+                                      <option value="Yazılım Müdürü">
+                                        Yazılım Müdürü
+                                      </option>
+                                      <option value="Şirket Avukatı">
+                                        Şirket Avukatı
+                                      </option>
+                                      <option value="İnsan Kaynakları çalışanı">
+                                        İnsan Kaynakları çalışanı
+                                      </option>
                                     </select>
                                   </div>
                                 </div>
                                 <div class="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
-                                    Çalışma Şekli
+                                      Departman
                                     </label>
                                     <select
                                       class="form-select"
                                       aria-label="Default select example"
+                                      onChange={onChangeInput}
+                                      defaultValue={selected}
+                                      name="departman"
                                     >
-                                      <option selected>
-                                       Seç
-                                      </option>
-                                      <option value="1">Tam zamanlı</option>
-                                      <option value="2">Yarı Zamanlı</option>
-                                      <option value="3">Stajyer</option>
+                                      <option selected>Seç</option>
+                                      <option value="Yazılım">Yazılım</option>
+                                      <option value="Satış">Satış</option>
+                                      <option value="Hukuk">Hukuk</option>
                                     </select>
                                   </div>
                                 </div>
@@ -522,51 +594,50 @@ function Employees() {
                                 <div class="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
-                                      Erişim Türü
+                                      Çalışma Şekli
                                     </label>
                                     <select
                                       class="form-select"
                                       aria-label="Default select example"
+                                      onChange={onChangeInput}
+                                      defaultValue={selected}
+                                      name="jobType"
                                     >
-                                      <option selected>
-                                        Seç
+                                      <option selected>Seç</option>
+                                      <option value="Tam zamanlı">
+                                        Tam zamanlı
                                       </option>
-                                      <option value="1">Hesap Sahibi</option>
-                                      <option value="2">Yönetici</option>
-                                      <option value="3">Çalışan</option>
+                                      <option value="Yarı Zamanlı">
+                                        Yarı Zamanlı
+                                      </option>
+                                      <option value="Stajyer">Stajyer</option>
                                     </select>
                                   </div>
                                 </div>
                                 <div class="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
-                                    Çalışan Tipi
+                                      Çalışan Tipi
                                     </label>
                                     <select
                                       class="form-select"
                                       aria-label="Default select example"
+                                      onChange={onChangeInput}
+                                      defaultValue={selected}
+                                      name="employeeType"
                                     >
-                                      <option selected>
-                                       Seç
+                                      <option selected>Seç</option>
+                                      <option value="Danışman">Danışman</option>
+                                      <option value="Stajyer">Stajyer</option>
+                                      <option value="Normal">Normal</option>
+                                      <option value="Sözleşmeli">
+                                        Sözleşmeli
                                       </option>
-                                      <option value="1">Danışman</option>
-                                      <option value="2">Stajyer</option>
-                                      <option value="3">Normal</option>
-                                      <option value="3">Sözleşmeli</option>
                                     </select>
                                   </div>
                                 </div>
                               </div>
-                             
-                            </div>
-
-                            <div className="border-bottom mb-6">
-                              <p className="fs-12">İşe Giriş Bilgileri</p>
-                            </div>
-
-
-                            <div>
-                            <div class="row">
+                              <div class="row">
                                 <div class="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
@@ -574,29 +645,36 @@ function Employees() {
                                     </label>
                                     <input
                                       type="date"
-                                      name="email"
+                                      name="dateOfStart"
                                       className="form-control form-control-solid mb-3 mb-lg-0"
                                       placeholder="ornek@gmail.com"
+                                      onChange={onChangeInput}
                                     />
                                   </div>
                                 </div>
                                 <div class="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
-                                      Telefon
+                                      Erişim Türü
                                     </label>
-                                    <input
-                                      type="number"
-                                      name="phoneNumber"
-                                      className="form-control form-control-solid mb-3 mb-lg-0"
-                                      placeholder="(5--) --- -- --"
-                                    />
+                                    <select
+                                      class="form-select"
+                                      aria-label="Default select example"
+                                      onChange={onChangeInput}
+                                      defaultValue={selected}
+                                      name="accessType"
+                                    >
+                                      <option selected>Seç</option>
+                                      <option value="Hesap Sahibi">
+                                        Hesap Sahibi
+                                      </option>
+                                      <option value="Yönetici">Yönetici</option>
+                                      <option value="Çalışan">Çalışan</option>
+                                    </select>
                                   </div>
                                 </div>
                               </div>
                             </div>
-
-
 
                             {/* <div className="mb-5">
                               <label className="required fw-semibold fs-6 mb-5">
@@ -729,18 +807,12 @@ function Employees() {
 
                           <div className="text-center pt-10">
                             <button
-                              type="reset"
-                              className="btn btn-light me-3"
-                              data-kt-users-modal-action="cancel"
-                            >
-                              Discard
-                            </button>
-                            <button
-                              type="submit"
-                              className="btn btn-primary"
+                              type="button"
+                              className="btn border addEmp"
                               data-kt-users-modal-action="submit"
+                              onClick={() => addEmployeeSubmit()}
                             >
-                              <span className="indicator-label">Submit</span>
+                              <span className="indicator-label">Kaydet</span>
                               <span className="indicator-progress">
                                 Please wait...
                                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -769,43 +841,37 @@ function Employees() {
                 </tr>
               </thead>
               <tbody className="text-gray-600 fw-semibold">
+                {employees.map((employee) => (
+                  <tr>
+                    <td className="d-flex align-items-center">
+                      <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                        <Link to="general">
+                          <div className="symbol-label">
+                            <img
+                              src={profilePhoto}
+                              alt="Emma Smith"
+                              className="w-100"
+                            />
+                          </div>
+                        </Link>
+                      </div>
+                      <div className="d-flex flex-column">
+                        <Link
+                          to="general"
+                          className="text-gray-800 text-hover-primary mb-1"
+                        >
+                          {employee.firstName} {employee.lastName}
+                        </Link>
+                      </div>
+                    </td>
+                    <td>{employee.title}</td>
 
+                    <td>{employee.email}</td>
+                    <td>{employee.phoneNumber}</td>
+                  </tr>
+                ))}
 
-
-                {
-                  employees.map((employee)=>(
-                    <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <Link to="general">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Emma Smith"
-                            className="w-100"
-                          />
-                        </div>
-                      </Link>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <Link
-                        to="general"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                       {employee.fullName}
-                      </Link>
-                    </div>
-                  </td>
-                  <td>{employee.title}</td>
-
-                  <td>{employee.email}</td>
-                  <td>{employee.phoneNumber}</td>
-                </tr>
-                  ))
-                }
-            
-
-  {/*          
+                {/*          
                       <tr>
                   <td className="d-flex align-items-center">
                     <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">

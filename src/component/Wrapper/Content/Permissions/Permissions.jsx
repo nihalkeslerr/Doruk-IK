@@ -323,7 +323,7 @@ function Permissions() {
                   <div className="fv-row mb-7">
                     <label className="form-check form-check-custom form-check-solid me-9">
                       <input className="form-check-input" type="checkbox" value="" name="permissions_core" id="kt_permissions_core" />
-                      <span className="form-check-label" for="kt_permissions_core">Set as core permission</span>
+                      <span className="form-check-label" htmlFor="kt_permissions_core">Set as core permission</span>
                     </label>
                   </div>
                   <div className="text-gray-600">Permission set as a

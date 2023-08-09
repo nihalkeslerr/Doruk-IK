@@ -18,11 +18,7 @@ function Header() {
   const { display, setDisplay}=useContext(GenerealContext);
 
   const [iconColor, setIconColor] = useState(false);
-  const location = useLocation();
 
-  useEffect(()=>{
-    console.log("display",display);
-  })
 
   return (
     <div id="kt_aside" className={`sidebar d-none d-lg-block ${display}`}>
@@ -79,40 +75,7 @@ function Header() {
                 </i>
               </Link>
             </li>
-            <li
-              className="mw-100"
-              title="Menu"
-              onMouseEnter={() => {
-                setIconColor(true);
-              }}
-              onMouseLeave={() => {
-                setIconColor(false);
-              }}
-            >
-              <Link className="" to="/calendar">
-                <i className="ki-duotone ki-element-11">
-                  <div className="container-icon">
-                    {iconColor && (
-                      <FontAwesomeIcon
-                        icon={faCalendar}
-                        style={{ color: "#fabf7e" }}
-                        size="xl"
-                      />
-                    )}
-                    {!iconColor && (
-                      <FontAwesomeIcon
-                        icon={faCalendar}
-                        style={{ color: "#d5d5d5" }}
-                        size="xl"
-                      />
-                    )}
-                  </div>
-                  <div className="d-flex deneme">
-                    <p className="">Takvim</p>
-                  </div>
-                </i>
-              </Link>
-            </li>
+        
             <li
               className="mw-100"
               title="Subscription"
@@ -249,6 +212,41 @@ function Header() {
                 </i>
               </Link>
             </li>
+            <li
+              className="mw-100"
+              title="Menu"
+              onMouseEnter={() => {
+                setIconColor(true);
+              }}
+              onMouseLeave={() => {
+                setIconColor(false);
+              }}
+            >
+              <Link className="" to="/calendar">
+                <i className="ki-duotone ki-element-11">
+                  <div className="container-icon">
+                    {iconColor && (
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        style={{ color: "#fabf7e" }}
+                        size="xl"
+                      />
+                    )}
+                    {!iconColor && (
+                      <FontAwesomeIcon
+                        icon={faCalendar}
+                        style={{ color: "#d5d5d5" }}
+                        size="xl"
+                      />
+                    )}
+                  </div>
+                  <div className="d-flex deneme">
+                    <p className="">Takvim</p>
+                  </div>
+                </i>
+              </Link>
+            </li>
+            
           </ul>
         </div>
         <Footer></Footer>

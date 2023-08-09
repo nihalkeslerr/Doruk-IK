@@ -14,7 +14,7 @@ div#kt_header\ w-100 {
     .d-flex.float-right {
       color: gray;
       a {
-        background-color: #ffedd9 !important;
+        background-color: #f6f6f6 !important;
         &:hover {
           background-color: #ffe5c7 !important;
         }
@@ -27,6 +27,7 @@ div#kt_content {
   padding-top: 20px;
   padding-bottom: 20px;
   background-color: #f6f6f6;
+  height: 100vh;
 }
 .card .card-body {
   padding: 0px;
@@ -78,13 +79,12 @@ div#kt_content {
     background-color: #f0f8ff !important;
   }
 }
-.card-body{
-  table{
+.card-body {
+  table {
     thead.theadEmp {
       color: #5d5d5d;
-    } 
+    }
   }
-
 }
 
 .about-modal {
@@ -107,6 +107,10 @@ div#kt_content {
       width: 20px;
     }
   }
+  .addEmp {
+    width: 200px;
+    background-color: #bae0ff;
+  }
 }
 .about-modal-overlay {
   position: fixed;
@@ -128,8 +132,6 @@ form#kt_modal_add_user_form {
   margin-left: 45px;
 }
 
-
-
 @media (min-width: 992px) {
   .aside-secondary-enabled.aside-fixed.wrapper.d-flex.flex-column.flex-row-fluid.open {
     transition: width 0.5s;
@@ -139,15 +141,11 @@ form#kt_modal_add_user_form {
     padding-left: 80px;
     transition: width 0.5s;
   }
-  .card-body{
+  .card-body {
     overflow-y: scroll !important;
   }
- 
-
 }
 @media (max-width: 992px) {
-
-  
 }
 
 @media (min-width: 1400px) {
