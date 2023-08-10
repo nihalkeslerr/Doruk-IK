@@ -33,9 +33,9 @@ function Header() {
     if(lastPart=== "reports"){
       return "Raporlar"
     }
-    
-    return lastPart;
-
+    if(lastPart=== "general"){
+      return "Genel"
+    }
   };
 
   const dynamicTitle = getTitleFromPath(location.pathname);

@@ -19,7 +19,7 @@ function PrivateRoutes() {
         <Route path="permissions/*" element={<Permissions />}></Route>
         <Route path="expenses/*" element={<Expenses />}></Route>
         <Route path="reports/*" element={<Reports />}></Route>
-        <Route path="employees/general" element={<General />}></Route>
+        <Route path="employees/employee/general/:id" element={<General />}></Route>
         <Route path="employees/add-employee" element={<AddEmployees />}></Route>
 
       </Routes>

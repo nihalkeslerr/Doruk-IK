@@ -7,7 +7,7 @@ import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
-import { Link } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 import { GenerealContext } from "../../../../Context/GeneralContext";
 import axios from "axios";
 
@@ -55,7 +55,7 @@ function Employees() {
       !employeeInfo.title ||
       !employeeInfo.email ||
       !employeeInfo.phoneNumber ||
-      !employeeInfo.departman ||
+      !employeeInfo.department ||
       !employeeInfo.jobType ||
       !employeeInfo.accessType ||
       !employeeInfo.employeeType ||
@@ -167,6 +167,7 @@ function Employees() {
                         data-allow-clear="true"
                         data-kt-user-table-filter="role"
                         data-hide-search="true"
+                        defaultValue=""
                       >
                         <option></option>
                         <option value="Administrator">Administrator</option>
@@ -187,6 +188,7 @@ function Employees() {
                         data-allow-clear="true"
                         data-kt-user-table-filter="two-step"
                         data-hide-search="true"
+                        defaultValue=""
                       >
                         <option></option>
                         <option value="Enabled">Enabled</option>
@@ -296,6 +298,7 @@ function Employees() {
                             data-placeholder="Select a role"
                             data-hide-search="true"
                             className="form-select form-select-solid fw-bold"
+                            defaultValue=""
                           >
                             <option></option>
                             <option value="Administrator">Administrator</option>
@@ -315,6 +318,7 @@ function Employees() {
                             data-placeholder="Select a format"
                             data-hide-search="true"
                             className="form-select form-select-solid fw-bold"
+                            defaultValue=""
                           >
                             <option></option>
                             <option value="excel">Excel</option>
@@ -471,8 +475,8 @@ function Employees() {
                               </div>
 
                               <div className="ml-5 information">
-                                <div class="row">
-                                  <div class="col">
+                                <div className="row">
+                                  <div className="col">
                                     <div className="fv-row mb-7">
                                       <label className="required fw-semibold fs-6 mb-2">
                                         İsim
@@ -486,7 +490,7 @@ function Employees() {
                                       />
                                     </div>
                                   </div>
-                                  <div class="col">
+                                  <div className="col">
                                     <div className="fv-row mb-7">
                                       <label className="required fw-semibold fs-6 mb-2">
                                         Soyisim
@@ -501,8 +505,8 @@ function Employees() {
                                     </div>
                                   </div>
                                 </div>
-                                <div class="row">
-                                  <div class="col">
+                                <div className="row">
+                                  <div className="col">
                                     <div className="fv-row mb-7">
                                       <label className="required fw-semibold fs-6 mb-2">
                                         E-posta
@@ -516,7 +520,7 @@ function Employees() {
                                       />
                                     </div>
                                   </div>
-                                  <div class="col">
+                                  <div className="col">
                                     <div className="fv-row mb-7">
                                       <label className="required fw-semibold fs-6 mb-2">
                                         Telefon
@@ -538,20 +542,20 @@ function Employees() {
                               <p className="fs-12">Çalışma Bilgileri</p>
                             </div>
                             <div className="ml-5">
-                              <div class="row">
-                                <div class="col">
+                              <div className="row">
+                                <div className="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
                                       Unvan
                                     </label>
                                     <select
-                                      class="form-select"
+                                      className="form-select"
                                       aria-label="Default select example"
                                       onChange={onChangeInput}
                                       defaultValue={selected}
                                       name="title"
                                     >
-                                      <option selected>Seç</option>
+                                      <option >Seç</option>
                                       <option value="Front-End Geliştirici">
                                         Front-End Geliştirici
                                       </option>
@@ -570,19 +574,19 @@ function Employees() {
                                     </select>
                                   </div>
                                 </div>
-                                <div class="col">
+                                <div className="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
                                       Departman
                                     </label>
                                     <select
-                                      class="form-select"
+                                      className="form-select"
                                       aria-label="Default select example"
                                       onChange={onChangeInput}
                                       defaultValue={selected}
-                                      name="departman"
+                                      name="department"
                                     >
-                                      <option selected>Seç</option>
+                                      <option >Seç</option>
                                       <option value="Yazılım">Yazılım</option>
                                       <option value="Satış">Satış</option>
                                       <option value="Hukuk">Hukuk</option>
@@ -590,20 +594,20 @@ function Employees() {
                                   </div>
                                 </div>
                               </div>
-                              <div class="row">
-                                <div class="col">
+                              <div className="row">
+                                <div className="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
                                       Çalışma Şekli
                                     </label>
                                     <select
-                                      class="form-select"
+                                      className="form-select"
                                       aria-label="Default select example"
                                       onChange={onChangeInput}
                                       defaultValue={selected}
                                       name="jobType"
                                     >
-                                      <option selected>Seç</option>
+                                      <option >Seç</option>
                                       <option value="Tam zamanlı">
                                         Tam zamanlı
                                       </option>
@@ -614,19 +618,19 @@ function Employees() {
                                     </select>
                                   </div>
                                 </div>
-                                <div class="col">
+                                <div className="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
                                       Çalışan Tipi
                                     </label>
                                     <select
-                                      class="form-select"
+                                      className="form-select"
                                       aria-label="Default select example"
                                       onChange={onChangeInput}
                                       defaultValue={selected}
                                       name="employeeType"
                                     >
-                                      <option selected>Seç</option>
+                                      <option >Seç</option>
                                       <option value="Danışman">Danışman</option>
                                       <option value="Stajyer">Stajyer</option>
                                       <option value="Normal">Normal</option>
@@ -637,8 +641,8 @@ function Employees() {
                                   </div>
                                 </div>
                               </div>
-                              <div class="row">
-                                <div class="col">
+                              <div className="row">
+                                <div className="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
                                       İşe Başlama Tarihi
@@ -652,19 +656,19 @@ function Employees() {
                                     />
                                   </div>
                                 </div>
-                                <div class="col">
+                                <div className="col">
                                   <div className="fv-row mb-7">
                                     <label className="required fw-semibold fs-6 mb-2">
                                       Erişim Türü
                                     </label>
                                     <select
-                                      class="form-select"
+                                      className="form-select"
                                       aria-label="Default select example"
                                       onChange={onChangeInput}
                                       defaultValue={selected}
                                       name="accessType"
                                     >
-                                      <option selected>Seç</option>
+                                      <option >Seç</option>
                                       <option value="Hesap Sahibi">
                                         Hesap Sahibi
                                       </option>
@@ -842,10 +846,11 @@ function Employees() {
               </thead>
               <tbody className="text-gray-600 fw-semibold">
                 {employees.map((employee) => (
-                  <tr>
+                  <tr key={employee.id}>
                     <td className="d-flex align-items-center">
                       <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                        <Link to="general">
+                        <NavLink to={{ pathname: `employee/general/${employee.id}`, 
+                        state: { employeeID: employee.id } }}>
                           <div className="symbol-label">
                             <img
                               src={profilePhoto}
@@ -853,15 +858,15 @@ function Employees() {
                               className="w-100"
                             />
                           </div>
-                        </Link>
+                        </NavLink>
                       </div>
                       <div className="d-flex flex-column">
-                        <Link
-                          to="general"
+                        <NavLink
+                          to={{ pathname: `employee/general/${employee.id}` }}
                           className="text-gray-800 text-hover-primary mb-1"
                         >
                           {employee.firstName} {employee.lastName}
-                        </Link>
+                        </NavLink>
                       </div>
                     </td>
                     <td>{employee.title}</td>
