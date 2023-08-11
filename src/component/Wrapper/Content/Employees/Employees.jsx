@@ -10,6 +10,8 @@ import Modal from "react-modal";
 import { NavLink,Link } from "react-router-dom";
 import { GenerealContext } from "../../../../Context/GeneralContext";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Employees() {
   const {
@@ -40,9 +42,13 @@ function Employees() {
             console.log("response:", response);
             setEmployees(response.data);
           }
+          else{
+            console.log("hata");
+          }
         })
         .catch((error) => {
-          console.error(error);
+          toast.error(error);
+
         });
     };
     fetchEmployees();
@@ -71,12 +77,17 @@ function Employees() {
             console.log("Başarıyla oluşturuldu", response);
             setEmployees((prevEmployees) => [...prevEmployees, employeeInfo]);
             toggleModal();
+            toast.success("Çalışan bilgisi başarıyla kaydedildi.");
+
           } else {
             console.log("işlem gerçekleşemedi", response.statusText);
+            toast.error("Çalışan bilgisi kaydedilirken hata meydana geldi.");
+
           }
         })
         .catch((error) => {
-          console.error(error);
+          toast.error(error);
+
         });
 
       /*      setEmployees((prevEmployees) => [...prevEmployees, employeeInfo]);
@@ -104,7 +115,7 @@ function Employees() {
       </div>
 
       <div className="container-xxl" id="kt_content_container">
-        <div className="card card-flush">
+        <div className="card card-flush infoCard">
           <div className="card-header border-0 pt-6">
             <div className="card-title">
               <div className="d-flex align-items-center position-relative my-1">
@@ -876,455 +887,22 @@ function Employees() {
                   </tr>
                 ))}
 
-                {/*          
-                      <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <Link to="general">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Emma Smith"
-                            className="w-100"
-                          />
-                        </div>
-                      </Link>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <Link
-                        to="general"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Emma Smith
-                      </Link>
-                    </div>
-                  </td>
-                  <td>Administrator</td>
-
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                  <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <Link to="general">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Emma Smith"
-                            className="w-100"
-                          />
-                        </div>
-                      </Link>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <Link
-                        to="general"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                      </Link>
-                    </div>
-                  </td>
-                  <td>Administrator</td>
-
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-           
-
-                 <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label fs-3 bg-light-danger text-danger">
-                          MM
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Melody Macy
-                      </a>
-                    </div>
-                  </td>
-                  <td>Analyst</td>
-
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Max Smith"
-                            className="w-100"
-                          />
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Max Smith
-                      </a>
-                    </div>
-                  </td>
-                  <td>Developer</td>
-
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Sean Bean"
-                            className="w-100"
-                          />
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Sean Bean
-                      </a>
-                    </div>
-                  </td>
-                  <td>Support</td>
-
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Brian Cox"
-                            className="w-100"
-                          />
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Brian Cox
-                      </a>
-                    </div>
-                  </td>
-                  <td>Developer</td>
-
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label fs-3 bg-light-warning text-warning">
-                          C
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Mikaela Collins
-                      </a>
-                    </div>
-                  </td>
-                  <td>Administrator</td>
-
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Francis Mitcham"
-                            className="w-100"
-                          />
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Francis Mitcham
-                      </a>
-                    </div>
-                  </td>
-                  <td>Trial</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label fs-3 bg-light-danger text-danger">
-                          O
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Olivia Wild
-                      </a>
-                    </div>
-                  </td>
-                  <td>Administrator</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label fs-3 bg-light-primary text-primary">
-                          N
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Neil Owen
-                      </a>
-                    </div>
-                  </td>
-                  <td>Analyst</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Dan Wilson"
-                            className="w-100"
-                          />
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Dan Wilson
-                      </a>
-                    </div>
-                  </td>
-                  <td>Developer</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label fs-3 bg-light-danger text-danger">
-                          E
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Emma Bold
-                      </a>
-                    </div>
-                  </td>
-                  <td>Support</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Ana Crown"
-                            className="w-100"
-                          />
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Ana Crown
-                      </a>
-                    </div>
-                  </td>
-                  <td>Developer</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label fs-3 bg-light-info text-info">
-                          A
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Robert Doe
-                      </a>
-                    </div>
-                  </td>
-                  <td>Administrator</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="John Miller"
-                            className="w-100"
-                          />
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        John Miller
-                      </a>
-                    </div>
-                  </td>
-                  <td>Trial</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label fs-3 bg-light-success text-success">
-                          L
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Lucy Kunic
-                      </a>
-                    </div>
-                  </td>
-                  <td>Administrator</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label fs-3 bg-light-danger text-danger">
-                          M
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Melody Macy
-                      </a>
-                    </div>
-                  </td>
-                  <td>Analyst</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr>
-                <tr>
-                  <td className="d-flex align-items-center">
-                    <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                      <a href="../../demo7/dist/apps/user-management/users/view.html">
-                        <div className="symbol-label">
-                          <img
-                            src={profilePhoto}
-                            alt="Max Smith"
-                            className="w-100"
-                          />
-                        </div>
-                      </a>
-                    </div>
-                    <div className="d-flex flex-column">
-                      <a
-                        href="../../demo7/dist/apps/user-management/users/view.html"
-                        className="text-gray-800 text-hover-primary mb-1"
-                      >
-                        Max Smith
-                      </a>
-                    </div>
-                  </td>
-                  <td>Developer</td>
-                  <td>deneme@gmail.com</td>
-                  <td>0 (524) 532 54 63</td>
-                </tr> */}
               </tbody>
             </table>
           </div>
         </div>
+        <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       </div>
     </>
   );

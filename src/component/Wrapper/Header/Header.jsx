@@ -36,6 +36,8 @@ function Header() {
     if(lastPart=== "general"){
       return "Genel"
     }
+
+    return "Genel Bilgiler"
   };
 
   const dynamicTitle = getTitleFromPath(location.pathname);

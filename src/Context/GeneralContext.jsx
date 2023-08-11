@@ -1,5 +1,5 @@
-import React, { createContext, useState } from "react";
-
+import React, { createContext, useEffect, useState } from "react";
+import axios from "axios";
 export const GenerealContext = createContext();
 
 export const GeneralProvider = ({ children }) => {
@@ -33,6 +33,37 @@ export const GeneralProvider = ({ children }) => {
 
 
 
+  const [employee, setEmployee] = useState();
+
+
+  const fetchEmployee = (id) => {
+    setEmployee();
+    axios
+      .get(`http://localhost:3004/employees/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:", response);
+          setEmployee(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+
+  const handleInputChange = (e) => {
+    setemployeeInfo({
+      ...employeeInfo,
+      [e.target.name]: e.target.value,
+    });
+    console.log("employee Change data :", { ...employeeInfo, [e.target.name]: e.target.value });
+  };
+
+
+
+
+
   const values = {
     CloseSidebar,
     display,
@@ -43,7 +74,9 @@ export const GeneralProvider = ({ children }) => {
     setEmployees,
     toggleModal,
     modalIsOpen,
-    setModalIsOpen,
+    setModalIsOpen,employee, setEmployee,
+    fetchEmployee,
+    handleInputChange
   };
 
   return (

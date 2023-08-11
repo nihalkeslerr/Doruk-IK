@@ -1,10 +1,40 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState,useEffect } from "react";
+import { GenerealContext } from "../../../../Context/GeneralContext";
+import {  useParams } from "react-router-dom";
+import axios from "axios";
 function GeneralInfo() {
+  const { id } = useParams();
+  console.log("infodaki ID:", id);
   const [selected, setSelected] = useState("seç");
+
+  const { employee,handleInputChange,    employeeInfo,
+    setemployeeInfo, } = useContext(GenerealContext)
+  
+  const [employeeGeneral, setEmployeeGeneral]= useState();
+
+  useEffect(() => {
+    if (employee) {
+      setemployeeInfo({
+        firstName: employee.firstName || "",
+        lastName: employee.lastName || "",
+        phoneNumber: employee.phoneNumber || "",
+        title:employee.title || "",
+        email: employee.email || "",
+        departman: employee.departman || "",
+        jobType: employee.jobType || "",
+        accessType: employee.accessType || "",
+        employeeType:employee.employeeType || "",
+        dateOfStart: employee.dateOfStart || "",
+      });
+    }
+  }, [employee]);
+
+
+
   return (
     <div>
       <div>
+        {employee && ( 
         <div>
           <div className="row">
             <div className="col-4">
@@ -15,6 +45,9 @@ function GeneralInfo() {
                   name="firstName"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   placeholder="İsim"
+                  onChange={handleInputChange}
+                 value={employeeInfo.firstName}
+                
                 />
               </div>
             </div>
@@ -28,6 +61,8 @@ function GeneralInfo() {
                   name="lastName"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   placeholder="Soyisim"
+                  value={employeeInfo.lastName}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -41,6 +76,8 @@ function GeneralInfo() {
                   name="email"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   placeholder="ornek@gmail.com"
+                  value={employeeInfo.email}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -52,10 +89,12 @@ function GeneralInfo() {
                   Telefon
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="phoneNumber"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   placeholder="(5--) --- -- --"
+                  value={employeeInfo.phoneNumber}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
@@ -65,7 +104,8 @@ function GeneralInfo() {
                 <select
                   className="form-select"
                   aria-label="Default select example"
-                  defaultValue={selected}
+                  value={employeeInfo.title}
+                  onChange={handleInputChange}
                   name="title"
                 >
                   <option>Seç</option>
@@ -91,6 +131,8 @@ function GeneralInfo() {
                   aria-label="Default select example"
                   defaultValue={selected}
                   name="departman"
+                  value={employeeInfo.departman}
+                  onChange={handleInputChange}
                 >
                   <option>Seç</option>
                   <option value="Yazılım">Yazılım</option>
@@ -109,8 +151,9 @@ function GeneralInfo() {
                 <select
                   className="form-select"
                   aria-label="Default select example"
-                  defaultValue={selected}
                   name="jobType"
+                  value={employeeInfo.jobType}
+                  onChange={handleInputChange}
                 >
                   <option>Seç</option>
                   <option value="Tam zamanlı">Tam zamanlı</option>
@@ -129,6 +172,8 @@ function GeneralInfo() {
                   aria-label="Default select example"
                   defaultValue={selected}
                   name="employeeType"
+                  value={employeeInfo.employeeType}
+                  onChange={handleInputChange}
                 >
                   <option>Seç</option>
                   <option value="Danışman">Danışman</option>
@@ -148,11 +193,14 @@ function GeneralInfo() {
                   name="dateOfStart"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   placeholder="ornek@gmail.com"
+                  value={employeeInfo.dateOfStart}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
           </div>
         </div>
+         )}
       </div>
     </div>
   );

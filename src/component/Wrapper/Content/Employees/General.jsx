@@ -1,38 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import empPhoto from "../../../../assets/media/avatars/300-1.jpg";
-import { Navigate, Route, Routes, Link } from "react-router-dom";
+import empPhoto from "../../../../assets/media/avatars/300-12.jpg";
+import { Navigate, Route, Routes, Link, NavLink } from "react-router-dom";
 import PersonalInfo from "./PersonalInfo";
 import GeneralInfo from "./GeneralInfo";
 import axios from "axios";
+import { GenerealContext } from "../../../../Context/GeneralContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+
 
 function General() {
   const { id } = useParams();
 
-  const [employee, setEmployee] =useState();
+  const { employee, setEmployee, fetchEmployee, employeeInfo,
+    setemployeeInfo, } = useContext(GenerealContext);
+
 
   useEffect(() => {
-    const fetchEmployee = () => {
-      axios
-        .get(`http://localhost:3004/employees/${id}`)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log("response:", response);
-            setEmployee(response.data);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-    console.log("ID", id);
-    fetchEmployee();
+    if (id) {
+      fetchEmployee(id);
+    }
   }, [id]);
 
-  useEffect(()=>{
+  console.log("ID", id);
+  useEffect(() => {
     console.log("employee:", employee);
-  },[employee])
+  }, [employee]);
 
+
+  const handleEmployeeSubmit =()=>{
+    axios
+    .put(`http://localhost:3004/employees/${id}`,employeeInfo)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log("response:", response);
+        toast.success("Çalışan bilgisi başarıyla güncellendi.");
+      }
+      else{
+        toast.error("Çalışan bilgisi güncellenirken hata meydana geldi.");
+      }
+    })
+    .catch((error) => {
+      toast.error(error);
+    });
+
+
+  }
 
   return (
     <div>
@@ -51,40 +67,58 @@ function General() {
                     <div className="d-flex justify-content-between align-items-start flex-wrap mb-2">
                       {employee && (
                         <div className="d-flex flex-column">
-                        <h1> {employee.firstName} {employee.lastName}</h1>
-                        <div className="align-items-center mb-2 mt-5 info-head">
-                          <div className="d-flex">
+                          <h1>
                             {" "}
-                            <p> Unvan: </p> <span >{employee.title}</span>
-                          </div>
-                          <div className="d-flex">
-                            {" "}
-                            <p> Departman: </p> <span>{employee.departman}</span>
-                          </div>
+                            {employeeInfo.firstName} {employeeInfo.lastName}
+                          </h1>
+                          <div className="align-items-center mb-2 mt-5 info-head">
+                            <div className="d-flex">
+                              {" "}
+                              <p> Unvan: </p> <span>{employeeInfo.title}</span>
+                            </div>
+                            <div className="d-flex">
+                              {" "}
+                              <p> Departman: </p>{" "}
+                              <span>{employeeInfo.departman}</span>
+                            </div>
 
-                          <div className="d-flex">
-                            {" "}
-                            <p> Telefon:</p> <span> {employee.phoneNumber}</span>
-                          </div>
-                          <div className="d-flex">
-                            <p> İşe Başlama Tarihi: </p>{" "}
-                            <span> {employee.dateOfStart}</span>
+                            <div className="d-flex">
+                              {" "}
+                              <p> Telefon:</p>{" "}
+                              <span> {employeeInfo.phoneNumber}</span>
+                            </div>
+                            <div className="d-flex">
+                              <p> İşe Başlama Tarihi: </p>{" "}
+                              <span> {employeeInfo.dateOfStart}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
                       )}
+                    </div>
+                  </div>
+                  <div className="d-flex infoBtn">
+                    <div>
+                      <button onClick={handleEmployeeSubmit}>KAYDET</button>
+                    </div>
+                    <div>
+                      <button><FontAwesomeIcon icon={faEllipsisVertical} /></button>
                     </div>
                   </div>
                 </div>
                 <div className="d-flex justify-content-center empNavbar">
                   <ul className=" ">
                     <li className="">
-                      <Link className="" to="" active>
+                      <NavLink
+                        to={`/employees/employee/general/${id}`}
+                      >
                         Genel
-                      </Link>
+                      </NavLink>
                     </li>
                     <li className="">
-                      <Link className="" to="/personal-info">
+                      <Link
+                        className=""
+                        to={`/employees/employee/personal-info/${id}`}
+                      >
                         Kişisel Bilgiler
                       </Link>
                     </li>
@@ -123,15 +157,33 @@ function General() {
         <div className="container-xxl" id="kt_content_container">
           <div className="px-5 mb-6">
             <div className=" pt-9">
-              <GeneralInfo />
+              <GeneralInfo employee={employee} setEmployee={setEmployee} />
               <Routes>
-                <Route path="/general" element={<GeneralInfo />}></Route>
-                <Route path="/personal-info" element={<PersonalInfo />}></Route>
+                <Route
+                  path="/employees/employee/general/:id"
+                  element={<GeneralInfo />}
+                />
+                <Route
+                  path="/employee/personal-info/:id"
+                  element={<PersonalInfo />}
+                />
               </Routes>
             </div>
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }
