@@ -9,12 +9,12 @@ export const GeneralProvider = ({ children }) => {
     setIsClose(!isClose);
     console.log("isClose", isClose);
   };
-  const [display, setDisplay] = useState("open");
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [display, setDisplay] = useState("open"); //Sidebar açma-kapama state bilgisi
+  const [modalIsOpen, setModalIsOpen] = useState(false); //çalışan ekle modalı için state
 
-  const [employees, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState([]); //Çalışanların bütün bilgilerinin yüklendiği state
 
-  const [employeeInfo, setemployeeInfo] = useState({
+  const [employeeInfo, setemployeeInfo] = useState({ // Çalışanların bilgilerini update etmek için kullanılan tablo, employees state'indeki bilgileri bu state üzerine yüklüyoruz ve o şekilde servera gönderiyoruz.
     firstName: "",
     lastName: "",
     title: "",
@@ -27,16 +27,44 @@ export const GeneralProvider = ({ children }) => {
     dateOfStart: "",
   });
 
-  const toggleModal = () => {
+  const [addEmployee, setAddEmployee]= useState({
+    firstName: "",
+    lastName: "",
+    title: "",
+    email: "",
+    phoneNumber: "",
+    departman: "",
+    jobType: "",
+    accessType: "",
+    employeeType: "",
+    dateOfStart: "",
+  })
+
+
+  const toggleModal = () => { //çalışan ekle modalı için
     setModalIsOpen(!modalIsOpen);
   };
 
+  const putInfo =()=>{ //bu fonksiyon yapılan değişiklikleri employeeInfo stateine kaydetmek için kullanılıyor.
+    if (employee) {
+      setemployeeInfo({
+        firstName: employee.firstName || "",
+        lastName: employee.lastName || "",
+        phoneNumber: employee.phoneNumber || "",
+        title:employee.title || "",
+        email: employee.email || "",
+        departman: employee.departman || "",
+        jobType: employee.jobType || "",
+        accessType: employee.accessType || "",
+        employeeType:employee.employeeType || "",
+        dateOfStart: employee.dateOfStart || "",
+      });
+    }
+  }
 
+  const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
 
-  const [employee, setEmployee] = useState();
-
-
-  const fetchEmployee = (id) => {
+  const fetchEmployee = (id) => { //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
     setEmployee();
     axios
       .get(`http://localhost:3004/employees/${id}`)
@@ -51,17 +79,15 @@ export const GeneralProvider = ({ children }) => {
       });
   };
 
-
-  const handleInputChange = (e) => {
+ 
+  const handleInputChange = (e) => { //çalışanlar sayfasındaki inputtaki değişiklikleri employeeInfoya kaydetmek için 
     setemployeeInfo({
       ...employeeInfo,
       [e.target.name]: e.target.value,
     });
     console.log("employee Change data :", { ...employeeInfo, [e.target.name]: e.target.value });
   };
-
-
-
+  
 
 
   const values = {
@@ -76,7 +102,8 @@ export const GeneralProvider = ({ children }) => {
     modalIsOpen,
     setModalIsOpen,employee, setEmployee,
     fetchEmployee,
-    handleInputChange
+    handleInputChange,putInfo,
+    addEmployee, setAddEmployee
   };
 
   return (

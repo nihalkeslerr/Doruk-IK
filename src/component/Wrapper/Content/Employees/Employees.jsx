@@ -22,13 +22,14 @@ function Employees() {
     toggleModal,
     modalIsOpen,
     setModalIsOpen,
+    addEmployee, setAddEmployee
   } = useContext(GenerealContext);
 
   useEffect(() => {
     console.log("employees: ", employees);
   }, [employees]);
 
-  console.log("employeeInfo", employeeInfo);
+  console.log("addEmployee", addEmployee);
 
   const [selected, setSelected] = useState("seç");
 
@@ -52,32 +53,33 @@ function Employees() {
         });
     };
     fetchEmployees();
-  }, []);
+  }, [addEmployee]);
 
   const addEmployeeSubmit = () => {
     const allFieldsEmpty =
-      !employeeInfo.firstName ||
-      !employeeInfo.lastName ||
-      !employeeInfo.title ||
-      !employeeInfo.email ||
-      !employeeInfo.phoneNumber ||
-      !employeeInfo.department ||
-      !employeeInfo.jobType ||
-      !employeeInfo.accessType ||
-      !employeeInfo.employeeType ||
-      !employeeInfo.dateOfStart;
+      !addEmployee.firstName ||
+      !addEmployee.lastName ||
+      !addEmployee.title ||
+      !addEmployee.email ||
+      !addEmployee.phoneNumber ||
+      !addEmployee.department ||
+      !addEmployee.jobType ||
+      !addEmployee.accessType ||
+      !addEmployee.employeeType ||
+      !addEmployee.dateOfStart;
 
     if (allFieldsEmpty) {
-      alert("Alanlar Boş bırakılamaz");
+      toast.warning("Alanlar Boş Bırakılamaz.");
     } else {
       axios
-        .post("http://localhost:3004/employees", employeeInfo)
+        .post("http://localhost:3004/employees", addEmployee)
         .then((response) => {
           if (response.status === 201) {
             console.log("Başarıyla oluşturuldu", response);
-            setEmployees((prevEmployees) => [...prevEmployees, employeeInfo]);
+            setEmployees((prevEmployees) => [...prevEmployees, addEmployee]);
             toggleModal();
             toast.success("Çalışan bilgisi başarıyla kaydedildi.");
+            setAddEmployee("");
 
           } else {
             console.log("işlem gerçekleşemedi", response.statusText);
@@ -97,8 +99,8 @@ function Employees() {
 
   const onChangeInput = (e) => {
     console.log("butona basıldıııı");
-    setemployeeInfo({ ...employeeInfo, [e.target.name]: e.target.value });
-    console.log("employee list:", employeeInfo);
+    setAddEmployee({ ...addEmployee, [e.target.name]: e.target.value });
+    console.log("employee list:", addEmployee);
   };
 
   return (
@@ -254,7 +256,9 @@ function Employees() {
                   </button>
                 </Link>
               </div>
-              <div
+
+              <div>  {/* Yorum satırı */}
+{/*               <div
                 className="d-flex justify-content-end align-items-center d-none"
                 data-kt-user-table-toolbar="selected"
               >
@@ -272,7 +276,8 @@ function Employees() {
                 >
                   Delete Selected
                 </button>
-              </div>
+              </div> */}
+              {/* 
               <div
                 className="modal fade"
                 id="kt_modal_export_users"
@@ -355,8 +360,8 @@ function Employees() {
                     </div>
                   </div>
                 </div>
-              </div>
-
+              </div> */}
+</div>
               {/* Burası çalışan ekle Modalı */}
               <Modal
                 isOpen={modalIsOpen}

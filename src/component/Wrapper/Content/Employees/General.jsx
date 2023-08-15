@@ -6,18 +6,22 @@ import PersonalInfo from "./PersonalInfo";
 import GeneralInfo from "./GeneralInfo";
 import axios from "axios";
 import { GenerealContext } from "../../../../Context/GeneralContext";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-
 
 function General() {
   const { id } = useParams();
 
-  const { employee, setEmployee, fetchEmployee, employeeInfo,
-    setemployeeInfo, } = useContext(GenerealContext);
-
+  const {
+    employee,
+    setEmployee,
+    fetchEmployee,
+    employeeInfo,
+    setemployeeInfo,
+    putInfo,
+  } = useContext(GenerealContext);
 
   useEffect(() => {
     if (id) {
@@ -30,25 +34,24 @@ function General() {
     console.log("employee:", employee);
   }, [employee]);
 
-
-  const handleEmployeeSubmit =()=>{
+  const handleEmployeeSubmit = () => {
     axios
-    .put(`http://localhost:3004/employees/${id}`,employeeInfo)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log("response:", response);
-        toast.success("Çalışan bilgisi başarıyla güncellendi.");
-      }
-      else{
-        toast.error("Çalışan bilgisi güncellenirken hata meydana geldi.");
-      }
-    })
-    .catch((error) => {
-      toast.error(error);
-    });
-
-
-  }
+      .put(`http://localhost:3004/employees/${id}`, employeeInfo)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:", response);
+          toast.success("Çalışan bilgisi başarıyla güncellendi.");
+        } else {
+          toast.error("Çalışan bilgisi güncellenirken hata meydana geldi.");
+        }
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+  useEffect(() => {
+    putInfo();
+  }, [employee]);
 
   return (
     <div>
@@ -101,18 +104,21 @@ function General() {
                       <button onClick={handleEmployeeSubmit}>KAYDET</button>
                     </div>
                     <div>
-                      <button><FontAwesomeIcon icon={faEllipsisVertical} /></button>
+                      <button>
+                        <FontAwesomeIcon icon={faEllipsisVertical} />
+                      </button>
                     </div>
                   </div>
                 </div>
                 <div className="d-flex justify-content-center empNavbar">
                   <ul className=" ">
                     <li className="">
-                      <NavLink
-                        to={`/employees/employee/general/${id}`}
-                      >
+                      <NavLink to={`/employees/employee/general/${id}`}>
                         Genel
                       </NavLink>
+                    </li>
+                    <li className="">
+                      <NavLink to={"#"}>Kariyer</NavLink>
                     </li>
                     <li className="">
                       <Link
@@ -153,19 +159,28 @@ function General() {
             </div>
           </div>
         </div>
-
         <div className="container-xxl" id="kt_content_container">
           <div className="px-5 mb-6">
             <div className=" pt-9">
-              <GeneralInfo employee={employee} setEmployee={setEmployee} />
               <Routes>
                 <Route
-                  path="/employees/employee/general/:id"
-                  element={<GeneralInfo />}
+                  exact
+                  path="/"
+                  element={
+                    <PersonalInfo
+                      employee={employee}
+                      handleEmployeeSubmit={handleEmployeeSubmit}
+                    />
+                  }
                 />
                 <Route
-                  path="/employee/personal-info/:id"
-                  element={<PersonalInfo />}
+                  path="employees/employee/personal-info/:id"
+                  element={
+                    <PersonalInfo
+                      employee={employee}
+                      setemployeeInfo={setemployeeInfo}
+                    />
+                  }
                 />
               </Routes>
             </div>
