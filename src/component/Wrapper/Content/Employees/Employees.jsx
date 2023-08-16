@@ -7,11 +7,17 @@ import { faFileExport } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
-import { NavLink,Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { GenerealContext } from "../../../../Context/GeneralContext";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import html2pdf from "html2pdf.js";
+import Papa from "papaparse";
 
 function Employees() {
   const {
@@ -22,7 +28,8 @@ function Employees() {
     toggleModal,
     modalIsOpen,
     setModalIsOpen,
-    addEmployee, setAddEmployee
+    addEmployee,
+    setAddEmployee,
   } = useContext(GenerealContext);
 
   useEffect(() => {
@@ -42,14 +49,12 @@ function Employees() {
           if (response.status === 200) {
             console.log("response:", response);
             setEmployees(response.data);
-          }
-          else{
+          } else {
             console.log("hata");
           }
         })
         .catch((error) => {
           toast.error(error);
-
         });
     };
     fetchEmployees();
@@ -80,16 +85,13 @@ function Employees() {
             toggleModal();
             toast.success("Çalışan bilgisi başarıyla kaydedildi.");
             setAddEmployee("");
-
           } else {
             console.log("işlem gerçekleşemedi", response.statusText);
             toast.error("Çalışan bilgisi kaydedilirken hata meydana geldi.");
-
           }
         })
         .catch((error) => {
           toast.error(error);
-
         });
 
       /*      setEmployees((prevEmployees) => [...prevEmployees, employeeInfo]);
@@ -101,6 +103,84 @@ function Employees() {
     console.log("butona basıldıııı");
     setAddEmployee({ ...addEmployee, [e.target.name]: e.target.value });
     console.log("employee list:", addEmployee);
+  };
+
+  const excelExport = () => {
+    const exportData = employees.map((employee) => ({
+      İSİM: employee.firstName,
+      SOYİSİM: employee.lastName,
+      UNVAN: employee.title,
+      EPOSTA: employee.email,
+      TELEFON: employee.phoneNumber,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Employee Data");
+
+    XLSX.writeFile(workbook, "employee_data.xlsx");
+  };
+
+  const pdfExport = () => {
+    const content = `
+  <h2 style="text-align: center; margin-bottom: 20px">Çalışanlar Listesi</h2>
+  <table style="width: 100%; border-collapse: collapse; margin-left: auto; margin-right: auto;">
+    <thead>
+      <tr>
+        <th style="border: 0.5px solid gray; padding: 8px;">İSİM</th>
+        <th style="border: 0.5px solid gray; padding: 8px;">SOYİSİM</th>
+        <th style="border: 0.5px solid gray; padding: 8px;">UNVAN</th>
+        <th style="border: 0.5px solid gray; padding: 8px;">E-POSTA</th>
+        <th style="border: 0.5px solid gray; padding: 8px;">TELEFON</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${employees
+        .map(
+          (employee) => `
+          <tr>
+            <td style="border: 0.5px solid gray; padding: 8px;">${employee.firstName}</td>
+            <td style="border: 0.5px solid gray; padding: 8px;">${employee.lastName}</td>
+            <td style="border: 0.5px solid gray; padding: 8px;">${employee.title}</td>
+            <td style="border: 0.5px solid gray; padding: 8px;">${employee.email}</td>
+            <td style="border: 0.5px solid gray; padding: 8px;">${employee.phoneNumber}</td>
+          </tr>
+        `
+        )
+        .join("")}
+    </tbody>
+  </table>
+  `;
+
+    const pdfOptions = {
+      margin: 20,
+      filename: "employee_data.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+
+    html2pdf().from(content).set(pdfOptions).save();
+  };
+
+  const csvExport = () => {
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      "İSİM,SOYİSİM,UNVAN,E-POSTA,TELEFON\n" +
+      employees
+        .map(
+          (employee) =>
+            `${employee.firstName},${employee.lastName},${employee.title},${employee.email},${employee.phoneNumber}`
+        )
+        .join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "employee_data.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -140,10 +220,10 @@ function Employees() {
             </div>
             <div className="card-toolbar">
               <div
-                className="d-flex justify-content-end"
+                className="d-flex justify-content-end align-items-start"
                 data-kt-user-table-toolbar="base"
               >
-                <button
+                {/* <button
                   type="button"
                   className="btn btnSub me-3"
                   data-kt-menu-trigger="click"
@@ -159,91 +239,33 @@ function Employees() {
                     </div>
                   </i>
                   Filtre
-                </button>
-                <div
-                  className="menu menu-sub menu-sub-dropdown w-300px w-md-325px"
-                  data-kt-menu="true"
-                >
-                  <div className="px-7 py-5">
-                    <div className="fs-5 text-dark fw-bold">Filter Options</div>
-                  </div>
-                  <div className="separator border-gray-200"></div>
-                  <div className="px-7 py-5" data-kt-user-table-filter="form">
-                    <div className="mb-10">
-                      <label className="form-label fs-6 fw-semibold">
-                        Role:
-                      </label>
-                      <select
-                        className="form-select form-select-solid fw-bold"
-                        data-kt-select2="true"
-                        data-placeholder="Select option"
-                        data-allow-clear="true"
-                        data-kt-user-table-filter="role"
-                        data-hide-search="true"
-                        defaultValue=""
-                      >
-                        <option></option>
-                        <option value="Administrator">Administrator</option>
-                        <option value="Analyst">Analyst</option>
-                        <option value="Developer">Developer</option>
-                        <option value="Support">Support</option>
-                        <option value="Trial">Trial</option>
-                      </select>
-                    </div>
-                    <div className="mb-10">
-                      <label className="form-label fs-6 fw-semibold">
-                        Two Step Verification:
-                      </label>
-                      <select
-                        className="form-select form-select-solid fw-bold"
-                        data-kt-select2="true"
-                        data-placeholder="Select option"
-                        data-allow-clear="true"
-                        data-kt-user-table-filter="two-step"
-                        data-hide-search="true"
-                        defaultValue=""
-                      >
-                        <option></option>
-                        <option value="Enabled">Enabled</option>
-                      </select>
-                    </div>
-                    <div className="d-flex justify-content-end">
-                      <button
-                        type="reset"
-                        className="btn btn-light btn-active-light-primary fw-semibold me-2 px-6"
-                        data-kt-menu-dismiss="true"
-                        data-kt-user-table-filter="reset"
-                      >
-                        Reset
-                      </button>
-                      <button
-                        type="submit"
-                        className="btn btn-primary fw-semibold px-6"
-                        data-kt-menu-dismiss="true"
-                        data-kt-user-table-filter="filter"
-                      >
-                        Apply
-                      </button>
+                </button> */}
+                <div>
+                  <div
+                    title="Export Excel"
+                    type="button"
+                    className="btn btnSub  me-3"
+                    data-bs-toggle="modal"
+                    data-bs-target="#kt_modal_export_users"
+                  >
+                    <i className="ki-duotone ki-exit-up fs-2">
+                      <div className="container-icon">
+                        <FontAwesomeIcon
+                          icon={faFileExport}
+                          style={{ color: "#1a4489" }}
+                          size="sm"
+                        />
+                      </div>
+                    </i>
+                    Dışa Aktar
+                    <div className="dropdown-content">
+                      <div onClick={pdfExport}>PDF</div>
+                      <div onClick={excelExport}>EXCEL</div>
+                      <div onClick={csvExport}>CSV</div>
                     </div>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  className="btn btnSub me-3"
-                  data-bs-toggle="modal"
-                  data-bs-target="#kt_modal_export_users"
-                >
-                  <i className="ki-duotone ki-exit-up fs-2">
-                    <div className="container-icon">
-                      <FontAwesomeIcon
-                        icon={faFileExport}
-                        style={{ color: "#1a4489" }}
-                        size="sm"
-                      />
-                    </div>
-                  </i>
-                  Dışa Aktar
-                </button>
+
                 <Link to="#">
                   <button
                     type="button"
@@ -256,112 +278,6 @@ function Employees() {
                   </button>
                 </Link>
               </div>
-
-              <div>  {/* Yorum satırı */}
-{/*               <div
-                className="d-flex justify-content-end align-items-center d-none"
-                data-kt-user-table-toolbar="selected"
-              >
-                <div className="fw-bold me-5">
-                  <span
-                    className="me-2"
-                    data-kt-user-table-select="selected_count"
-                  ></span>
-                  Selected
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-kt-user-table-select="delete_selected"
-                >
-                  Delete Selected
-                </button>
-              </div> */}
-              {/* 
-              <div
-                className="modal fade"
-                id="kt_modal_export_users"
-                tabIndex="-1"
-                aria-hidden="true"
-              >
-                <div className="modal-dialog modal-dialog-centered mw-650px">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h2 className="fw-bold">Export Users</h2>
-                      <div
-                        className="btn btn-icon btn-sm btn-active-icon-primary"
-                        data-kt-users-modal-action="close"
-                      >
-                        <i className="ki-duotone ki-cross fs-1">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                        </i>
-                      </div>
-                    </div>
-                    <div className="modal-body scroll-y mx-5 mx-xl-15 my-7">
-                      <form
-                        id="kt_modal_export_users_form"
-                        className="form"
-                        action="#"
-                      >
-                        <div className="fv-row mb-10">
-                          <label className="fs-6 fw-semibold form-label mb-2">
-                            Select Roles:
-                          </label>
-                          <select
-                            name="role"
-                            data-control="select2"
-                            data-placeholder="Select a role"
-                            data-hide-search="true"
-                            className="form-select form-select-solid fw-bold"
-                            defaultValue=""
-                          >
-                            <option></option>
-                            <option value="Administrator">Administrator</option>
-                            <option value="Analyst">Analyst</option>
-                            <option value="Developer">Developer</option>
-                            <option value="Support">Support</option>
-                            <option value="Trial">Trial</option>
-                          </select>
-                        </div>
-                        <div className="fv-row mb-10">
-                          <label className="required fs-6 fw-semibold form-label mb-2">
-                            Select Export Format:
-                          </label>
-                          <select
-                            name="format"
-                            data-control="select2"
-                            data-placeholder="Select a format"
-                            data-hide-search="true"
-                            className="form-select form-select-solid fw-bold"
-                            defaultValue=""
-                          >
-                            <option></option>
-                            <option value="excel">Excel</option>
-                            <option value="pdf">PDF</option>
-                            <option value="cvs">CVS</option>
-                            <option value="zip">ZIP</option>
-                          </select>
-                        </div>
-                        <div className="text-center">
-                          <button
-                            type="submit"
-                            className="btn btn-primary"
-                            data-kt-users-modal-action="submit"
-                          >
-                            <span className="indicator-label">Submit</span>
-                            <span className="indicator-progress">
-                              Please wait...
-                              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-</div>
               {/* Burası çalışan ekle Modalı */}
               <Modal
                 isOpen={modalIsOpen}
@@ -571,7 +487,7 @@ function Employees() {
                                       defaultValue={selected}
                                       name="title"
                                     >
-                                      <option >Seç</option>
+                                      <option>Seç</option>
                                       <option value="Front-End Geliştirici">
                                         Front-End Geliştirici
                                       </option>
@@ -602,7 +518,7 @@ function Employees() {
                                       defaultValue={selected}
                                       name="department"
                                     >
-                                      <option >Seç</option>
+                                      <option>Seç</option>
                                       <option value="Yazılım">Yazılım</option>
                                       <option value="Satış">Satış</option>
                                       <option value="Hukuk">Hukuk</option>
@@ -623,7 +539,7 @@ function Employees() {
                                       defaultValue={selected}
                                       name="jobType"
                                     >
-                                      <option >Seç</option>
+                                      <option>Seç</option>
                                       <option value="Tam zamanlı">
                                         Tam zamanlı
                                       </option>
@@ -646,7 +562,7 @@ function Employees() {
                                       defaultValue={selected}
                                       name="employeeType"
                                     >
-                                      <option >Seç</option>
+                                      <option>Seç</option>
                                       <option value="Danışman">Danışman</option>
                                       <option value="Stajyer">Stajyer</option>
                                       <option value="Normal">Normal</option>
@@ -684,7 +600,7 @@ function Employees() {
                                       defaultValue={selected}
                                       name="accessType"
                                     >
-                                      <option >Seç</option>
+                                      <option>Seç</option>
                                       <option value="Hesap Sahibi">
                                         Hesap Sahibi
                                       </option>
@@ -861,12 +777,66 @@ function Employees() {
                 </tr>
               </thead>
               <tbody className="text-gray-600 fw-semibold">
+                <tr className="filter">
+                  <td>
+                    <input type="text" placeholder="Filtrele" />
+                    <i className="ki-duotone ki-filter fs-2 pr-3">
+                      <div className="container-icon ">
+                        <FontAwesomeIcon
+                          icon={faFilter}
+                          style={{ color: "#9fb9e2" }}
+                          size="sm"
+                        />
+                      </div>
+                    </i>
+                  </td>
+                  <td>
+                    <input type="text" placeholder="Filtrele" />
+                    <i className="ki-duotone ki-filter fs-2 pr-3">
+                      <div className="container-icon ">
+                        <FontAwesomeIcon
+                          icon={faFilter}
+                          style={{ color: "#9fb9e2" }}
+                          size="sm"
+                        />
+                      </div>
+                    </i>
+                  </td>
+                  <td>
+                    <input type="text" placeholder="Filtrele" />
+                    <i className="ki-duotone ki-filter fs-2 pr-3">
+                      <div className="container-icon ">
+                        <FontAwesomeIcon
+                          icon={faFilter}
+                          style={{ color: "#9fb9e2" }}
+                          size="sm"
+                        />
+                      </div>
+                    </i>
+                  </td>
+                  <td>
+                    <input type="text" placeholder="Filtrele"/>
+                    <i className="ki-duotone ki-filter fs-2 pr-3">
+                      <div className="container-icon ">
+                        <FontAwesomeIcon
+                          icon={faFilter}
+                          style={{ color: "#9fb9e2" }}
+                          size="sm"
+                        />
+                      </div>
+                    </i>
+                  </td>
+                </tr>
                 {employees.map((employee) => (
                   <tr key={employee.id}>
                     <td className="d-flex align-items-center">
                       <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                        <NavLink to={{ pathname: `employee/general/${employee.id}`, 
-                        state: { employeeID: employee.id } }}>
+                        <NavLink
+                          to={{
+                            pathname: `general/${employee.id}`,
+                            state: { employeeID: employee.id },
+                          }}
+                        >
                           <div className="symbol-label">
                             <img
                               src={profilePhoto}
@@ -878,7 +848,7 @@ function Employees() {
                       </div>
                       <div className="d-flex flex-column">
                         <NavLink
-                          to={{ pathname: `employee/general/${employee.id}` }}
+                          to={{ pathname: `general/${employee.id}` }}
                           className="text-gray-800 text-hover-primary mb-1"
                         >
                           {employee.firstName} {employee.lastName}
@@ -891,23 +861,22 @@ function Employees() {
                     <td>{employee.phoneNumber}</td>
                   </tr>
                 ))}
-
               </tbody>
             </table>
           </div>
         </div>
         <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </>
   );

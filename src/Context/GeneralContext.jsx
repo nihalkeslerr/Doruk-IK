@@ -77,7 +77,7 @@ export const GeneralProvider = ({ children }) => {
       .catch((error) => {
         console.error(error);
       });
-  };
+  }
 
  
   const handleInputChange = (e) => { //çalışanlar sayfasındaki inputtaki değişiklikleri employeeInfoya kaydetmek için 

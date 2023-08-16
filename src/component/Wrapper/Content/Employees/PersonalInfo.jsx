@@ -455,10 +455,8 @@ function PersonalInfo() {
           </div>
         </div>
       )}
-      <div className="d-flex infoBtn">
-        <div>
-          <button onClick={handleOtherInfoSubmit}>KAYDET</button>
-        </div>
+      <div className="d-flex infoBtn justify-content-end" >
+          <button  onClick={handleOtherInfoSubmit}  style={{padding:"11px 60px !important"}}>KAYDET</button>
       </div>
       <ToastContainer
         position="top-center"

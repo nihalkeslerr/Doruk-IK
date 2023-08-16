@@ -68,6 +68,7 @@ div#kt_content {
   }
 }
 .btnSub {
+  position: relative; /* Dropdown içeriği konumlandırmak için gerekli */
   color: #1a4489 !important;
   outline: 0 !important;
   background-color: #f0f8ff !important;
@@ -75,6 +76,34 @@ div#kt_content {
     background-color: #badfff !important;
   }
 }
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+    color: #708fc0;
+    top: 100%;
+    left: 0;
+    background-color: #f9fcff;
+    z-index: 1;
+    font-size: 12px;
+    width: 100%; 
+    div{
+      border-bottom: 0.5px solid #e2edff;
+      padding: 5px 1px;
+      &:last-child{
+        border-bottom: none;
+      }
+      &:hover{
+        background-color: #eaf4fd !important;
+        color: #708fc0;
+      }
+    }
+}
+
+.btnSub:hover .dropdown-content {
+  display: block !important;
+}
+
 
 .btnAdd {
   color: #1a4489 !important;
@@ -163,14 +192,16 @@ form#kt_modal_add_user_form {
       a {
         color: #727272;
         font-size: 14px;
-        a.active{
-            background-color: #f8f8f8fe !important;
-            cursor: pointer !important;
-            border-bottom: 1px solid #f6923c !important;
-        }
+       
       }
     }
   }
+}
+
+a.active {
+  background-color: #f8f8f8fe !important;
+  cursor: pointer !important;
+  border-bottom: 1px solid #f6923c !important;
 }
 
 .info-head {
@@ -189,6 +220,23 @@ form#kt_modal_add_user_form {
     color: #747474; 
     &:hover{
       background-color: #ffe3c2;
+    }
+  }
+}
+
+tr.filter{
+  td{
+    input{
+      border: none;
+      background-color: #f6f6f6;
+      border-radius: 4px;
+      height: 30px;
+      margin-right: 10px;
+      box-shadow: 0px 0px 1px #b9b9b9;
+      padding: 6px;
+      &:focus{
+        outline: none;
+      }
     }
   }
 }
