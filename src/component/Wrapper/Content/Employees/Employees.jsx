@@ -13,11 +13,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
-import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import html2pdf from "html2pdf.js";
-import Papa from "papaparse";
 
 function Employees() {
   const {
@@ -40,23 +37,25 @@ function Employees() {
 
   const [selected, setSelected] = useState("seç");
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const fetchEmployees = () => {
+    axios
+      .get("http://localhost:3004/employees")
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:", response);
+          setEmployees(response.data);
+        } else {
+          console.log("hata");
+        }
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
   useEffect(() => {
-    //Çalışanlar verisi çekme işlemi
-    const fetchEmployees = () => {
-      axios
-        .get("http://localhost:3004/employees")
-        .then((response) => {
-          if (response.status === 200) {
-            console.log("response:", response);
-            setEmployees(response.data);
-          } else {
-            console.log("hata");
-          }
-        })
-        .catch((error) => {
-          toast.error(error);
-        });
-    };
     fetchEmployees();
   }, [addEmployee]);
 
@@ -183,6 +182,66 @@ function Employees() {
     document.body.removeChild(link);
   };
 
+  const onChangeSearchInput = (e, headQuery) => {
+    const inputValue = e.target.value.trim();
+
+    if (headQuery === "name") {
+      axios
+        .get(`http://localhost:3004/employees?firstName_like=${inputValue}`)
+        .then((response) => {
+          if (response.status === 200) {
+            setEmployees(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error in search by name:", error);
+        });
+    }
+
+    if (headQuery === "title") {
+      axios
+        .get(`http://localhost:3004/employees?title_like=${inputValue}`)
+        .then((response) => {
+          if (response.status === 200) {
+            setEmployees(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error in search by title:", error);
+        });
+    }
+    if (headQuery === "email") {
+      axios
+        .get(`http://localhost:3004/employees?email_like=${inputValue}`)
+        .then((response) => {
+          if (response.status === 200) {
+            setEmployees(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error in search by title:", error);
+        });
+    }
+    if (headQuery === "phoneNumber") {
+      axios
+        .get(`http://localhost:3004/employees?phoneNumber_like=${inputValue}`)
+        .then((response) => {
+          if (response.status === 200) {
+            setEmployees(response.data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error in search by title:", error);
+        });
+    }
+
+    if (!inputValue) {
+      fetchEmployees();
+    }
+  };
+
+  console.log("searchQuery:", searchQuery);
+
   return (
     <>
       <div
@@ -223,23 +282,6 @@ function Employees() {
                 className="d-flex justify-content-end align-items-start"
                 data-kt-user-table-toolbar="base"
               >
-                {/* <button
-                  type="button"
-                  className="btn btnSub me-3"
-                  data-kt-menu-trigger="click"
-                  data-kt-menu-placement="bottom-end"
-                >
-                  <i className="ki-duotone ki-filter fs-2 pr-3">
-                    <div className="container-icon ">
-                      <FontAwesomeIcon
-                        icon={faFilter}
-                        style={{ color: "#1a4489" }}
-                        size="sm"
-                      />
-                    </div>
-                  </i>
-                  Filtre
-                </button> */}
                 <div>
                   <div
                     title="Export Excel"
@@ -611,134 +653,6 @@ function Employees() {
                                 </div>
                               </div>
                             </div>
-
-                            {/* <div className="mb-5">
-                              <label className="required fw-semibold fs-6 mb-5">
-                                Rolü
-                              </label>
-                              <div className="d-flex fv-row">
-                                <div className="form-check form-check-custom form-check-solid">
-                                  <input
-                                    className="form-check-input me-3"
-                                    name="user_role"
-                                    type="radio"
-                                    value="0"
-                                    id="kt_modal_update_role_option_0"
-                                    checked="checked"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="kt_modal_update_role_option_0"
-                                  >
-                                    <div className="fw-bold text-gray-800">
-                                      Administrator
-                                    </div>
-                                    <div className="text-gray-600">
-                                      Best for business owners and company
-                                      administrators
-                                    </div>
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="separator separator-dashed my-5"></div>
-                              <div className="d-flex fv-row">
-                                <div className="form-check form-check-custom form-check-solid">
-                                  <input
-                                    className="form-check-input me-3"
-                                    name="user_role"
-                                    type="radio"
-                                    value="1"
-                                    id="kt_modal_update_role_option_1"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="kt_modal_update_role_option_1"
-                                  >
-                                    <div className="fw-bold text-gray-800">
-                                      Developer
-                                    </div>
-                                    <div className="text-gray-600">
-                                      Best for developers or people primarily
-                                      using the API
-                                    </div>
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="separator separator-dashed my-5"></div>
-                              <div className="d-flex fv-row">
-                                <div className="form-check form-check-custom form-check-solid">
-                                  <input
-                                    className="form-check-input me-3"
-                                    name="user_role"
-                                    type="radio"
-                                    value="2"
-                                    id="kt_modal_update_role_option_2"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="kt_modal_update_role_option_2"
-                                  >
-                                    <div className="fw-bold text-gray-800">
-                                      Analyst
-                                    </div>
-                                    <div className="text-gray-600">
-                                      Best for people who need full access to
-                                      analytics data, but don't need to update
-                                      business settings
-                                    </div>
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="separator separator-dashed my-5"></div>
-                              <div className="d-flex fv-row">
-                                <div className="form-check form-check-custom form-check-solid">
-                                  <input
-                                    className="form-check-input me-3"
-                                    name="user_role"
-                                    type="radio"
-                                    value="3"
-                                    id="kt_modal_update_role_option_3"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="kt_modal_update_role_option_3"
-                                  >
-                                    <div className="fw-bold text-gray-800">
-                                      Support
-                                    </div>
-                                    <div className="text-gray-600">
-                                      Best for employees who regularly refund
-                                      payments and respond to disputes
-                                    </div>
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="separator separator-dashed my-5"></div>
-                              <div className="d-flex fv-row">
-                                <div className="form-check form-check-custom form-check-solid">
-                                  <input
-                                    className="form-check-input me-3"
-                                    name="user_role"
-                                    type="radio"
-                                    value="4"
-                                    id="kt_modal_update_role_option_4"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor="kt_modal_update_role_option_4"
-                                  >
-                                    <div className="fw-bold text-gray-800">
-                                      Trial
-                                    </div>
-                                    <div className="text-gray-600">
-                                      Best for people who need to preview
-                                      content data, but don't need to make any
-                                      updates
-                                    </div>
-                                  </label>
-                                </div>
-                              </div>
-                            </div> */}
                           </div>
 
                           <div className="text-center pt-10">
@@ -779,52 +693,79 @@ function Employees() {
               <tbody className="text-gray-600 fw-semibold">
                 <tr className="filter">
                   <td>
-                    <input type="text" placeholder="Filtrele" />
-                    <i className="ki-duotone ki-filter fs-2 pr-3">
-                      <div className="container-icon ">
-                        <FontAwesomeIcon
-                          icon={faFilter}
-                          style={{ color: "#9fb9e2" }}
-                          size="sm"
-                        />
-                      </div>
-                    </i>
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Filtrele"
+                        onChange={(e) => onChangeSearchInput(e, "name")}
+                      />
+                      <i className="ki-duotone ki-filter fs-2 pr-3">
+                        <div className="container-icon ">
+                          <FontAwesomeIcon
+                            icon={faFilter}
+                            style={{ color: "#9fb9e2" }}
+                            size="sm"
+                          />
+                        </div>
+                      </i>
+                    </div>
                   </td>
                   <td>
-                    <input type="text" placeholder="Filtrele" />
-                    <i className="ki-duotone ki-filter fs-2 pr-3">
-                      <div className="container-icon ">
-                        <FontAwesomeIcon
-                          icon={faFilter}
-                          style={{ color: "#9fb9e2" }}
-                          size="sm"
-                        />
-                      </div>
-                    </i>
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Filtrele"
+                        onChange={(e) => onChangeSearchInput(e, "title")}
+                      />
+
+                      <i className="ki-duotone ki-filter fs-2 pr-3">
+                        <div className="container-icon ">
+                          <FontAwesomeIcon
+                            icon={faFilter}
+                            style={{ color: "#9fb9e2" }}
+                            size="sm"
+                          />
+                        </div>
+                      </i>
+                    </div>
                   </td>
                   <td>
-                    <input type="text" placeholder="Filtrele" />
-                    <i className="ki-duotone ki-filter fs-2 pr-3">
-                      <div className="container-icon ">
-                        <FontAwesomeIcon
-                          icon={faFilter}
-                          style={{ color: "#9fb9e2" }}
-                          size="sm"
-                        />
-                      </div>
-                    </i>
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Filtrele"
+                        onChange={(e) => onChangeSearchInput(e, "email")}
+                      />
+
+                      <i className="ki-duotone ki-filter fs-2 pr-3">
+                        <div className="container-icon ">
+                          <FontAwesomeIcon
+                            icon={faFilter}
+                            style={{ color: "#9fb9e2" }}
+                            size="sm"
+                          />
+                        </div>
+                      </i>
+                    </div>
                   </td>
                   <td>
-                    <input type="text" placeholder="Filtrele"/>
-                    <i className="ki-duotone ki-filter fs-2 pr-3">
-                      <div className="container-icon ">
-                        <FontAwesomeIcon
-                          icon={faFilter}
-                          style={{ color: "#9fb9e2" }}
-                          size="sm"
-                        />
-                      </div>
-                    </i>
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Filtrele"
+                        onChange={(e) => onChangeSearchInput(e, "phoneNumber")}
+                      />
+
+                      <i className="ki-duotone ki-filter fs-2 pr-3">
+                        <div className="container-icon ">
+                          <FontAwesomeIcon
+                            icon={faFilter}
+                            style={{ color: "#9fb9e2" }}
+                            size="sm"
+                          />
+                        </div>
+                      </i>
+                    </div>
                   </td>
                 </tr>
                 {employees.map((employee) => (

@@ -23,16 +23,13 @@ div#kt_header\ w-100 {
   }
 }
 
-
 div#kt_content {
-  padding-top: 20px;
   padding-bottom: 20px;
   .infoCard {
     box-shadow: 0px 0px 4px #c7c7c7;
     padding: 0px 29px;
     border-radius: 4px;
-
-}
+  }
 }
 .card .card-body {
   padding: 0px;
@@ -80,30 +77,29 @@ div#kt_content {
 .dropdown-content {
   display: none;
   position: absolute;
-    color: #708fc0;
-    top: 100%;
-    left: 0;
-    background-color: #f9fcff;
-    z-index: 1;
-    font-size: 12px;
-    width: 100%; 
-    div{
-      border-bottom: 0.5px solid #e2edff;
-      padding: 5px 1px;
-      &:last-child{
-        border-bottom: none;
-      }
-      &:hover{
-        background-color: #eaf4fd !important;
-        color: #708fc0;
-      }
+  color: #708fc0;
+  top: 100%;
+  left: 0;
+  background-color: #f9fcff;
+  z-index: 1;
+  font-size: 12px;
+  width: 100%;
+  div {
+    border-bottom: 0.5px solid #e2edff;
+    padding: 5px 1px;
+    &:last-child {
+      border-bottom: none;
     }
+    &:hover {
+      background-color: #eaf4fd !important;
+      color: #708fc0;
+    }
+  }
 }
 
 .btnSub:hover .dropdown-content {
   display: block !important;
 }
-
 
 .btnAdd {
   color: #1a4489 !important;
@@ -192,17 +188,16 @@ form#kt_modal_add_user_form {
       a {
         color: #727272;
         font-size: 14px;
-       
       }
     }
   }
 }
 
-a.active {
+li.active {
   background-color: #f8f8f8fe !important;
   cursor: pointer !important;
   border-bottom: 1px solid #f6923c !important;
-}
+} 
 
 .info-head {
   p {
@@ -210,38 +205,40 @@ a.active {
   }
 }
 
-.infoBtn{
-  button{
+.infoBtn {
+  button {
     background-color: #ffe9d0;
     border: none;
     padding: 7px 11px;
     border-radius: 4px;
     margin: 5px 6px;
-    color: #747474; 
-    &:hover{
+    color: #747474;
+    &:hover {
       background-color: #ffe3c2;
     }
   }
 }
 
-tr.filter{
-  td{
-    input{
+tr.filter {
+  td {
+    div {
+      display: flex;
+      align-items: center;
+    }
+    input {
       border: none;
-      background-color: #f6f6f6;
+      background-color: #f9f9f9;
       border-radius: 4px;
-      height: 30px;
-      margin-right: 10px;
-      box-shadow: 0px 0px 1px #b9b9b9;
+      margin-right: 5px;
+      box-shadow: 0px 0px 1px #d0d0d0;
       padding: 6px;
-      &:focus{
+      width: 100%;
+      &:focus {
         outline: none;
       }
     }
   }
 }
-
-
 
 @media (min-width: 992px) {
   .aside-secondary-enabled.aside-fixed.wrapper.d-flex.flex-column.flex-row-fluid.open {

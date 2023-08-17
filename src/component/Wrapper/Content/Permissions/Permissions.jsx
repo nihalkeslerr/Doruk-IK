@@ -293,7 +293,7 @@ function Permissions() {
             </table>
           </div>
         </div>
-        <div className="modal fade" id="kt_modal_add_permission" tabindex="-1" aria-hidden="true">
+        <div className="modal fade" id="kt_modal_add_permission" tabIndex="-1" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered mw-650px">
             <div className="modal-content">
               <div className="modal-header">
@@ -342,7 +342,7 @@ function Permissions() {
             </div>
           </div>
         </div>
-        <div className="modal fade" id="kt_modal_update_permission" tabindex="-1" aria-hidden="true">
+        <div className="modal fade" id="kt_modal_update_permission" tabIndex="-1" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered mw-650px">
             <div className="modal-content">
               <div className="modal-header">

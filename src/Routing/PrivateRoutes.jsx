@@ -15,7 +15,7 @@ function PrivateRoutes() {
   return (
     <div>
       <Routes>
-        <Route exact path="main/*" element={<Main />}></Route>
+        <Route exact path="/*" element={<Main />}></Route>
         <Route path="calendar/*" element={<Calendar />}></Route>
         <Route path="employees/*" element={<Employees />}></Route>
         <Route path="permissions/*" element={<Permissions />}></Route>

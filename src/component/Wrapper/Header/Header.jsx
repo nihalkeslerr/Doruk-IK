@@ -22,7 +22,7 @@ function Header() {
       return "Takvim"
     }
     if(lastPart=== "employees"){
-      return "Çalışanlar"
+      return "Çalışan Listesi"
     }
     if(lastPart=== "permissions"){
       return "İzinler"
@@ -36,6 +36,9 @@ function Header() {
     if(lastPart=== "general"){
       return "Genel"
     }
+    if(lastPart=== ""){
+      return "Dashboard"
+    }
 
     return "Genel Bilgiler"
   };
@@ -45,7 +48,7 @@ function Header() {
 
   return (
     <div
-      className="container-xxl d-flex w-100 align-items-center justify-content-space-around py-5 container-xxl d-flex align-items-center justify-content-between"
+      className="container-xxl d-flex w-100 align-items-center justify-content-space-around py-10 container-xxl d-flex align-items-center justify-content-between"
       id="kt_header_container"
     >
       <div className="d-flex flex-column justify-content-center flex-wrap ">

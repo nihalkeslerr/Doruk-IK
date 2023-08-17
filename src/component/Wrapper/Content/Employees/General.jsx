@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import Career from "./Career";
+import Permissions from "./Permissions";
 
 function General() {
   const { id } = useParams();
@@ -54,7 +56,6 @@ function General() {
     putInfo();
   }, [employee]);
 
-
   // Yeni bir durum tanımlayın
   const [activeTab, setActiveTab] = useState("general"); // Varsayılan olarak "general" seçili
 
@@ -62,7 +63,6 @@ function General() {
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
     // Bağlantılara tıklandığında URL yolunu güncelle
-
   };
 
   return (
@@ -135,85 +135,59 @@ function General() {
                       </NavLink> 
                     </li>*/}
 
-                    <li className="generalSub"  onClick={() => handleTabChange("general")}>
-                      <Link
-                       
-                        className={
-                          activeTab === "general" ? "active" : "notActive"
-                        }
-                      >
-                        Genel
-                      </Link>
-                    </li>
-                    <li className=""  onClick={() => handleTabChange("personal")}>
-                      <Link
-                       
-                        className={
-                          activeTab === "personal" ? "active" : "notActive"
-                        }
-                      >
-                        Kişisel Bilgiler
-                      </Link>
-                    </li>
-                    <li className="">
-                      <Link
-                      onClick={() => handleTabChange("otherInfo")}
-                       className={
-                        activeTab === "otherInfo" ? "active" : "notActive"
+                    <li
+                      className={
+                        activeTab === "general" ? "active" : "notActive"
                       }
-                      >
-                        Diğer Bilgiler
-                      </Link>
+                      onClick={() => handleTabChange("general")}
+                    >
+                      <Link>Genel</Link>
                     </li>
-                    <li className="">
-                      <Link
+                    <li
+                      className={
+                        activeTab === "personal" ? "active" : "notActive"
+                      }
+                      onClick={() => handleTabChange("personal")}
+                    >
+                      <Link>Kişisel Bilgiler</Link>
+                    </li>
+                    <li
+                      className={
+                        activeTab === "career" ? "active" : "notActive"
+                      }
                       onClick={() => handleTabChange("career")}
-                        className={
-                          activeTab === "career" ? "active" : "notActive"
-                        }
-                      >
-                        Kariyer
-                      </Link>
+                    >
+                      <Link>Kariyer</Link>
                     </li>
-                    <li className="">
-                      <Link
+                    <li
+                      className={
+                        activeTab === "permission" ? "active" : "notActive"
+                      }
                       onClick={() => handleTabChange("permission")}
-                        className={
-                          activeTab === "permission" ? "active" : "notActive"
-                        }
-                      >
-                        İzinler
-                      </Link>
+                    >
+                      <Link>İzinler</Link>
                     </li>
-                    <li className="">
-                      <Link
+                    <li
+                      className={
+                        activeTab === "expense" ? "active" : "notActive"
+                      }
                       onClick={() => handleTabChange("expense")}
-                        className={
-                          activeTab === "expense" ? "active" : "notActive"
-                        }
-                      >
-                        Ödemeler
-                      </Link>
+                    >
+                      <Link>Ödemeler</Link>
                     </li>
-                    <li className="">
-                      <Link
+                    <li
+                      className={activeTab === "shift" ? "active" : "notActive"}
                       onClick={() => handleTabChange("shift")}
-                        className={
-                          activeTab === "shift" ? "active" : "notActive"
-                        }
-                      >
-                        Mesailer
-                      </Link>
+                    >
+                      <Link>Mesailer</Link>
                     </li>
-                    <li className="">
-                      <Link
+                    <li
+                      className={
+                        activeTab === "payroll" ? "active" : "notActive"
+                      }
                       onClick={() => handleTabChange("payroll")}
-                        className={
-                          activeTab === "payroll" ? "active" : "notActive"
-                        }
-                      >
-                        Bordro
-                      </Link>
+                    >
+                      <Link>Bordro</Link>
                     </li>
                   </ul>
                 </div>
@@ -240,9 +214,9 @@ function General() {
                 />
               </Routes> */}
               {activeTab === "general" && <GeneralInfo />}
-              {activeTab === "personal" && (
-                <PersonalInfo />
-              )}
+              {activeTab === "personal" && <PersonalInfo />}
+              {activeTab === "career" && <Career />}
+              {activeTab === "permission" && <Permissions />}
               {/* Diğer bileşenleri de benzer şekilde render edin */}
             </div>
           </div>
