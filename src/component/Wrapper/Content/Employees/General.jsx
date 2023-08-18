@@ -37,32 +37,17 @@ function General() {
     console.log("employee:", employee);
   }, [employee]);
 
-  const handleEmployeeSubmit = () => {
-    axios
-      .put(`http://localhost:3004/employees/${id}`, employeeInfo)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("response:", response);
-          toast.success("Çalışan bilgisi başarıyla güncellendi.");
-        } else {
-          toast.error("Çalışan bilgisi güncellenirken hata meydana geldi.");
-        }
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
   useEffect(() => {
     putInfo();
   }, [employee]);
 
-  // Yeni bir durum tanımlayın
-  const [activeTab, setActiveTab] = useState("general"); // Varsayılan olarak "general" seçili
 
-  // Aktif sekme değiştiğinde çağrılacak fonksiyon
+  const [activeTab, setActiveTab] = useState("general");
+
+
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
-    // Bağlantılara tıklandığında URL yolunu güncelle
+
   };
 
   return (
@@ -111,15 +96,8 @@ function General() {
                       )}
                     </div>
                   </div>
-                  <div className="d-flex infoBtn">
-                    <div>
-                      <button onClick={handleEmployeeSubmit}>KAYDET</button>
-                    </div>
-                    <div>
-                      <button>
-                        <FontAwesomeIcon icon={faEllipsisVertical} />
-                      </button>
-                    </div>
+                  <div className="d-flex settingEmp">
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
                   </div>
                 </div>
                 <div className="d-flex justify-content-center empNavbar">
@@ -197,7 +175,7 @@ function General() {
         </div>
         <div className="container-xxl" id="kt_content_container">
           <div className="px-5 mb-6">
-            <div className=" pt-9">
+            <div>
               {/* <Routes>
                 <Route
                   path=""

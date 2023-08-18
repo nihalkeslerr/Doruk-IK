@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { GenerealContext } from "../../../../Context/GeneralContext";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function GeneralInfo() {
   const { id } = useParams();
   console.log("infodaki ID:", id);
@@ -21,11 +23,31 @@ function GeneralInfo() {
     putInfo();
   }, [employee]);
 
+  const handleEmployeeSubmit = () => {
+    axios
+      .put(`http://localhost:3004/employees/${id}`, employeeInfo)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:", response);
+          toast.success("Çalışan bilgisi başarıyla güncellendi.");
+        } else {
+          toast.error("Çalışan bilgisi güncellenirken hata meydana geldi.");
+        }
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  };
+
+
   return (
     <div>
       <div>
+        <div className="d-flex infoBtn justify-content-end">
+          <button onClick={handleEmployeeSubmit}>KAYDET</button>
+        </div>
         {employee && (
-          <div>
+          <div className="pt-7">
             <div className="row">
               <div className="col-4">
                 <div className="fv-row mb-7">
@@ -193,7 +215,20 @@ function GeneralInfo() {
           </div>
         )}
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
+
   );
 }
 

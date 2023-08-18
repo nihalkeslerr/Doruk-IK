@@ -124,6 +124,9 @@ function PersonalInfo() {
 
   return (
     <div>
+        <div className="d-flex infoBtn justify-content-end" >
+          <button  onClick={handleOtherInfoSubmit}  style={{padding:"11px 60px !important"}}>KAYDET</button>
+      </div>
       {employee && (
         <div>
           <div className="border-bottom mb-6">
@@ -455,9 +458,7 @@ function PersonalInfo() {
           </div>
         </div>
       )}
-      <div className="d-flex infoBtn justify-content-end" >
-          <button  onClick={handleOtherInfoSubmit}  style={{padding:"11px 60px !important"}}>KAYDET</button>
-      </div>
+    
       <ToastContainer
         position="top-center"
         autoClose={5000}

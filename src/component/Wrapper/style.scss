@@ -194,10 +194,10 @@ form#kt_modal_add_user_form {
 }
 
 li.active {
-  background-color: #f8f8f8fe !important;
+  background-color: #fafafa !important;
   cursor: pointer !important;
   border-bottom: 1px solid #f6923c !important;
-} 
+}
 
 .info-head {
   p {
@@ -209,9 +209,7 @@ li.active {
   button {
     background-color: #ffe9d0;
     border: none;
-    padding: 7px 11px;
-    border-radius: 4px;
-    margin: 5px 6px;
+    padding: 11px 50px;
     color: #747474;
     &:hover {
       background-color: #ffe3c2;
@@ -240,6 +238,58 @@ tr.filter {
   }
 }
 
+.settingEmp {
+  height: 30px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+  &:hover {
+    background: #efefef;
+    border-radius: 4px;
+    transition: 0.2s ease;
+  }
+}
+
+.careerTable {
+  table {
+    thead {
+      height: 50px;
+      border-bottom: 1px solid #c2c2c2;
+    }
+    tbody {
+      height: 50px;
+    }
+  }
+}
+
+.permitMenu {
+  margin: 25px 0px;
+  div {
+    text-align: center;
+    /* margin-right: 16px; */
+    /* border: 1px solid; */
+    color: #6d6d6d;
+    padding: 9px 15px;
+    border-right: 1px solid #d8d8d8;
+    background: #f8f8f8;
+    cursor: pointer;
+    &:last-child {
+      border-right: none;
+    }
+    &:hover {
+      color: rgb(81, 81, 81);
+      
+    }
+    &.active{
+      background-color: #fcb779;
+      color: white;
+    }
+  }
+}
+
 @media (min-width: 992px) {
   .aside-secondary-enabled.aside-fixed.wrapper.d-flex.flex-column.flex-row-fluid.open {
     transition: width 0.5s;
@@ -252,8 +302,17 @@ tr.filter {
   .card-body {
     overflow-y: scroll !important;
   }
+  .careerTable table{
+    overflow-x: scroll !important;
+    width: 100px;
+  }
+
 }
 @media (max-width: 992px) {
+  .careerTable table{
+    overflow-x: scroll !important;
+    width: 100px;
+  }
 }
 
 @media (min-width: 1400px) {
