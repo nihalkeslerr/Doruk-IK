@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
-import { GenerealContext } from "../../../../Context/GeneralContext";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,8 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 function PersonalInfo() {
   const { id } = useParams();
 
-  const { employee, employeeInfo, setemployeeInfo } =
-    useContext(GenerealContext);
+  const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
 
   const [otherInfo, setOtherInfo] = useState([]);
 
@@ -29,7 +27,6 @@ function PersonalInfo() {
     getOtherInfo();
   }, [id]);
 
-  console.log("otherInfo:", otherInfo);
 
   const [sendOtherInfo, setSendOtherInfo] = useState({
     address: "",
@@ -111,10 +108,26 @@ function PersonalInfo() {
         });
     }
   };
+  const fetchEmployee = () => { //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
+    setEmployee();
+    axios
+      .get(`http://localhost:3004/employees/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:", response);
+          setEmployee(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   useEffect(() => {
-    console.log("sendOtherInfo:", sendOtherInfo);
-  }, [sendOtherInfo]);
+    if (id) {
+      fetchEmployee(id);
+    }
+  }, [id]);
 
   useEffect(() => {
     if (otherInfo) {

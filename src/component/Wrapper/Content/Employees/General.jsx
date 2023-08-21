@@ -1,30 +1,65 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, {  useEffect, useState } from "react";
+import { useParams,Outlet } from "react-router-dom";
 import empPhoto from "../../../../assets/media/avatars/300-12.jpg";
-import { Navigate, Route, Routes, Link, NavLink } from "react-router-dom";
-import PersonalInfo from "./PersonalInfo";
-import GeneralInfo from "./GeneralInfo";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
-import { GenerealContext } from "../../../../Context/GeneralContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import Career from "./Career";
-import Permissions from "./Permissions";
 
 function General() {
   const { id } = useParams();
+  
+  const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
 
-  const {
-    employee,
-    setEmployee,
-    fetchEmployee,
-    employeeInfo,
-    setemployeeInfo,
-    putInfo,
-  } = useContext(GenerealContext);
+  const fetchEmployee = () => { //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
+    setEmployee();
+    axios
+      .get(`http://localhost:3004/employees/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:", response);
+          setEmployee(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  const [employeeInfo, setemployeeInfo] = useState({ // Çalışanların bilgilerini update etmek için kullanılan tablo, employees state'indeki bilgileri bu state üzerine yüklüyoruz ve o şekilde servera gönderiyoruz.
+    firstName: "",
+    lastName: "",
+    title: "",
+    email: "",
+    phoneNumber: "",
+    departman: "",
+    jobType: "",
+    accessType: "",
+    employeeType: "",
+    dateOfStart: "",
+    dateOfFinish:"",
+    status:""
+  });
+
+  const putInfo =()=>{ //bu fonksiyon yapılan değişiklikleri employeeInfo stateine kaydetmek için kullanılıyor.
+    if (employee) {
+      setemployeeInfo({
+        firstName: employee.firstName || "",
+        lastName: employee.lastName || "",
+        phoneNumber: employee.phoneNumber || "",
+        title:employee.title || "",
+        email: employee.email || "",
+        departman: employee.departman || "",
+        jobType: employee.jobType || "",
+        accessType: employee.accessType || "",
+        employeeType:employee.employeeType || "",
+        dateOfStart: employee.dateOfStart || "",
+        dateOfFinish:employee.dateOfFinish|| "",
+        status:employee.status|| "",
+      });
+    }
+  }
 
   useEffect(() => {
     if (id) {
@@ -41,14 +76,11 @@ function General() {
     putInfo();
   }, [employee]);
 
-
   const [activeTab, setActiveTab] = useState("general");
-
-
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
-
   };
+  
 
   return (
     <div>
@@ -102,71 +134,91 @@ function General() {
                 </div>
                 <div className="d-flex justify-content-center empNavbar">
                   <ul className=" ">
-                    {/*  <li className="">
+                    <li className={
+                       activeTab === "general" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("general")}>
                       <NavLink
-                        to={`/employees/general/${id}`}
+                        to={`/employees/${id}/general`}
+                      >
+                        Genel
+                      </NavLink>
+                    </li>
+
+                    <li className={
+                       activeTab === "personal" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("personal")}>
+                      <NavLink
+                        to={`/employees/${id}/personal-info`}
                         className={({ isActive }) =>
                           isActive ? "active" : "notActive"
                         }
                       >
-                        Genel
-                      </NavLink> 
-                    </li>*/}
+                        Kişisel Bilgiler
+                      </NavLink>
+                    </li>
+                    <li className={
+                       activeTab === "career" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("career")}>
+                      <NavLink
+                        to={`/employees/${id}/career`}
+                        className={({ isActive }) =>
+                          isActive ? "active" : "notActive"
+                        }
+                      >
+                        Kariyer
+                      </NavLink>
+                    </li>
+                    <li className={
+                       activeTab === "permission" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("permission")}>
+                      <NavLink
+                        to={`/employees/${id}/permission`}
+                        className={({ isActive }) =>
+                          isActive ? "active" : "notActive"
+                        }
+                      >
+                        İzinler
+                      </NavLink>
+                    </li>
+                    <li className={
+                       activeTab === "expense" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("expense")}>
+                      <NavLink
+                        to={`/employees/${id}/expense`}
+                        className={({ isActive }) =>
+                          isActive ? "active" : "notActive"
+                        }
+                      >
+                        Ödemeler
+                      </NavLink>
+                    </li>
+                    <li className={
+                       activeTab === "shift" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("shift")}>
+                      <NavLink
+                        to={`/employees/${id}/shift`}
+                        className={({ isActive }) =>
+                          isActive ? "active" : "notActive"
+                        }
+                      >
+                        Mesailer
+                      </NavLink>
+                    </li>
+                    <li className={
+                       activeTab === "payroll" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("payroll")}>
+                      <NavLink
+                        to={`/employees/${id}/payroll`}
+                        className={({ isActive }) =>
+                          isActive ? "active" : "notActive"
+                        }
+                      >
+                        Bordro
+                      </NavLink>
+                    </li>
 
-                    <li
-                      className={
-                        activeTab === "general" ? "active" : "notActive"
-                      }
-                      onClick={() => handleTabChange("general")}
-                    >
-                      <Link>Genel</Link>
-                    </li>
-                    <li
-                      className={
-                        activeTab === "personal" ? "active" : "notActive"
-                      }
-                      onClick={() => handleTabChange("personal")}
-                    >
-                      <Link>Kişisel Bilgiler</Link>
-                    </li>
-                    <li
-                      className={
-                        activeTab === "career" ? "active" : "notActive"
-                      }
-                      onClick={() => handleTabChange("career")}
-                    >
-                      <Link>Kariyer</Link>
-                    </li>
-                    <li
-                      className={
-                        activeTab === "permission" ? "active" : "notActive"
-                      }
-                      onClick={() => handleTabChange("permission")}
-                    >
-                      <Link>İzinler</Link>
-                    </li>
-                    <li
-                      className={
-                        activeTab === "expense" ? "active" : "notActive"
-                      }
-                      onClick={() => handleTabChange("expense")}
-                    >
-                      <Link>Ödemeler</Link>
-                    </li>
-                    <li
-                      className={activeTab === "shift" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("shift")}
-                    >
-                      <Link>Mesailer</Link>
-                    </li>
-                    <li
-                      className={
-                        activeTab === "payroll" ? "active" : "notActive"
-                      }
-                      onClick={() => handleTabChange("payroll")}
-                    >
-                      <Link>Bordro</Link>
-                    </li>
+                    <div>
+                    </div>
                   </ul>
                 </div>
               </div>
@@ -176,26 +228,7 @@ function General() {
         <div className="container-xxl" id="kt_content_container">
           <div className="px-5 mb-6">
             <div>
-              {/* <Routes>
-                <Route
-                  path=""
-                  Component={GeneralInfo} 
-                />
-                <Route
-                  path="/employees/employee/personal-info/:id"
-                  element={
-                    <PersonalInfo
-                      employee={employee}
-                      handleEmployeeSubmit={handleEmployeeSubmit}
-                    />
-                  }
-                />
-              </Routes> */}
-              {activeTab === "general" && <GeneralInfo />}
-              {activeTab === "personal" && <PersonalInfo />}
-              {activeTab === "career" && <Career />}
-              {activeTab === "permission" && <Permissions />}
-              {/* Diğer bileşenleri de benzer şekilde render edin */}
+             <Outlet></Outlet>
             </div>
           </div>
         </div>

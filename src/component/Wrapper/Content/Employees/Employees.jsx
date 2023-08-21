@@ -8,7 +8,6 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import { NavLink, Link } from "react-router-dom";
-import { GenerealContext } from "../../../../Context/GeneralContext";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,17 +16,27 @@ import "jspdf-autotable";
 import html2pdf from "html2pdf.js";
 
 function Employees() {
-  const {
-    employeeInfo,
-    setemployeeInfo,
-    employees,
-    setEmployees,
-    toggleModal,
-    modalIsOpen,
-    setModalIsOpen,
-    addEmployee,
-    setAddEmployee,
-  } = useContext(GenerealContext);
+  const [employees, setEmployees] = useState([]); //Çalışanların bütün bilgilerinin yüklendiği state
+  const [modalIsOpen, setModalIsOpen] = useState(false); //çalışan ekle modalı için state
+  const toggleModal = () => {
+    //çalışan ekle modalı için
+    setModalIsOpen(!modalIsOpen);
+  };
+
+  const [addEmployee, setAddEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    title: "",
+    email: "",
+    phoneNumber: "",
+    departman: "",
+    jobType: "",
+    accessType: "",
+    employeeType: "",
+    dateOfStart: "",
+    dateOfFinish: "Devam Ediyor",
+    status: "aktif",
+  });
 
   useEffect(() => {
     console.log("employees: ", employees);
@@ -92,9 +101,6 @@ function Employees() {
         .catch((error) => {
           toast.error(error);
         });
-
-      /*      setEmployees((prevEmployees) => [...prevEmployees, employeeInfo]);
-       */
     }
   };
 
@@ -774,7 +780,7 @@ function Employees() {
                       <div className="symbol symbol-circle symbol-50px overflow-hidden me-3">
                         <NavLink
                           to={{
-                            pathname: `general/${employee.id}`,
+                            pathname: `${employee.id}/general`,
                             state: { employeeID: employee.id },
                           }}
                         >
@@ -789,7 +795,7 @@ function Employees() {
                       </div>
                       <div className="d-flex flex-column">
                         <NavLink
-                          to={{ pathname: `general/${employee.id}` }}
+                          to={{ pathname: `${employee.id}/general` }}
                           className="text-gray-800 text-hover-primary mb-1"
                         >
                           {employee.firstName} {employee.lastName}

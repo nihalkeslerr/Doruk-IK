@@ -25,6 +25,8 @@ export const GeneralProvider = ({ children }) => {
     accessType: "",
     employeeType: "",
     dateOfStart: "",
+    dateOfFinish:"",
+    status:""
   });
 
   const [addEmployee, setAddEmployee]= useState({
@@ -38,6 +40,8 @@ export const GeneralProvider = ({ children }) => {
     accessType: "",
     employeeType: "",
     dateOfStart: "",
+    dateOfFinish:"Devam Ediyor",
+    status:"aktif",
   })
 
 
@@ -58,6 +62,8 @@ export const GeneralProvider = ({ children }) => {
         accessType: employee.accessType || "",
         employeeType:employee.employeeType || "",
         dateOfStart: employee.dateOfStart || "",
+        dateOfFinish:employee.dateOfFinish|| "",
+        status:employee.status|| "",
       });
     }
   }
@@ -85,7 +91,7 @@ export const GeneralProvider = ({ children }) => {
       ...employeeInfo,
       [e.target.name]: e.target.value,
     });
-    console.log("employee Change data :", { ...employeeInfo, [e.target.name]: e.target.value });
+    console.log("employeeInfo Change data :", { ...employeeInfo, [e.target.name]: e.target.value });
   };
   
 
@@ -94,16 +100,6 @@ export const GeneralProvider = ({ children }) => {
     CloseSidebar,
     display,
     setDisplay,
-    employeeInfo,
-    setemployeeInfo,
-    employees,
-    setEmployees,
-    toggleModal,
-    modalIsOpen,
-    setModalIsOpen,employee, setEmployee,
-    fetchEmployee,
-    handleInputChange,putInfo,
-    addEmployee, setAddEmployee
   };
 
   return (

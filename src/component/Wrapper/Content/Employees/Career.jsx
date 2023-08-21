@@ -1,12 +1,66 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import Select from "react-select";
+import { GenerealContext } from "../../../../Context/GeneralContext";
+import axios from "axios";
 function Career() {
+  const { id } = useParams();
+  const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
+
+  const fetchEmployee = () => {
+    //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
+    setEmployee();
+    axios
+      .get(`http://localhost:3004/employees/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:", response);
+          setEmployee(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const [position, setposition] = useState();
+
+  const fetchPositionInfo = () => {
+    //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
+    setEmployee();
+    axios
+      .get(`http://localhost:3004/position?employeeID=${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("position için response geliyor:", response);
+          setposition(response.data);
+          console.log("position: ", position);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  console.log("position: ", position);
+
+  useEffect(() => {
+    if (id) {
+      fetchEmployee(id);
+      fetchPositionInfo(id);
+    }
+  }, [id]);
+
   const [activeTab, setActiveTab] = useState("position");
 
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
+  };
+
+  const options = {
+    company: ["istanbul", "bursa", "ankara", "izmir", "antalya"],
+    department: ["op1", "op2", "op3"],
   };
 
   return (
@@ -63,11 +117,7 @@ function Career() {
         )}
         {activeTab === "addPosition" && (
           <div className="d-flex infoBtn justify-content-end">
-            <button
-              style={{ padding: "11px 60px !important" }}
-            >
-              Kaydet
-            </button>
+            <button style={{ padding: "11px 60px !important" }}>Kaydet</button>
           </div>
         )}
       </div>
@@ -87,111 +137,107 @@ function Career() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td scope="row">01.01.2020</td>
-                <td>15.06.2021</td>
-                <td>Tam Zamanlı</td>
-                <td>Ahmet Yılmaz</td>
-                <td>ABC Ltd.</td>
-                <td>İstanbul</td>
-                <td>Finans</td>
-                <td>Muhasebeci</td>
-                <td> <div className="d-flex settingEmp">
-                    <FontAwesomeIcon icon={faEllipsisVertical} />
-                  </div></td>
-              </tr>
+              {position && position.map((position) => (
+                <tr>
+                  <td scope="row">{position.dateOfStart}</td>
+                  <td>{position.dateOfFinish}</td>
+                  <td>{position.jobType}</td>
+                  <td>{position.manager}</td>
+                  <td>{position.company}</td>
+                  <td>{position.branch}</td>
+                  <td>{position.department}</td>
+                  <td>{position.title}</td>
+                  <td>
+                    <div className="d-flex settingEmp">
+                      <FontAwesomeIcon icon={faEllipsisVertical} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}
-        
+
         {activeTab === "addPosition" && (
           <div>
             <div className="row">
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className=" fw-semibold fs-6 mb-2">
-                    Şirket
-                  </label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    name="maritalStatus"
-                  >
-                    <option>Seç</option>
-                    <option value="Bekar">Bekar</option>
-                    <option value="Evli">Evli</option>
-                    <option value="Belirtilmemiş">Belirtilmemiş</option>
-                  </select>
+                  <label className=" fw-semibold fs-6 mb-2">Şirket</label>
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    defaultValue={options.company[0]}
+                    name="compony"
+                    options={options.company.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                  />
                 </div>
               </div>
 
               <div className="col-4">
                 <div className="fv-row mb-7">
                   <label className=" fw-semibold fs-6 mb-2">Şube</label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    name="maritalStatus"
-                  >
-                    <option>Seç</option>
-                    <option value="Bekar">Bekar</option>
-                    <option value="Evli">Evli</option>
-                    <option value="Belirtilmemiş">Belirtilmemiş</option>
-                  </select>
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    defaultValue={options.department[0]}
+                    name="compony"
+                    options={options.department.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                  />
                 </div>
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className=" fw-semibold fs-6 mb-2">
-                    Departman
-                  </label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    name="maritalStatus"
-                  >
-                    <option>Seç</option>
-                    <option value="Bekar">Bekar</option>
-                    <option value="Evli">Evli</option>
-                    <option value="Belirtilmemiş">Belirtilmemiş</option>
-                  </select>
+                  <label className=" fw-semibold fs-6 mb-2">Departman</label>
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    defaultValue={options.department[0]}
+                    name="compony"
+                    options={options.department.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                  />
                 </div>
               </div>
             </div>
             <div className="row">
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className=" fw-semibold fs-6 mb-2">
-                    Unvan
-                  </label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    name="maritalStatus"
-                  >
-                    <option>Seç</option>
-                    <option value="Bekar">Bekar</option>
-                    <option value="Evli">Evli</option>
-                    <option value="Belirtilmemiş">Belirtilmemiş</option>
-                  </select>
+                  <label className=" fw-semibold fs-6 mb-2">Unvan</label>
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    defaultValue={options.department[0]}
+                    name="compony"
+                    options={options.department.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                  />
                 </div>
               </div>
 
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className=" fw-semibold fs-6 mb-2">
-                    Yöneticisi
-                  </label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    name="maritalStatus"
-                  >
-                    <option>Seç</option>
-                    <option value="Bekar">Bekar</option>
-                    <option value="Evli">Evli</option>
-                    <option value="Belirtilmemiş">Belirtilmemiş</option>
-                  </select>
+                  <label className=" fw-semibold fs-6 mb-2">Yöneticisi</label>
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    defaultValue={options.department[0]}
+                    name="compony"
+                    options={options.department.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                  />
                 </div>
               </div>
               <div className="col-4">
@@ -199,23 +245,20 @@ function Career() {
                   <label className=" fw-semibold fs-6 mb-2">
                     Çalışma Şekli
                   </label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    name="maritalStatus"
-                  >
-                    <option>Seç</option>
-                    <option value="Bekar">Bekar</option>
-                    <option value="Evli">Evli</option>
-                    <option value="Belirtilmemiş">Belirtilmemiş</option>
-                  </select>
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    defaultValue={options.department[0]}
+                    name="compony"
+                    options={options.department.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                  />
                 </div>
               </div>
-          
             </div>
             <div className="row">
-
-
               <div className="col">
                 <div className="fv-row mb-7">
                   <label className=" fw-semibold fs-6 mb-2">
@@ -230,9 +273,7 @@ function Career() {
               </div>
               <div className="col">
                 <div className="fv-row mb-7">
-                  <label className=" fw-semibold fs-6 mb-2">
-                    Bitiş Tarihi
-                  </label>
+                  <label className=" fw-semibold fs-6 mb-2">Bitiş Tarihi</label>
                   <input
                     type="date"
                     name="dateOfBirth"
@@ -260,9 +301,12 @@ function Career() {
                 <td>2.700,00TL / Aylık</td>
                 <td>Brüt</td>
                 <td>-</td>
-                <td> <div className="d-flex settingEmp">
+                <td>
+                  {" "}
+                  <div className="d-flex settingEmp">
                     <FontAwesomeIcon icon={faEllipsisVertical} />
-                  </div></td>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>

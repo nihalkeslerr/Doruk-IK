@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
-import { GenerealContext } from "../../../../Context/GeneralContext";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,15 +8,76 @@ function GeneralInfo() {
   console.log("infodaki ID:", id);
   const [selected, setSelected] = useState("seç");
 
-  const {
-    employee,
-    handleInputChange,
-    employeeInfo,
-    setemployeeInfo,
-    putInfo,
-  } = useContext(GenerealContext);
+  const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
 
-  const [employeeGeneral, setEmployeeGeneral] = useState();
+  const handleInputChange = (e) => {
+    //çalışanlar sayfasındaki inputtaki değişiklikleri employeeInfoya kaydetmek için
+    setemployeeInfo({
+      ...employeeInfo,
+      [e.target.name]: e.target.value,
+    });
+    console.log("employeeInfo Change data :", {
+      ...employeeInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const [employeeInfo, setemployeeInfo] = useState({
+    // Çalışanların bilgilerini update etmek için kullanılan tablo, employees state'indeki bilgileri bu state üzerine yüklüyoruz ve o şekilde servera gönderiyoruz.
+    firstName: "",
+    lastName: "",
+    title: "",
+    email: "",
+    phoneNumber: "",
+    departman: "",
+    jobType: "",
+    accessType: "",
+    employeeType: "",
+    dateOfStart: "",
+    dateOfFinish: "",
+    status: "",
+  });
+  const putInfo = () => {
+    //bu fonksiyon yapılan değişiklikleri employeeInfo stateine kaydetmek için kullanılıyor.
+    if (employee) {
+      setemployeeInfo({
+        firstName: employee.firstName || "",
+        lastName: employee.lastName || "",
+        phoneNumber: employee.phoneNumber || "",
+        title: employee.title || "",
+        email: employee.email || "",
+        departman: employee.departman || "",
+        jobType: employee.jobType || "",
+        accessType: employee.accessType || "",
+        employeeType: employee.employeeType || "",
+        dateOfStart: employee.dateOfStart || "",
+        dateOfFinish: employee.dateOfFinish || "",
+        status: employee.status || "",
+      });
+    }
+  };
+
+  const fetchEmployee = () => {
+    //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
+    setEmployee();
+    axios
+      .get(`http://localhost:3004/employees/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:", response);
+          setEmployee(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchEmployee(id);
+    }
+  }, [id]);
 
   useEffect(() => {
     putInfo();
@@ -30,6 +90,7 @@ function GeneralInfo() {
         if (response.status === 200) {
           console.log("response:", response);
           toast.success("Çalışan bilgisi başarıyla güncellendi.");
+          setemployeeInfo(response.data);
         } else {
           toast.error("Çalışan bilgisi güncellenirken hata meydana geldi.");
         }
@@ -37,8 +98,8 @@ function GeneralInfo() {
       .catch((error) => {
         toast.error(error);
       });
+    fetchEmployee(id);
   };
-
 
   return (
     <div>
@@ -51,7 +112,7 @@ function GeneralInfo() {
             <div className="row">
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">İsim</label>
+                  <label className=" fw-semibold fs-6 mb-2">İsim</label>
                   <input
                     type="text"
                     name="firstName"
@@ -64,9 +125,7 @@ function GeneralInfo() {
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">
-                    Soyisim
-                  </label>
+                  <label className=" fw-semibold fs-6 mb-2">Soyisim</label>
                   <input
                     type="text"
                     name="lastName"
@@ -79,9 +138,7 @@ function GeneralInfo() {
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">
-                    E-posta
-                  </label>
+                  <label className=" fw-semibold fs-6 mb-2">E-posta</label>
                   <input
                     type="email"
                     name="email"
@@ -96,9 +153,7 @@ function GeneralInfo() {
             <div className="row">
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">
-                    Telefon
-                  </label>
+                  <label className=" fw-semibold fs-6 mb-2">Telefon</label>
                   <input
                     type="text"
                     name="phoneNumber"
@@ -111,9 +166,7 @@ function GeneralInfo() {
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">
-                    Unvan
-                  </label>
+                  <label className=" fw-semibold fs-6 mb-2">Unvan</label>
                   <select
                     className="form-select"
                     aria-label="Default select example"
@@ -136,9 +189,7 @@ function GeneralInfo() {
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">
-                    Departman
-                  </label>
+                  <label className=" fw-semibold fs-6 mb-2">Departman</label>
                   <select
                     className="form-select"
                     aria-label="Default select example"
@@ -158,7 +209,7 @@ function GeneralInfo() {
             <div className="row">
               <div className="col">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">
+                  <label className=" fw-semibold fs-6 mb-2">
                     Çalışma Şekli
                   </label>
                   <select
@@ -177,9 +228,7 @@ function GeneralInfo() {
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">
-                    Çalışan Tipi
-                  </label>
+                  <label className=" fw-semibold fs-6 mb-2">Çalışan Tipi</label>
                   <select
                     className="form-select"
                     aria-label="Default select example"
@@ -198,7 +247,7 @@ function GeneralInfo() {
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
-                  <label className="required fw-semibold fs-6 mb-2">
+                  <label className=" fw-semibold fs-6 mb-2">
                     İşe Başlama Tarihi
                   </label>
                   <input
@@ -228,7 +277,6 @@ function GeneralInfo() {
         theme="light"
       />
     </div>
-
   );
 }
 
