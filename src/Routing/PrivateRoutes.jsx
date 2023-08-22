@@ -10,7 +10,7 @@ import General from "../component/Wrapper/Content/Employees/General";
 import AddEmployees from "../component/Wrapper/Content/Employees/AddEmployees";
 import PersonalInfo from "../component/Wrapper/Content/Employees/PersonalInfo";
 import GeneralInfo from "../component/Wrapper/Content/Employees/GeneralInfo";
-import Career from "../component/Wrapper/Content/Employees/Career";
+import Career from "../component/Wrapper/Content/Employees/Career/Career";
 import PermissionsEmp from "../component/Wrapper/Content/Employees/Permissions";
 function PrivateRoutes() {
   return (

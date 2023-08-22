@@ -239,8 +239,8 @@ tr.filter {
 }
 
 .settingEmp {
-  height: 30px;
-  width: 20px;
+  height: 15px;
+  width: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -253,7 +253,7 @@ tr.filter {
   }
 }
 
-.careerTable {
+/* .careerTable {
   table {
     thead {
       height: 50px;
@@ -263,7 +263,7 @@ tr.filter {
       height: 50px;
     }
   }
-}
+} */
 
 .permitMenu {
   margin: 25px 0px;
@@ -306,6 +306,11 @@ tr.filter {
     overflow-x: scroll !important;
     width: 100px;
   }
+
+.Tablee {
+  min-width: 392px;
+  overflow-x: scroll;
+}
 
 }
 @media (max-width: 992px) {

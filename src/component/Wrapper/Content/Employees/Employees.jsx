@@ -66,7 +66,7 @@ function Employees() {
 
   useEffect(() => {
     fetchEmployees();
-  }, [addEmployee]);
+  },[]);
 
   const addEmployeeSubmit = () => {
     const allFieldsEmpty =
@@ -75,7 +75,7 @@ function Employees() {
       !addEmployee.title ||
       !addEmployee.email ||
       !addEmployee.phoneNumber ||
-      !addEmployee.department ||
+      !addEmployee.departman ||
       !addEmployee.jobType ||
       !addEmployee.accessType ||
       !addEmployee.employeeType ||
@@ -101,7 +101,9 @@ function Employees() {
         .catch((error) => {
           toast.error(error);
         });
+        fetchEmployees();
     }
+    
   };
 
   const onChangeInput = (e) => {
