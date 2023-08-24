@@ -9,7 +9,6 @@ function AddPosition() {
   const { id } = useParams();
   const options = {
     company: ["Doruk İletişim", "Samsung"],
-    department: ["op1", "op2", "op3"],
     branch: ["istanbul", "bursa", "ankara", "izmir", "antalya"],
     department: ["Yazılım", "Satış", "Hukuk"],
     jobType: ["Tam zamanlı", " Yarı Zamanlı", "Stajyer"],

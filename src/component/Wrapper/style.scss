@@ -249,9 +249,9 @@ form#kt_modal_add_user_form {
       text-align: center;
       border-radius: 4px;
       &:hover {
-        background-color: #f8f8f8fe;
+       // background-color: #f8f8f8fe;
         cursor: pointer;
-        border-bottom: 1px solid #f6923c;
+        border-bottom: 2px solid #f6923c;
       }
 
       a {
@@ -263,9 +263,9 @@ form#kt_modal_add_user_form {
 }
 
 li.active {
-  background-color: #fafafa !important;
+  //background-color: #fafafa !important;
   cursor: pointer !important;
-  border-bottom: 1px solid #f6923c !important;
+  border-bottom: 2px solid #f6923c !important;
 }
 
 .info-head {
@@ -286,8 +286,7 @@ li.active {
   }
 }
 
-tr.filter {
-  td {
+.filter {
     div {
       display: flex;
       align-items: center;
@@ -304,7 +303,6 @@ tr.filter {
         outline: none;
       }
     }
-  }
 }
 
 

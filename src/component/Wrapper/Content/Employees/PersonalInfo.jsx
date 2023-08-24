@@ -3,12 +3,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Select from "react-select";
 
 function PersonalInfo() {
   const { id } = useParams();
-
   const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
-
   const [otherInfo, setOtherInfo] = useState([]);
 
   useEffect(() => {
@@ -26,7 +25,6 @@ function PersonalInfo() {
     };
     getOtherInfo();
   }, [id]);
-
 
   const [sendOtherInfo, setSendOtherInfo] = useState({
     address: "",
@@ -49,6 +47,23 @@ function PersonalInfo() {
     educationStatus: "",
     employeeID: id,
   });
+
+  const options = {
+    maritalStatus: [
+      "Evli",
+      "Bekar",
+      "Belirtimemiş",
+    ],
+    disabilitySituation: ["Yok", "1.Derece", "2.Derece'"],
+    nationality: ["T.C", "Polonya","Amerika"],
+    bloodGroup: ["0-","0+","A-","A+","B-","B+","AB+","AB-"],
+    educationStatus: ["Danışman", "Stajyer", "Normal", "Sözleşmeli"],
+    gender: ["Kadın", "Erkek"],
+    country: ["Türkiye","Polonya","Amerika"],
+    city: ["İstanbul", "İzmir", "Ankara"],
+    region: ["Bahçelevler", "Avcılar", "Beylikdüzü", "Sözleşmeli"],
+    typeOfAccount: ["Çek", "Vadeli", "Vadesiz", "Diğer"],
+  };
   const putInfo = () => {
     //bu fonksiyon yapılan değişiklikleri employeeInfo stateine kaydetmek için kullanılıyor.
     setSendOtherInfo({
@@ -73,15 +88,15 @@ function PersonalInfo() {
       employeeID: id,
     });
   };
-  const handleInputChange = (e) => {
+  const handleInputChange = (name, value) => {
     //çalışanlar sayfasındaki inputtaki değişiklikleri employeeInfoya kaydetmek için
-    setSendOtherInfo({
-      ...sendOtherInfo,
-      [e.target.name]: e.target.value,
-    });
+    setSendOtherInfo((prevPositionInfo) => ({
+      ...prevPositionInfo,
+      [name]: value,
+    }));
     console.log("employee Change data :", {
       ...sendOtherInfo,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -122,18 +137,19 @@ function PersonalInfo() {
         console.error(error);
       });
   }
-
   useEffect(() => {
     if (id) {
       fetchEmployee(id);
     }
   }, [id]);
-
   useEffect(() => {
     if (otherInfo) {
       putInfo();
     }
   }, [otherInfo]);
+
+
+
 
   return (
     <div>
@@ -180,18 +196,23 @@ function PersonalInfo() {
                 <label className="required fw-semibold fs-6 mb-2">
                   Medeni Hal
                 </label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="maritalStatus"
-                  value={sendOtherInfo && sendOtherInfo.maritalStatus}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="Bekar">Bekar</option>
-                  <option value="Evli">Evli</option>
-                  <option value="Belirtilmemiş">Belirtilmemiş</option>
-                </select>
+
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.maritalStatus,
+                label: sendOtherInfo.maritalStatus,
+              }}
+              name="maritalStatus"
+              options={options.maritalStatus.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("maritalStatus", selectedOption.value)
+              }
+            />
               </div>
             </div>
           </div>
@@ -201,35 +222,43 @@ function PersonalInfo() {
                 <label className="required fw-semibold fs-6 mb-2">
                   Engel Durumu
                 </label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="disabilitySituation"
-                  value={sendOtherInfo && sendOtherInfo.disabilitySituation}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="Yok">Yok</option>
-                  <option value="1.Derece">1.Derece</option>
-                  <option value="2.Derece">2.Derece</option>
-                </select>
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.disabilitySituation,
+                label: sendOtherInfo.disabilitySituation,
+              }}
+              name="disabilitySituation"
+              options={options.disabilitySituation.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("disabilitySituation", selectedOption.value)
+              }
+            />
               </div>
             </div>
             <div className="col-4">
               <div className="fv-row mb-7">
                 <label className="required fw-semibold fs-6 mb-2">Uyruk</label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="nationality"
-                  value={sendOtherInfo && sendOtherInfo.nationality}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="T.C">T.C</option>
-                  <option value="Polonya">Polonya</option>
-                  <option value="Amerika">Amerika </option>
-                </select>
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.nationality,
+                label: sendOtherInfo.nationality,
+              }}
+              name="nationality"
+              options={options.nationality.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("nationality", selectedOption.value)
+              }
+            />
               </div>
             </div>
             <div className="col-4">
@@ -254,23 +283,22 @@ function PersonalInfo() {
                 <label className="required fw-semibold fs-6 mb-2">
                   Kan Grubu
                 </label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="bloodGroup"
-                  value={sendOtherInfo && sendOtherInfo.bloodGroup}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="0-">0-</option>
-                  <option value="0+">0+</option>
-                  <option value="A-">A-</option>
-                  <option value="A+">A+</option>
-                  <option value="B-">B-</option>
-                  <option value="B+">B+</option>
-                  <option value="AB-">AB-</option>
-                  <option value="AB+">AB+</option>
-                </select>
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.bloodGroup,
+                label: sendOtherInfo.bloodGroup,
+              }}
+              name="bloodGroup"
+              options={options.bloodGroup.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("bloodGroup", selectedOption.value)
+              }
+            />
               </div>
             </div>
             <div className="col-4">
@@ -278,19 +306,22 @@ function PersonalInfo() {
                 <label className="required fw-semibold fs-6 mb-2">
                   Eğitim Durumu
                 </label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="educationStatus"
-                  value={sendOtherInfo && sendOtherInfo.educationStatus}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="Lise">Lise</option>
-                  <option value="Ön Lisans">Ön Lisans</option>
-                  <option value="Lisans">Lisans</option>
-                  <option value="Yüksek Lisans">Yüksek Lisans</option>
-                </select>
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.educationStatus,
+                label: sendOtherInfo.educationStatus,
+              }}
+              name="educationStatus"
+              options={options.educationStatus.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("educationStatus", selectedOption.value)
+              }
+            />
               </div>
             </div>
             <div className="col-4">
@@ -298,17 +329,22 @@ function PersonalInfo() {
                 <label className="required fw-semibold fs-6 mb-2">
                   Cinsiyet
                 </label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="gender"
-                  value={sendOtherInfo && sendOtherInfo.gender}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="Kadın">Kadın</option>
-                  <option value="Erkek">Erkek</option>
-                </select>
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.gender,
+                label: sendOtherInfo.gender,
+              }}
+              name="gender"
+              options={options.gender.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("gender", selectedOption.value)
+              }
+            />
               </div>
             </div>
           </div>
@@ -332,18 +368,22 @@ function PersonalInfo() {
             <div className="col-4">
               <div className="fv-row mb-7">
                 <label className="required fw-semibold fs-6 mb-2">Ülke</label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="country"
-                  value={sendOtherInfo && sendOtherInfo.country}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="Türkiye">Türkiye</option>
-                  <option value="Polonya">Polonya</option>
-                  <option value="Amerika">Amerika</option>
-                </select>
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.country,
+                label: sendOtherInfo.country,
+              }}
+              name="country"
+              options={options.country.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("country", selectedOption.value)
+              }
+            />
               </div>
             </div>
           </div>
@@ -369,18 +409,22 @@ function PersonalInfo() {
             <div className="col-4">
               <div className="fv-row mb-7">
                 <label className="required fw-semibold fs-6 mb-2">İlçe</label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="region"
-                  value={sendOtherInfo && sendOtherInfo.region}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="Bahçelievler">Bahçelievler</option>
-                  <option value="Avcılar">Avcılar</option>
-                  <option value="Beylikdüzü">Beylikdüzü </option>
-                </select>
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.region,
+                label: sendOtherInfo.region,
+              }}
+              name="region"
+              options={options.region.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("region", selectedOption.value)
+              }
+            />
               </div>
             </div>
             <div className="col-4">
@@ -423,19 +467,22 @@ function PersonalInfo() {
                 <label className="required fw-semibold fs-6 mb-2">
                   Hesap Tipi
                 </label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  name="typeOfAccount"
-                  value={sendOtherInfo && sendOtherInfo.typeOfAccount}
-                  onChange={handleInputChange}
-                >
-                  <option>Seç</option>
-                  <option value="Çek">Çek</option>
-                  <option value="Vadeli">Vadeli</option>
-                  <option value="Vadesiz">Vadesiz</option>
-                  <option value="Diğer">Diğer</option>
-                </select>
+                <Select
+              className=""
+              classNamePrefix="select"
+              value={{
+                value: sendOtherInfo.typeOfAccount,
+                label: sendOtherInfo.typeOfAccount,
+              }}
+              name="typeOfAccount"
+              options={options.typeOfAccount.map((option) => ({
+                value: option,
+                label: option,
+              }))}
+              onChange={(selectedOption) =>
+                handleInputChange("typeOfAccount", selectedOption.value)
+              }
+            />
               </div>
             </div>
           </div>

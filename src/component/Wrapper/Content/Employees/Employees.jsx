@@ -4,9 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { faFileExport } from "@fortawesome/free-solid-svg-icons";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import Modal from "react-modal";
 import { NavLink, Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,36 +11,15 @@ import "react-toastify/dist/ReactToastify.css";
 import * as XLSX from "xlsx";
 import "jspdf-autotable";
 import html2pdf from "html2pdf.js";
+import AddEmployees from "./AddEmployees";
+import DataTable from "react-data-table-component";
 
 function Employees() {
   const [employees, setEmployees] = useState([]); //Çalışanların bütün bilgilerinin yüklendiği state
-  const [modalIsOpen, setModalIsOpen] = useState(false); //çalışan ekle modalı için state
-  const toggleModal = () => {
-    //çalışan ekle modalı için
-    setModalIsOpen(!modalIsOpen);
-  };
-
-  const [addEmployee, setAddEmployee] = useState({
-    firstName: "",
-    lastName: "",
-    title: "",
-    email: "",
-    phoneNumber: "",
-    departman: "",
-    jobType: "",
-    accessType: "",
-    employeeType: "",
-    dateOfStart: "",
-    dateOfFinish: "Devam Ediyor",
-    status: "aktif",
-  });
 
   useEffect(() => {
     console.log("employees: ", employees);
   }, [employees]);
-
-  console.log("addEmployee", addEmployee);
-
   const [selected, setSelected] = useState("seç");
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -66,51 +42,7 @@ function Employees() {
 
   useEffect(() => {
     fetchEmployees();
-  },[]);
-
-  const addEmployeeSubmit = () => {
-    const allFieldsEmpty =
-      !addEmployee.firstName ||
-      !addEmployee.lastName ||
-      !addEmployee.title ||
-      !addEmployee.email ||
-      !addEmployee.phoneNumber ||
-      !addEmployee.departman ||
-      !addEmployee.jobType ||
-      !addEmployee.accessType ||
-      !addEmployee.employeeType ||
-      !addEmployee.dateOfStart;
-
-    if (allFieldsEmpty) {
-      toast.warning("Alanlar Boş Bırakılamaz.");
-    } else {
-      axios
-        .post("http://localhost:3004/employees", addEmployee)
-        .then((response) => {
-          if (response.status === 201) {
-            console.log("Başarıyla oluşturuldu", response);
-            setEmployees((prevEmployees) => [...prevEmployees, addEmployee]);
-            toggleModal();
-            toast.success("Çalışan bilgisi başarıyla kaydedildi.");
-            setAddEmployee("");
-          } else {
-            console.log("işlem gerçekleşemedi", response.statusText);
-            toast.error("Çalışan bilgisi kaydedilirken hata meydana geldi.");
-          }
-        })
-        .catch((error) => {
-          toast.error(error);
-        });
-        fetchEmployees();
-    }
-    
-  };
-
-  const onChangeInput = (e) => {
-    console.log("butona basıldıııı");
-    setAddEmployee({ ...addEmployee, [e.target.name]: e.target.value });
-    console.log("employee list:", addEmployee);
-  };
+  }, []);
 
   const excelExport = () => {
     const exportData = employees.map((employee) => ({
@@ -249,7 +181,61 @@ function Employees() {
   };
 
   console.log("searchQuery:", searchQuery);
+  const columns = [
+    {
+      name: "AD-SOYAD",
+      selector: (row) => row.firstName,
+      sortable: true,
+      cell: (row) => (
+        <NavLink
+          to={{
+            pathname: `${row.id}/general`,
+          }}
+          className="d-flex align-items-center"
+        >
+          <div className="symbol symbol-circle symbol-50px overflow-hidden me-3 my-3">
+            <div className="symbol-label">
+              <img src={profilePhoto} alt="Emma Smith" className="w-100" />
+            </div>
+          </div>
+          {row.firstName} {row.lastName}
+        </NavLink>
+      ),
+      style:{width:'25%'}
+    },
+    {
+      name: "UNVAN",
+      selector: (row) => row.title,
+      sortable: true,
+      style:{width:'25%'}
+    },
+    {
+      name: "E-POSTA",
+      selector: (row) => row.email,
+      sortable: true,
+       style:{width:'25%'}
+    },
+    {
+      name: "TELEFON",
+      selector: (row) => row.phoneNumber,
+      sortable: true,
+      style:{width:'25%'}
+    },
+  ];
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+
+  // Diğer kodları burada alalım...
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedEmployees = employees.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
   return (
     <>
       <div
@@ -265,7 +251,7 @@ function Employees() {
 
       <div className="container-xxl" id="kt_content_container">
         <div className="card card-flush infoCard">
-          <div className="card-header border-0 pt-6">
+          <div className="card-header border-0 pt-6 px-0">
             <div className="card-title">
               <div className="d-flex align-items-center position-relative my-1">
                 <i className="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
@@ -315,378 +301,97 @@ function Employees() {
                     </div>
                   </div>
                 </div>
-
-                <Link to="#">
-                  <button
-                    type="button"
-                    className="btn btnAdd"
-                    data-bs-toggle="modal"
-                    data-bs-target="#kt_modal_add_user"
-                    onClick={toggleModal}
-                  >
-                    <i className="ki-duotone ki-plus fs-2"></i>Çalışan Ekle
-                  </button>
-                </Link>
+                <AddEmployees
+                  employees={employees}
+                  setEmployees={setEmployees}
+                  fetchEmployees={fetchEmployees}
+                ></AddEmployees>
               </div>
-              {/* Burası çalışan ekle Modalı */}
-              <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={toggleModal}
-                className="about-modal"
-                overlayClassName="about-modal-overlay"
-                ariaHideApp={false}
-              >
-                <div className="  " id="kt_modal_add_user" tabIndex="-1">
-                  <div className="modal-dialog modal-dialog-centered ">
-                    <div className="modal-content">
-                      <div
-                        className="modal-header"
-                        id="kt_modal_add_user_header"
-                      >
-                        <h2 className="fw-bold">Çalışan Ekle</h2>
-                        <div
-                          className="btn btn-icon btn-sm btn-active-icon-primary"
-                          data-kt-users-modal-action="close"
-                          onClick={toggleModal}
-                        >
-                          <i className="ki-duotone ki-cross fs-1">
-                            <div className="container-icon">
-                              <FontAwesomeIcon
-                                icon={faXmark}
-                                style={{ color: "#1a4489" }}
-                                size="sm"
-                              />
-                            </div>
-                          </i>
-                        </div>
-                      </div>
-                      <div className="modal-body px-5 my-7">
-                        <form
-                          id="kt_modal_add_user_form"
-                          className="form"
-                          action="#"
-                        >
-                          <div
-                            className="d-flex flex-column scroll-y px-5 px-lg-10"
-                            id="kt_modal_add_user_scroll"
-                            data-kt-scroll="true"
-                            data-kt-scroll-activate="true"
-                            data-kt-scroll-max-height="auto"
-                            data-kt-scroll-dependencies="#kt_modal_add_user_header"
-                            data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
-                            data-kt-scroll-offset="300px"
-                          >
-                            <div className="border-bottom mb-6">
-                              <p className="fs-12">Kişisel bilgiler</p>
-                            </div>
-
-                            <div className="d-flex justify-content-between">
-                              <div className=" mb-7">
-                                <label className="d-block fw-semibold fs-6 mb-5">
-                                  Fotoğraf
-                                </label>
-                                <div
-                                  className="image-input image-input-outline image-input-placeholder"
-                                  data-kt-image-input="true"
-                                >
-                                  <div
-                                    className="image-input-wrapper w-125px h-125px"
-                                    style={{
-                                      backgroundImage: `url(${profilePhoto})`,
-                                    }}
-                                  ></div>
-                                  <label
-                                    className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                    data-kt-image-input-action="change"
-                                    data-bs-toggle="tooltip"
-                                    title="Change avatar"
-                                  >
-                                    <i className="ki-duotone ki-pencil fs-7">
-                                      <div className="container-icon">
-                                        <FontAwesomeIcon
-                                          icon={faPenToSquare}
-                                          style={{ color: "#1a4489" }}
-                                          size="sm"
-                                        />
-                                      </div>
-                                    </i>
-                                    <input
-                                      type="file"
-                                      name="avatar"
-                                      accept=".png, .jpg, .jpeg"
-                                    />
-                                    <input type="hidden" name="avatar_remove" />
-                                  </label>
-                                  <span
-                                    className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                    data-kt-image-input-action="cancel"
-                                    data-bs-toggle="tooltip"
-                                    title="Cancel avatar"
-                                  >
-                                    <i className="ki-duotone ki-cross fs-2">
-                                      <div className="container-icon">
-                                        <FontAwesomeIcon
-                                          icon={faXmark}
-                                          style={{ color: "#1a4489" }}
-                                          size="sm"
-                                        />
-                                      </div>
-                                    </i>
-                                  </span>
-                                  <span
-                                    className="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                    data-kt-image-input-action="remove"
-                                    data-bs-toggle="tooltip"
-                                    title="Remove avatar"
-                                  >
-                                    <i className="ki-duotone ki-cross fs-2">
-                                      <div className="container-icon">
-                                        <FontAwesomeIcon
-                                          icon={faXmark}
-                                          style={{ color: "#1a4489" }}
-                                          size="xs"
-                                        />
-                                      </div>
-                                    </i>
-                                  </span>
-                                </div>
-                                {/*   <div className="form-text">
-                                Kabul edilen fotoğraf <br /> formatları: 
-                                 png, jpg, jpeg.
-                              </div> */}
-                              </div>
-
-                              <div className="ml-5 information">
-                                <div className="row">
-                                  <div className="col">
-                                    <div className="fv-row mb-7">
-                                      <label className="required fw-semibold fs-6 mb-2">
-                                        İsim
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="firstName"
-                                        className="form-control form-control-solid mb-3 mb-lg-0"
-                                        placeholder="İsim"
-                                        onChange={onChangeInput}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col">
-                                    <div className="fv-row mb-7">
-                                      <label className="required fw-semibold fs-6 mb-2">
-                                        Soyisim
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="lastName"
-                                        className="form-control form-control-solid mb-3 mb-lg-0"
-                                        placeholder="Soyisim"
-                                        onChange={onChangeInput}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="col">
-                                    <div className="fv-row mb-7">
-                                      <label className="required fw-semibold fs-6 mb-2">
-                                        E-posta
-                                      </label>
-                                      <input
-                                        type="email"
-                                        name="email"
-                                        className="form-control form-control-solid mb-3 mb-lg-0"
-                                        placeholder="ornek@gmail.com"
-                                        onChange={onChangeInput}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col">
-                                    <div className="fv-row mb-7">
-                                      <label className="required fw-semibold fs-6 mb-2">
-                                        Telefon
-                                      </label>
-                                      <input
-                                        type="number"
-                                        name="phoneNumber"
-                                        className="form-control form-control-solid mb-3 mb-lg-0"
-                                        placeholder="(5--) --- -- --"
-                                        onChange={onChangeInput}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="border-bottom mb-6">
-                              <p className="fs-12">Çalışma Bilgileri</p>
-                            </div>
-                            <div className="ml-5">
-                              <div className="row">
-                                <div className="col">
-                                  <div className="fv-row mb-7">
-                                    <label className="required fw-semibold fs-6 mb-2">
-                                      Unvan
-                                    </label>
-                                    <select
-                                      className="form-select"
-                                      aria-label="Default select example"
-                                      onChange={onChangeInput}
-                                      defaultValue={selected}
-                                      name="title"
-                                    >
-                                      <option>Seç</option>
-                                      <option value="Front-End Geliştirici">
-                                        Front-End Geliştirici
-                                      </option>
-                                      <option value="PHP Geliştirici">
-                                        PHP Geliştirici
-                                      </option>
-                                      <option value="Yazılım Müdürü">
-                                        Yazılım Müdürü
-                                      </option>
-                                      <option value="Şirket Avukatı">
-                                        Şirket Avukatı
-                                      </option>
-                                      <option value="İnsan Kaynakları çalışanı">
-                                        İnsan Kaynakları çalışanı
-                                      </option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div className="col">
-                                  <div className="fv-row mb-7">
-                                    <label className="required fw-semibold fs-6 mb-2">
-                                      Departman
-                                    </label>
-                                    <select
-                                      className="form-select"
-                                      aria-label="Default select example"
-                                      onChange={onChangeInput}
-                                      defaultValue={selected}
-                                      name="department"
-                                    >
-                                      <option>Seç</option>
-                                      <option value="Yazılım">Yazılım</option>
-                                      <option value="Satış">Satış</option>
-                                      <option value="Hukuk">Hukuk</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div className="col">
-                                  <div className="fv-row mb-7">
-                                    <label className="required fw-semibold fs-6 mb-2">
-                                      Çalışma Şekli
-                                    </label>
-                                    <select
-                                      className="form-select"
-                                      aria-label="Default select example"
-                                      onChange={onChangeInput}
-                                      defaultValue={selected}
-                                      name="jobType"
-                                    >
-                                      <option>Seç</option>
-                                      <option value="Tam zamanlı">
-                                        Tam zamanlı
-                                      </option>
-                                      <option value="Yarı Zamanlı">
-                                        Yarı Zamanlı
-                                      </option>
-                                      <option value="Stajyer">Stajyer</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div className="col">
-                                  <div className="fv-row mb-7">
-                                    <label className="required fw-semibold fs-6 mb-2">
-                                      Çalışan Tipi
-                                    </label>
-                                    <select
-                                      className="form-select"
-                                      aria-label="Default select example"
-                                      onChange={onChangeInput}
-                                      defaultValue={selected}
-                                      name="employeeType"
-                                    >
-                                      <option>Seç</option>
-                                      <option value="Danışman">Danışman</option>
-                                      <option value="Stajyer">Stajyer</option>
-                                      <option value="Normal">Normal</option>
-                                      <option value="Sözleşmeli">
-                                        Sözleşmeli
-                                      </option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div className="col">
-                                  <div className="fv-row mb-7">
-                                    <label className="required fw-semibold fs-6 mb-2">
-                                      İşe Başlama Tarihi
-                                    </label>
-                                    <input
-                                      type="date"
-                                      name="dateOfStart"
-                                      className="form-control form-control-solid mb-3 mb-lg-0"
-                                      placeholder="ornek@gmail.com"
-                                      onChange={onChangeInput}
-                                    />
-                                  </div>
-                                </div>
-                                <div className="col">
-                                  <div className="fv-row mb-7">
-                                    <label className="required fw-semibold fs-6 mb-2">
-                                      Erişim Türü
-                                    </label>
-                                    <select
-                                      className="form-select"
-                                      aria-label="Default select example"
-                                      onChange={onChangeInput}
-                                      defaultValue={selected}
-                                      name="accessType"
-                                    >
-                                      <option>Seç</option>
-                                      <option value="Hesap Sahibi">
-                                        Hesap Sahibi
-                                      </option>
-                                      <option value="Yönetici">Yönetici</option>
-                                      <option value="Çalışan">Çalışan</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="text-center pt-10">
-                            <button
-                              type="button"
-                              className="btn border addEmp"
-                              data-kt-users-modal-action="submit"
-                              onClick={() => addEmployeeSubmit()}
-                            >
-                              <span className="indicator-label">Kaydet</span>
-                              <span className="indicator-progress">
-                                Please wait...
-                                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                              </span>
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Modal>
             </div>
           </div>
+
+          <div className="filter d-flex justify-content-center">
+            <div className="w-25 mx-5 my-5">
+              <input
+                type="text"
+                placeholder="Filtrele"
+                onChange={(e) => onChangeSearchInput(e, "name")}
+              />
+              <i className="ki-duotone ki-filter fs-2 pr-3">
+                <div className="container-icon ">
+                  <FontAwesomeIcon
+                    icon={faFilter}
+                    style={{ color: "#9fb9e2" }}
+                    size="sm"
+                  />
+                </div>
+              </i>
+            </div>
+            <div className="w-25 mx-5 my-5">
+              <input
+                type="text"
+                placeholder="Filtrele"
+                onChange={(e) => onChangeSearchInput(e, "title")}
+              />
+
+              <i className="ki-duotone ki-filter fs-2 pr-3">
+                <div className="container-icon ">
+                  <FontAwesomeIcon
+                    icon={faFilter}
+                    style={{ color: "#9fb9e2" }}
+                    size="sm"
+                  />
+                </div>
+              </i>
+            </div>
+            <div className="w-25 mx-5 my-5">
+              <input
+                type="text"
+                placeholder="Filtrele"
+                onChange={(e) => onChangeSearchInput(e, "email")}
+              />
+
+              <i className="ki-duotone ki-filter fs-2 pr-3">
+                <div className="container-icon ">
+                  <FontAwesomeIcon
+                    icon={faFilter}
+                    style={{ color: "#9fb9e2" }}
+                    size="sm"
+                  />
+                </div>
+              </i>
+            </div>
+            <div className="w-25 mx-5 my-5">
+              <input
+                type="text"
+                placeholder="Filtrele"
+                onChange={(e) => onChangeSearchInput(e, "phoneNumber")}
+              />
+              <i className="ki-duotone ki-filter fs-2 pr-3">
+                <div className="container-icon ">
+                  <FontAwesomeIcon
+                    icon={faFilter}
+                    style={{ color: "#9fb9e2" }}
+                    size="sm"
+                  />
+                </div>
+              </i>
+            </div>
+          </div>
+          <DataTable
+            columns={columns}
+            data={paginatedEmployees}
+            fixedHeader={true}
+            style={{ width: "100%" }}
+            pagination
+            paginationServer
+            paginationTotalRows={employees.length}
+            paginationPerPage={perPage}
+            paginationRowsPerPageOptions={[10, 20, 30]} // Sayfa başına görüntülenecek veri sayıları
+            onChangePage={handlePageChange}
+          />
           <div className="card-body">
-            <table
+            {/*   <table
               className="table align-middle table-row-dashed fs-6 gy-5"
               id="kt_table_users"
             >
@@ -763,7 +468,6 @@ function Employees() {
                         placeholder="Filtrele"
                         onChange={(e) => onChangeSearchInput(e, "phoneNumber")}
                       />
-
                       <i className="ki-duotone ki-filter fs-2 pr-3">
                         <div className="container-icon ">
                           <FontAwesomeIcon
@@ -805,13 +509,12 @@ function Employees() {
                       </div>
                     </td>
                     <td>{employee.title}</td>
-
                     <td>{employee.email}</td>
                     <td>{employee.phoneNumber}</td>
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table> */}
           </div>
         </div>
         <ToastContainer

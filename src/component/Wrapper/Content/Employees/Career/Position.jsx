@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Select from "react-select";
 import axios from "axios";
-import "../../../../../assets/css/flags.css";
 import DataTable from "react-data-table-component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -31,14 +28,11 @@ function Position({ props }) {
     console.log(RowID);
       setEditPosition(position.find((pos) => pos.id === RowID)) 
   };
-
   useEffect(() => {
     if (editPosition) {
       console.log('editPosition:', editPosition);
     }
   }, [editPosition]);
-
-
   const fetchPositionInfo = () => {
     axios
       .get(`http://localhost:3004/position?employeeID=${id}`)
@@ -59,7 +53,6 @@ function Position({ props }) {
       fetchPositionInfo();
     }
   }, [id]);
-
   const deletePosition = (choice) => {
     console.log("delete");
 
@@ -85,7 +78,6 @@ function Position({ props }) {
       console.log("cancel");
     }
   };
-
   const columns = [
     {
       name: "Başlangıç",
@@ -148,7 +140,6 @@ function Position({ props }) {
       width: "56px",
     },
   ];
-
   const options = {
     company: ["Doruk İletişim", "Samsung"],
     department: ["op1", "op2", "op3"],
@@ -164,14 +155,12 @@ function Position({ props }) {
       " İnsan Kaynakları çalışanı",
     ],
   };
-
   const onChangeInput = (name, value) => {
     setEditPosition((prevEditPosition) => ({
       ...prevEditPosition,
       [name]: value,
     }));
   };
-
   const handleEditPosition =()=>{
     axios
     .put(`http://localhost:3004/position/${rowID}`, editPosition)

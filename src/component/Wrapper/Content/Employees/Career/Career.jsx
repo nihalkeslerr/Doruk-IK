@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import AddPosition from "./AddPosition";
 import Salary from "./Salary";
 import Position from "./Position";
+import AddSalary from "./AddSalary";
 import axios from "axios";
 function Career() {
   
@@ -55,7 +56,7 @@ function Career() {
             Pozisyon
           </div>
           <div
-            className={activeTab === "salary" ? "active" : "notActive"}
+            className={activeTab === "salary" ||activeTab === "addSalary" ? "active" : "notActive"}
             onClick={() => handleTabChange("salary")}
           >
             {" "}
@@ -73,7 +74,7 @@ function Career() {
           <div className="d-flex infoBtn justify-content-end">
             <button
               style={{ padding: "11px 60px !important" }}
-              className={activeTab === "addPosition" ? "active" : "notActive"}
+              className={activeTab === "addPosition"  ? "active" : "notActive"}
               onClick={() => handleTabChange("addPosition")}
             >
               Pozisyon Ekle
@@ -84,8 +85,8 @@ function Career() {
           <div className="d-flex infoBtn justify-content-end">
             <button
               style={{ padding: "11px 60px !important" }}
-              className={activeTab === "addPosition" ? "active" : "notActive"}
-              onClick={() => handleTabChange("addPosition")}
+              className={activeTab === "addSalary" ? "active" : "notActive"}
+              onClick={() => handleTabChange("addSalary")}
             >
               Maaş Ekle
             </button>
@@ -108,6 +109,9 @@ function Career() {
 
         {activeTab === "salary" && (
           <Salary/>
+        )}
+        {activeTab === "addSalary" && (
+          <AddSalary/>
         )}
       </div>
     </div>

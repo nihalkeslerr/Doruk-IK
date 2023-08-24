@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Select from "react-select";
 function GeneralInfo() {
   const { id } = useParams();
   console.log("infodaki ID:", id);
@@ -10,15 +11,28 @@ function GeneralInfo() {
 
   const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
 
-  const handleInputChange = (e) => {
+  const options = {
+    title: [
+      " Front-End Geliştirici",
+      " PHP Geliştirici",
+      "Yazılım Müdürü",
+      "  Şirket Avukatı",
+      " İnsan Kaynakları çalışanı",
+    ],
+    department: ["Yazılım", "Satış", "Hukuk"],
+    jobType: ["Tam zamanlı", " Yarı Zamanlı", "Stajyer"],
+    employeeType: ["Danışman", "Stajyer", "Normal", "Sözleşmeli"],
+  };
+
+  const handleInputChange = (name, value) => {
     //çalışanlar sayfasındaki inputtaki değişiklikleri employeeInfoya kaydetmek için
-    setemployeeInfo({
-      ...employeeInfo,
-      [e.target.name]: e.target.value,
-    });
+    setemployeeInfo((prevPositionInfo) => ({
+      ...prevPositionInfo,
+      [name]: value,
+    }));
     console.log("employeeInfo Change data :", {
       ...employeeInfo,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -56,7 +70,6 @@ function GeneralInfo() {
       });
     }
   };
-
   const fetchEmployee = () => {
     //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
     setEmployee();
@@ -72,17 +85,14 @@ function GeneralInfo() {
         console.error(error);
       });
   };
-
   useEffect(() => {
     if (id) {
       fetchEmployee(id);
     }
   }, [id]);
-
   useEffect(() => {
     putInfo();
   }, [employee]);
-
   const handleEmployeeSubmit = () => {
     axios
       .put(`http://localhost:3004/employees/${id}`, employeeInfo)
@@ -167,42 +177,45 @@ function GeneralInfo() {
               <div className="col-4">
                 <div className="fv-row mb-7">
                   <label className=" fw-semibold fs-6 mb-2">Unvan</label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    value={employeeInfo.title}
-                    onChange={handleInputChange}
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    value={{
+                      value: employeeInfo.title,
+                      label: employeeInfo.title,
+                    }}
                     name="title"
-                  >
-                    <option>Seç</option>
-                    <option value="Front-End Geliştirici">
-                      Front-End Geliştirici
-                    </option>
-                    <option value="PHP Geliştirici">PHP Geliştirici</option>
-                    <option value="Yazılım Müdürü">Yazılım Müdürü</option>
-                    <option value="Şirket Avukatı">Şirket Avukatı</option>
-                    <option value="İnsan Kaynakları çalışanı">
-                      İnsan Kaynakları çalışanı
-                    </option>
-                  </select>
+                    options={options.title.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                    onChange={(selectedOption) =>
+                      handleInputChange("title", selectedOption.value)
+                    }
+                  />
                 </div>
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
                   <label className=" fw-semibold fs-6 mb-2">Departman</label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    defaultValue={selected}
+          
+
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    value={{
+                      value: employeeInfo.departman,
+                      label: employeeInfo.departman,
+                    }}
                     name="departman"
-                    value={employeeInfo.departman}
-                    onChange={handleInputChange}
-                  >
-                    <option>Seç</option>
-                    <option value="Yazılım">Yazılım</option>
-                    <option value="Satış">Satış</option>
-                    <option value="Hukuk">Hukuk</option>
-                  </select>
+                    options={options.department.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                    onChange={(selectedOption) =>
+                      handleInputChange("departman", selectedOption.value)
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -212,37 +225,43 @@ function GeneralInfo() {
                   <label className=" fw-semibold fs-6 mb-2">
                     Çalışma Şekli
                   </label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    value={{
+                      value: employeeInfo.jobType,
+                      label: employeeInfo.jobType,
+                    }}
                     name="jobType"
-                    value={employeeInfo.jobType}
-                    onChange={handleInputChange}
-                  >
-                    <option>Seç</option>
-                    <option value="Tam zamanlı">Tam zamanlı</option>
-                    <option value="Yarı Zamanlı">Yarı Zamanlı</option>
-                    <option value="Stajyer">Stajyer</option>
-                  </select>
+                    options={options.department.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                    onChange={(selectedOption) =>
+                      handleInputChange("jobType", selectedOption.value)
+                    }
+                  />
                 </div>
               </div>
               <div className="col-4">
                 <div className="fv-row mb-7">
                   <label className=" fw-semibold fs-6 mb-2">Çalışan Tipi</label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    defaultValue={selected}
+                  <Select
+                    className=""
+                    classNamePrefix="select"
+                    value={{
+                      value: employeeInfo.employeeType,
+                      label: employeeInfo.employeeType,
+                    }}
                     name="employeeType"
-                    value={employeeInfo.employeeType}
-                    onChange={handleInputChange}
-                  >
-                    <option>Seç</option>
-                    <option value="Danışman">Danışman</option>
-                    <option value="Stajyer">Stajyer</option>
-                    <option value="Normal">Normal</option>
-                    <option value="Sözleşmeli">Sözleşmeli</option>
-                  </select>
+                    options={options.department.map((option) => ({
+                      value: option,
+                      label: option,
+                    }))}
+                    onChange={(selectedOption) =>
+                      handleInputChange("employeeType", selectedOption.value)
+                    }
+                  />
                 </div>
               </div>
               <div className="col-4">
