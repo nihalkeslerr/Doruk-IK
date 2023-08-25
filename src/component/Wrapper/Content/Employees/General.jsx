@@ -134,88 +134,91 @@ function General() {
                 </div>
                 <div className="d-flex justify-content-center empNavbar">
                   <ul className=" ">
-                    <li className={
-                       activeTab === "general" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("general")}>
+                    
                       <NavLink
                         to={`/employees/${id}/general`}
                       >
+                        <li className={
+                       activeTab === "general" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("general")}>
                         Genel
+                        </li>
                       </NavLink>
-                    </li>
+                   
 
-                    <li className={
-                       activeTab === "personal" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("personal")}>
                       <NavLink
                         to={`/employees/${id}/personal-info`}
                         className={({ isActive }) =>
                           isActive ? "active" : "notActive"
                         }
                       >
-                        Kişisel Bilgiler
+                         <li className={
+                       activeTab === "personal" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("personal")}>
+                        Kişisel Bilgiler     </li>
                       </NavLink>
-                    </li>
-                    <li className={
-                       activeTab === "career" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("career")}>
+               
+                  
                       <NavLink
                         to={`/employees/${id}/career`}
                         className={({ isActive }) =>
                           isActive ? "active" : "notActive"
                         }
                       >
-                        Kariyer
+                          <li className={
+                       activeTab === "career" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("career")}>
+                        Kariyer     </li>
                       </NavLink>
-                    </li>
-                    <li className={
-                       activeTab === "permission" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("permission")}>
+               
+                    
                       <NavLink
                         to={`/employees/${id}/permission`}
                         className={({ isActive }) =>
                           isActive ? "active" : "notActive"
                         }
-                      >
-                        İzinler
+                      ><li className={
+                       activeTab === "permission" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("permission")}>
+                        İzinler  </li>
                       </NavLink>
-                    </li>
-                    <li className={
-                       activeTab === "expense" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("expense")}>
+                  
+                   
                       <NavLink
                         to={`/employees/${id}/expense`}
                         className={({ isActive }) =>
                           isActive ? "active" : "notActive"
                         }
-                      >
-                        Ödemeler
+                      > <li className={
+                       activeTab === "expense" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("expense")}>
+                        Ödemeler </li>
                       </NavLink>
-                    </li>
-                    <li className={
-                       activeTab === "shift" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("shift")}>
+                   
+                    
                       <NavLink
                         to={`/employees/${id}/shift`}
                         className={({ isActive }) =>
                           isActive ? "active" : "notActive"
                         }
-                      >
-                        Mesailer
+                      ><li className={
+                       activeTab === "shift" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("shift")}>
+                        Mesailer    </li>
                       </NavLink>
-                    </li>
-                    <li className={
-                       activeTab === "payroll" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("payroll")}>
+                
+                   
                       <NavLink
                         to={`/employees/${id}/payroll`}
                         className={({ isActive }) =>
                           isActive ? "active" : "notActive"
                         }
-                      >
-                        Bordro
+                      > <li className={
+                       activeTab === "payroll" ? "active" : "notActive"}
+                      onClick={() => handleTabChange("payroll")}>
+                        Bordro   </li>
                       </NavLink>
-                    </li>
+                 
 
                     <div>
                     </div>

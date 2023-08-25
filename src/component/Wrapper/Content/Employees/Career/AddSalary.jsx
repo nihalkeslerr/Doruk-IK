@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,10 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 function AddSalary() {
   const { id } = useParams();
   const options = {
-    validityStart: ["Doruk İletişim", "Samsung"],
-    amount: ["istanbul", "bursa", "ankara", "izmir", "antalya"],
-    paymentScheme: ["Yazılım", "Satış", "Hukuk"],
-    additionalPayments: ["Tam zamanlı", " Yarı Zamanlı", "Stajyer"],
+    unit: ["₺", "€", "$"],
+    paymentPeriod: ["Aylık", "Günlük"],
   };
 
   const [salaryInfo, setSalaryInfo] = useState({
@@ -19,6 +17,7 @@ function AddSalary() {
     amount: "",
     paymentScheme: "",
     additionalPayments: "",
+    paymentPeriod: "",
     employeeID: id,
   });
 
@@ -35,7 +34,7 @@ function AddSalary() {
       !salaryInfo.validityStart ||
       !salaryInfo.amount ||
       !salaryInfo.paymentScheme ||
-      !salaryInfo.additionalPayments 
+      !salaryInfo.paymentPeriod;
 
     if (allFieldsEmpty) {
       toast.warning("Alanlar Boş Bırakılamaz.");
@@ -58,91 +57,143 @@ function AddSalary() {
         });
     }
   };
+
+  const [wageisChecked, setWageIsChecked] = useState(false);
+  const [schemeisChecked, setSchemeIsChecked] = useState(false);
+
+  const handlechecked = ({ variable }) => {
+
+    if (variable === "minimumWage") {
+      setWageIsChecked(!wageisChecked);
+      if (!wageisChecked) {
+        // Check if isChecked is false
+        setSalaryInfo((prevSalaryInfo) => ({
+          ...prevSalaryInfo,
+          amount: "13000", // Update the amount field
+          unit:"₺"
+        }));
+      } else {
+        setSalaryInfo((prevSalaryInfo) => ({
+          ...prevSalaryInfo,
+          amount: "", // Update the amount field
+        }));
+      }
+    }
+
+    if (variable === "paymentScheme") {
+      setSchemeIsChecked(!schemeisChecked);
+      if (!schemeisChecked) {
+        // Check if isChecked is false
+        setSalaryInfo((prevSalaryInfo) => ({
+          ...prevSalaryInfo,
+          paymentScheme: "Brüt", // Update the amount field
+        }));
+      } else {
+        setSalaryInfo((prevSalaryInfo) => ({
+          ...prevSalaryInfo,
+          paymentScheme: "Net", // Update the amount field
+        }));
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log("wageisChecked: ", wageisChecked);
+  });
   return (
     <>
       <div className="row">
-        <div className="col">
+        <div className="col-4">
           <div className="fv-row mb-7">
-            <label className=" fw-semibold fs-6 mb-2">Geçerlilik Başlangıç</label>
+            <label className=" fw-semibold fs-6 mb-2">Tutar</label>
+            <input
+              type="text"
+              name="amount"
+              className="form-control form-control-solid mb-3 mb-lg-0"
+              placeholder="Tutar"
+              value={salaryInfo.amount}
+              onChange={(e) => onChangeInput(e.target.name, e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="col-4">
+          <div className="fv-row mb-7">
+            <label className=" fw-semibold fs-6 mb-2">Birim</label>
             <Select
               className=""
               classNamePrefix="select"
               value={{
-                value: salaryInfo.validityStart,
-                label: salaryInfo.validityStart,
+                value: salaryInfo.unit,
+                label: salaryInfo.unit,
               }}
-              name="validityStart"
-              options={options.validityStart.map((option) => ({
+              name="unit"
+              options={options.unit.map((option) => ({
                 value: option,
                 label: option,
               }))}
-              q
               onChange={(selectedOption) =>
-                onChangeInput("validityStart", selectedOption.value)
+                onChangeInput("unit", selectedOption.value)
               }
             />
-            
           </div>
         </div>
+        <div className="col-4 d-flex align-items-center">
+          <div className="fv-row mb-0 d-flex align-items-center">
+            <label className="switch">
+              <input
+                type="checkbox"
+                onChange={() => handlechecked({ variable: "minimumWage" })}
+              />
 
-        <div className="col">
-          <div className="fv-row mb-7">
-            <label className=" fw-semibold fs-6 mb-2">Tutar</label>
-            <Select
-              className=""
-              classNamePrefix="select"
-              value={{ value: salaryInfo.amount, label: salaryInfo.amount }}
-              name="amount"
-              options={options.amount.map((option) => ({
-                value: option,
-                label: option,
-              }))}
-              onChange={(selectedOption) =>
-                onChangeInput("amount", selectedOption.value)
-              }
-            />
+              <span className="slider round"></span>
+            </label>
+            <label htmlFor="">Asgari ücret</label>
           </div>
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col-4 ">
           <div className="fv-row mb-7">
-            <label className=" fw-semibold fs-6 mb-2">Ödeme Düzeni</label>
-            <Select
-              className=""
-              classNamePrefix="select"
-              value={{ value: salaryInfo.paymentScheme, label: salaryInfo.paymentScheme }}
-              name="paymentScheme"
-              options={options.paymentScheme.map((option) => ({
-                value: option,
-                label: option,
-              }))}
-              onChange={(selectedOption) =>
-                onChangeInput("paymentScheme", selectedOption.value)
-              }
+            <label className=" fw-semibold fs-6 mb-2">
+              Geçerlilik Başlangıç
+            </label>
+            <input
+              type="date"
+              name="validityStart"
+              className="form-control form-control-solid mb-3 mb-lg-0"
+              value={salaryInfo.validityStart}
+              onChange={(e) => onChangeInput(e.target.name, e.target.value)}
             />
           </div>
         </div>
-
-        <div className="col">
+        <div className="col-4">
           <div className="fv-row mb-7">
-            <label className=" fw-semibold fs-6 mb-2">Ek Ödemeler</label>
+            <label className=" fw-semibold fs-6 mb-2">Maaş Periyodu</label>
             <Select
               className=""
               classNamePrefix="select"
               value={{
-                value: salaryInfo.additionalPayments,
-                label: salaryInfo.additionalPayments,
+                value: salaryInfo.paymentPeriod,
+                label: salaryInfo.paymentPeriod,
               }}
-              name="additionalPayments"
-              options={options.additionalPayments.map((option) => ({
+              name="paymentPeriod"
+              options={options.paymentPeriod.map((option) => ({
                 value: option,
                 label: option,
               }))}
               onChange={(selectedOption) =>
-                onChangeInput("additionalPayments", selectedOption.value)
+                onChangeInput("paymentPeriod", selectedOption.value)
               }
             />
+          </div>
+        </div>
+        <div className="col-4 d-flex align-items-center">
+          <div className="fv-row mb-0 d-flex align-items-center">
+            <label className="switch ">
+              <input type="checkbox"  onChange={() => handlechecked({ variable: "paymentScheme" })}/>
+              <span className="slider round"></span>
+            </label>
+            <label htmlFor="">Brüt</label>
           </div>
         </div>
       </div>
