@@ -36,6 +36,24 @@ function Header() {
     if(lastPart=== "general"){
       return "Genel"
     }
+    if(lastPart=== "personal-info"){
+      return "Kişisel bilgiler"
+    }
+    if(lastPart=== "career"){
+      return "Kariyer"
+    }
+    if(lastPart=== "permission"){
+      return "İzinler"
+    }
+    if(lastPart=== "payments"){
+      return "Ödemeler"
+    }
+    if(lastPart=== "shift"){
+      return "Mesailer"
+    }
+    if(lastPart=== "payroll"){
+      return "Bordro"
+    }
     if(lastPart=== ""){
       return "Dashboard"
     }

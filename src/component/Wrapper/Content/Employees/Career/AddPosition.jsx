@@ -77,6 +77,9 @@ function AddPosition() {
 
   return (
     <>
+       <div className="py-5 headAdd">
+      <h1>Pozisyon Ekle</h1>
+    </div>
       <div className="row">
         <div className="col-4">
           <div className="fv-row mb-7">
@@ -230,6 +233,11 @@ function AddPosition() {
         </div>
       </div>
       <div className="d-flex infoBtn justify-content-end">
+      <button
+          style={{ padding: "11px 60px !important" }}
+        > 
+        İptal
+        </button>
         <button
           style={{ padding: "11px 60px !important" }}
           onClick={handleAddPosition}

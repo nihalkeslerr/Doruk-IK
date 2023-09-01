@@ -191,7 +191,7 @@ function Employees() {
           to={{
             pathname: `${row.id}/general`,
           }}
-          className="d-flex align-items-center"
+          className="d-flex align-items-center text-dark"
         >
           <div className="symbol symbol-circle symbol-50px overflow-hidden me-3 my-3">
             <div className="symbol-label">

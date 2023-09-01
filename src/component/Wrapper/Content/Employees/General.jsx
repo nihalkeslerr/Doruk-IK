@@ -1,5 +1,5 @@
-import React, {  useEffect, useState } from "react";
-import { useParams,Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, Outlet, useLocation } from "react-router-dom";
 import empPhoto from "../../../../assets/media/avatars/300-12.jpg";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
@@ -10,10 +10,11 @@ import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 function General() {
   const { id } = useParams();
-  
+  const location = useLocation();
   const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
 
-  const fetchEmployee = () => { //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
+  const fetchEmployee = () => {
+    //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
     setEmployee();
     axios
       .get(`http://localhost:3004/employees/${id}`)
@@ -26,8 +27,9 @@ function General() {
       .catch((error) => {
         console.error(error);
       });
-  }
-  const [employeeInfo, setemployeeInfo] = useState({ // Çalışanların bilgilerini update etmek için kullanılan tablo, employees state'indeki bilgileri bu state üzerine yüklüyoruz ve o şekilde servera gönderiyoruz.
+  };
+  const [employeeInfo, setemployeeInfo] = useState({
+    // Çalışanların bilgilerini update etmek için kullanılan tablo, employees state'indeki bilgileri bu state üzerine yüklüyoruz ve o şekilde servera gönderiyoruz.
     firstName: "",
     lastName: "",
     title: "",
@@ -38,28 +40,29 @@ function General() {
     accessType: "",
     employeeType: "",
     dateOfStart: "",
-    dateOfFinish:"",
-    status:""
+    dateOfFinish: "",
+    status: "",
   });
 
-  const putInfo =()=>{ //bu fonksiyon yapılan değişiklikleri employeeInfo stateine kaydetmek için kullanılıyor.
+  const putInfo = () => {
+    //bu fonksiyon yapılan değişiklikleri employeeInfo stateine kaydetmek için kullanılıyor.
     if (employee) {
       setemployeeInfo({
         firstName: employee.firstName || "",
         lastName: employee.lastName || "",
         phoneNumber: employee.phoneNumber || "",
-        title:employee.title || "",
+        title: employee.title || "",
         email: employee.email || "",
         departman: employee.departman || "",
         jobType: employee.jobType || "",
         accessType: employee.accessType || "",
-        employeeType:employee.employeeType || "",
+        employeeType: employee.employeeType || "",
         dateOfStart: employee.dateOfStart || "",
-        dateOfFinish:employee.dateOfFinish|| "",
-        status:employee.status|| "",
+        dateOfFinish: employee.dateOfFinish || "",
+        status: employee.status || "",
       });
     }
-  }
+  };
 
   useEffect(() => {
     if (id) {
@@ -80,7 +83,6 @@ function General() {
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
   };
-  
 
   return (
     <div>
@@ -134,94 +136,60 @@ function General() {
                 </div>
                 <div className="d-flex justify-content-center empNavbar">
                   <ul className=" ">
-                    
-                      <NavLink
-                        to={`/employees/${id}/general`}
-                      >
-                        <li className={
-                       activeTab === "general" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("general")}>
-                        Genel
-                        </li>
-                      </NavLink>
-                   
+                    <NavLink
+                      to={`/employees/${id}/general`}
+                      isActive={() => location.pathname === "*/general"}
+                    >
+                      <li onClick={() => handleTabChange("general")}>Genel</li>
+                    </NavLink>
 
-                      <NavLink
-                        to={`/employees/${id}/personal-info`}
-                        className={({ isActive }) =>
-                          isActive ? "active" : "notActive"
-                        }
-                      >
-                         <li className={
-                       activeTab === "personal" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("personal")}>
-                        Kişisel Bilgiler     </li>
-                      </NavLink>
-               
-                  
-                      <NavLink
-                        to={`/employees/${id}/career`}
-                        className={({ isActive }) =>
-                          isActive ? "active" : "notActive"
-                        }
-                      >
-                          <li className={
-                       activeTab === "career" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("career")}>
-                        Kariyer     </li>
-                      </NavLink>
-               
-                    
-                      <NavLink
-                        to={`/employees/${id}/permission`}
-                        className={({ isActive }) =>
-                          isActive ? "active" : "notActive"
-                        }
-                      ><li className={
-                       activeTab === "permission" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("permission")}>
-                        İzinler  </li>
-                      </NavLink>
-                  
-                   
-                      <NavLink
-                        to={`/employees/${id}/expense`}
-                        className={({ isActive }) =>
-                          isActive ? "active" : "notActive"
-                        }
-                      > <li className={
-                       activeTab === "expense" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("expense")}>
-                        Ödemeler </li>
-                      </NavLink>
-                   
-                    
-                      <NavLink
-                        to={`/employees/${id}/shift`}
-                        className={({ isActive }) =>
-                          isActive ? "active" : "notActive"
-                        }
-                      ><li className={
-                       activeTab === "shift" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("shift")}>
-                        Mesailer    </li>
-                      </NavLink>
-                
-                   
-                      <NavLink
-                        to={`/employees/${id}/payroll`}
-                        className={({ isActive }) =>
-                          isActive ? "active" : "notActive"
-                        }
-                      > <li className={
-                       activeTab === "payroll" ? "active" : "notActive"}
-                      onClick={() => handleTabChange("payroll")}>
-                        Bordro   </li>
-                      </NavLink>
-                 
+                    <NavLink
+                      to={`/employees/${id}/personal-info`}
+                      isActive={() => location.pathname === "*/personal-info"}
+                    >
+                      <li> Kişisel Bilgiler </li>
+                    </NavLink>
 
-                    <div>
-                    </div>
+                    <NavLink
+                      to={`/employees/${id}/career`}
+                      isActive={() => location.pathname === "*/career"}
+                    >
+                      <li>Kariyer </li>
+                    </NavLink>
+
+                    <NavLink
+                      to={`/employees/${id}/permission`}
+                      isActive={() => location.pathname === "*/permission"}
+                    >
+                      <li>İzinler </li>
+                    </NavLink>
+
+                    <NavLink
+                      to={`/employees/${id}/payments`}
+                      isActive={() => location.pathname === "*/payments"}
+                    >
+                      {" "}
+                      <li>Ödemeler </li>
+                    </NavLink>
+
+                    <NavLink
+                      to={`/employees/${id}/shift`}
+                      isActive={() => location.pathname === "*/shift"}
+                    >
+                      <li>Mesailer </li>
+                    </NavLink>
+
+                    <NavLink
+                      to={`/employees/${id}/payroll`}
+                      isActive={() => location.pathname === "*/payroll"}
+                    >
+                      {" "}
+                      <li onClick={() => handleTabChange("payroll")}>
+                        Bordro{" "}
+                      </li>
+                    </NavLink>
+
+                    <div></div>
                   </ul>
                 </div>
               </div>
@@ -230,9 +198,7 @@ function General() {
         </div>
         <div className="container-xxl" id="kt_content_container">
           <div className="px-5 mb-6">
-            <div>
-             <Outlet></Outlet>
-            </div>
+            <Outlet></Outlet>
           </div>
         </div>
       </div>

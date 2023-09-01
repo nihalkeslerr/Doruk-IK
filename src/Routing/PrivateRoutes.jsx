@@ -11,7 +11,9 @@ import AddEmployees from "../component/Wrapper/Content/Employees/AddEmployees";
 import PersonalInfo from "../component/Wrapper/Content/Employees/PersonalInfo";
 import GeneralInfo from "../component/Wrapper/Content/Employees/GeneralInfo";
 import Career from "../component/Wrapper/Content/Employees/Career/Career";
-import PermissionsEmp from "../component/Wrapper/Content/Employees/Permission/Permissions";
+import PermissionsEmp from "../component/Wrapper/Content/Employees/Permission/Permission";
+import Payments from "../component/Wrapper/Content/Employees/Payment/Payments";
+import Shift from "../component/Wrapper/Content/Employees/Shift/Shift";
 function PrivateRoutes() {
   return (
     <div>
@@ -29,8 +31,8 @@ function PrivateRoutes() {
           <Route path="personal-info" element={<PersonalInfo />} />
           <Route path="career" element={<Career />} ></Route>
           <Route path="permission" element={<PermissionsEmp />} />
-          <Route path="expense" element={<Career />} />
-          <Route path="shift" element={<Career />} />
+          <Route path="payments" element={<Payments />} />
+          <Route path="shift" element={<Shift />} />
           <Route path="payroll" element={<Career />} />
         </Route>
       </Routes>

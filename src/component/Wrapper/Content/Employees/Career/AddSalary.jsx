@@ -102,6 +102,9 @@ function AddSalary() {
   });
   return (
     <>
+     <div className="py-5 headAdd">
+      <h1>Maaş Ekle</h1>
+    </div>
       <div className="row">
         <div className="col-4">
           <div className="fv-row mb-7">
