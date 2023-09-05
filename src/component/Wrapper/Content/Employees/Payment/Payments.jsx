@@ -13,9 +13,9 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddPayments from "./AddPayments";
-
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 function Payments() {
-  const [activeTab, setActiveTab] = useState("permission");
+  const [activeTab, setActiveTab] = useState("payment");
 
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
@@ -106,37 +106,39 @@ function Payments() {
       width: "56px",
     },
   ];
-  const options = {
-    company: ["Doruk İletişim", "Samsung"],
-    department: ["op1", "op2", "op3"],
-    branch: ["istanbul", "bursa", "ankara", "izmir", "antalya"],
-    department: ["Yazılım", "Satış", "Hukuk"],
-    jobType: ["Tam zamanlı", " Yarı Zamanlı", "Stajyer"],
-    manager: ["Nihal Selma KESLER"],
-    title: [
-      " Front-End Geliştirici",
-      " PHP Geliştirici",
-      "Yazılım Müdürü",
-      "  Şirket Avukatı",
-      " İnsan Kaynakları çalışanı",
-    ],
-  };
 
   return (
     <>
-      {activeTab === "permission" && (
-        <div className="d-flex infoBtn justify-content-end">
-          <button
-            style={{ padding: "11px 60px !important" }}
-            className={activeTab === "permissions" ? "active" : "notActive"}
-            onClick={() => handleTabChange("addPermission")}
-          >
-            Ödeme Ekle
-          </button>
+      {activeTab === "payment" && (
+        <div className="d-flex align-items-center justify-content-between ">
+          <div className="filter ">
+            <div className="">
+              <input type="text" placeholder="Ödeme Türü" />
+
+              <i className="ki-duotone ki-filter fs-2 pr-3">
+                <div className="container-icon ">
+                  <FontAwesomeIcon
+                    icon={faFilter}
+                    style={{ color: "#9fb9e2" }}
+                    size="sm"
+                  />
+                </div>
+              </i>
+            </div>
+          </div>
+          <div className="d-flex infoBtn justify-content-end">
+            <button
+              style={{ padding: "11px 60px !important" }}
+              className={activeTab === "payments" ? "active" : "notActive"}
+              onClick={() => handleTabChange("addpayment")}
+            >
+              Ödeme Ekle
+            </button>
+          </div>{" "}
         </div>
       )}
       {/* Content Kısmı */}
-      {activeTab === "permission" && (
+      {activeTab === "payment" && (
         <div className="Tablee">
           <DataTable
             columns={columns}
@@ -149,7 +151,7 @@ function Payments() {
       )}
 
       {/*  İzin Talep Et */}
-      {activeTab === "addPermission" && (
+      {activeTab === "addpayment" && (
         <AddPayments
           setActiveTab={setActiveTab}
           activeTab={activeTab}
@@ -188,7 +190,7 @@ function Payments() {
           <p className="m-2 fs-5">Warning</p>
         </div>
         <div className="confContent">
-          <h2> Pozisyon kaydını silmek istediğinizden emin misiniz?</h2>
+          <h2> Ödeme kaydını silmek istediğinizden emin misiniz?</h2>
           <p>Bu işlem geri alınamaz.</p>
           <button>Vazgeç</button>
           <button>Sil</button>

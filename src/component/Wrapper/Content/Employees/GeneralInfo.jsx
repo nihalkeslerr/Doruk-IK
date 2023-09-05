@@ -128,7 +128,7 @@ function GeneralInfo() {
                     name="firstName"
                     className="form-control form-control-solid mb-3 mb-lg-0"
                     placeholder="İsim"
-                    onChange={handleInputChange}
+                    onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                     value={employeeInfo.firstName}
                   />
                 </div>

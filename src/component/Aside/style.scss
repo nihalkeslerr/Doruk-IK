@@ -33,14 +33,14 @@ div#kt_aside {
     li {
       list-style: none;
       &:hover {
-        background-color: hsl(0, 0%, 95%);
+        background-color: rgb(249 249 249);
         border-radius: 4px;
         cursor: pointer;
       }
 
       a {
         &.active {
-          background-color: hsl(0, 0%, 95%);
+          background-color: black
         }
         p {
           font-size: 15px;

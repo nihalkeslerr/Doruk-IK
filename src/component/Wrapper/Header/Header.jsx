@@ -54,6 +54,12 @@ function Header() {
     if(lastPart=== "payroll"){
       return "Bordro"
     }
+    if(lastPart=== "rules"){
+      return "Kurallar"
+    }
+    if(lastPart=== "approval-process"){
+      return "Onay Süreçleri"
+    }
     if(lastPart=== ""){
       return "Dashboard"
     }

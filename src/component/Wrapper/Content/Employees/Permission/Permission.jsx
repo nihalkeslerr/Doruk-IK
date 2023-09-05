@@ -110,21 +110,6 @@ function Permission() {
       width: "56px",
     },
   ];
-  const options = {
-    company: ["Doruk İletişim", "Samsung"],
-    department: ["op1", "op2", "op3"],
-    branch: ["istanbul", "bursa", "ankara", "izmir", "antalya"],
-    department: ["Yazılım", "Satış", "Hukuk"],
-    jobType: ["Tam zamanlı", " Yarı Zamanlı", "Stajyer"],
-    manager: ["Nihal Selma KESLER"],
-    title: [
-      " Front-End Geliştirici",
-      " PHP Geliştirici",
-      "Yazılım Müdürü",
-      "  Şirket Avukatı",
-      " İnsan Kaynakları çalışanı",
-    ],
-  };
 
   return (
     <>

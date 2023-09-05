@@ -258,17 +258,18 @@ form#kt_modal_add_user_form {
       &:hover {
         // background-color: #f8f8f8fe;
       cursor: pointer;
-         border-bottom: 2px solid #f6923c; 
+      color: black; 
        }
+    }
+    a.active {
+      //background-color: #fafafa !important;
+      cursor: pointer !important;
+      border-bottom: 2px solid #f6923c !important;
     }
   }
 }
 
-a.active {
-  //background-color: #fafafa !important;
-  cursor: pointer !important;
-  border-bottom: 2px solid #f6923c !important;
-}
+
 
 .info-head {
   p {
@@ -414,6 +415,12 @@ input:checked + .slider:before {
 .Tablee {
   /* width: 85%; */
   display: grid;
+}
+
+.ggomLY{
+  white-space: normal !important;
+  display: contents;
+  text-align: center;
 }
 
 @media (min-width: 992px) {

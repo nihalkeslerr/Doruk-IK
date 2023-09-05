@@ -5,7 +5,7 @@ import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function AddPayments({ handleTabChange }) {
+function AddShift({ handleTabChange }) {
   const { id } = useParams();
   const options = {
     company: ["Doruk İletişim", "Samsung"],
@@ -25,12 +25,12 @@ function AddPayments({ handleTabChange }) {
   return (
     <>
       <div className="py-5 headAdd">
-        <h1>Ödeme Ekle</h1>
+        <h1>Mesai Kaydı Ekle</h1>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col-3">
           <div className="fv-row mb-7">
-            <label className=" fw-semibold fs-6 mb-2">Tutar</label>
+            <label className=" fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
             <input
               type="text"
               name="id_number"
@@ -40,9 +40,27 @@ function AddPayments({ handleTabChange }) {
           </div>
         </div>
 
-        <div className="col">
+        <div className="col-3">
           <div className="fv-row mb-7">
-            <label className=" fw-semibold fs-6 mb-2">Tarih</label>
+            <input
+              type="date"
+              name="date"
+              className="form-control form-control-solid mb-3 mb-lg-0"
+            />
+          </div>
+        </div>
+        <div className="col-3">
+          <div className="fv-row mb-7">
+            <label className=" fw-semibold fs-6 mb-2">Süre</label>
+            <input
+              type="date"
+              name="date"
+              className="form-control form-control-solid mb-3 mb-lg-0"
+            />
+          </div>
+        </div>
+        <div className="col-3">
+          <div className="fv-row mb-7">
             <input
               type="date"
               name="date"
@@ -55,27 +73,13 @@ function AddPayments({ handleTabChange }) {
       <div className="row">
         <div className="col">
           <div className="fv-row mb-7">
-            <label className=" fw-semibold fs-6 mb-2">Ücret Tipi</label>
-            <Select
-              className=""
-              classNamePrefix="select"
-              name="typeOfFee"
-              options={options.company.map((option) => ({
-                value: option,
-                label: option,
-              }))}
-            />
-          </div>
-        </div>
-        <div className="col">
-          <div className="fv-row mb-7">
             <label className=" fw-semibold fs-6 mb-2">Açıklama</label>
-            <input
-              type="text"
-              name="detail"
-              className="form-control form-control-solid mb-3 mb-lg-0"
-              placeholder="Açıklama"
-            />
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+              placeholder="Açıklama Ekleyin."
+            ></textarea>
           </div>
         </div>
       </div>
@@ -86,7 +90,7 @@ function AddPayments({ handleTabChange }) {
             <span className="slider round"></span>
           </label>
           <label className="mx-5" htmlFor="">
-            Ödendi
+          Onay sürecini atla ve onayla
           </label>
         </div>
         <div className="fv-row mb-5 ">
@@ -95,19 +99,11 @@ function AddPayments({ handleTabChange }) {
             <span className="slider round"></span>
           </label>
           <label htmlFor="" className="mx-5">
-            Onay sürecini atla ve onayla
-          </label>
-        </div>
-        <div className="fv-row mb-5 ">
-          <label className="switch ">
-            <input type="checkbox" />
-            <span className="slider round"></span>
-          </label>
-          <label htmlFor="" className="mx-5">
-            Bordroya dahil et
+          Çalışana bilgilendirme e-postası gönder
           </label>
         </div>
       </div>
+
 
       <div className="d-flex infoBtn justify-content-end">
         <button
@@ -135,4 +131,4 @@ function AddPayments({ handleTabChange }) {
   );
 }
 
-export default AddPayments;
+export default AddShift;
