@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AddPermission from "./addPermission";
 function Permission() {
   const { id } = useParams();
+  const [permission, setPermission] = useState();
   const [activeTab, setActiveTab] = useState("permission");
 
   const handleTabChange = (tabName) => {
@@ -24,6 +25,54 @@ function Permission() {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false); //Pozisyon güncelleme modalı için state
   const [rowID, setrowID] = useState();
 
+
+  const fetchPermissionInfo = () => {
+    axios
+      .get(`http://localhost:3004/permissionInfo?employeeID=${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("position için response geliyor:", response);
+          setPermission(response.data);
+          console.log("permission: ", permission);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  console.log("permission: ", permission);
+  useEffect(() => {
+    if (id) {
+      fetchPermissionInfo();
+    }
+  }, [id]);
+
+  const deletePermission = (choice) => {
+    console.log("delete");
+
+    if (choice === "delete") {
+      axios
+        .delete(`http://localhost:3004/permissionInfo/${rowID}`)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("İzin Bilgisi silindi:", response);
+            fetchPermissionInfo();
+          } else {
+            console.log("hata");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      toggleModal();
+    }
+    if (choice === "cancel") {
+      toggleModal();
+      console.log("cancel");
+    }
+  };
+
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
@@ -31,20 +80,6 @@ function Permission() {
     setEditModalIsOpen(!editModalIsOpen);
     console.log(RowID);
   };
-  const data = [
-    {
-        id: 1,
-        dateOfStart: '12-12-2020',
-        dateOfFinish: '12-02-2021',
-        duration: '2 Ay',
-        typeOfPermission: 'Yıllık',
-        detail: '-',
-        dateOfCreation: '01-12-2020',
-        stuation: 'Bitti',
-        signed: 'İmzalandı',
-
-    }
-]
   const columns = [
     {
       name: "Başlangıç",
@@ -165,7 +200,7 @@ function Permission() {
         <div className="Tablee">
           <DataTable
             columns={columns}
-            data={data}
+            data={permission}
             fixedHeader={true}
             style={{ width: "100%" }}
             pagination
@@ -212,12 +247,12 @@ function Permission() {
           <p className="m-2 fs-5">Warning</p>
         </div>
         <div className="confContent">
-          <h2> Pozisyon kaydını silmek istediğinizden emin misiniz?</h2>
+          <h2> İzin kaydını silmek istediğinizden emin misiniz?</h2>
           <p>Bu işlem geri alınamaz.</p>
-          <button >Vazgeç</button>
-          <button>Sil</button>
+          <button onClick={() => deletePermission("cancel")}>Vazgeç</button>
+          <button onClick={() => deletePermission("delete")}>Sil</button>
         </div>
-      </Modal>
+      </Modal> 
 
 
 

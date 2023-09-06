@@ -40,7 +40,7 @@ function PrivateRoutes() {
           <Route path="general" element={<GeneralInfo />} />
           <Route path="personal-info" element={<PersonalInfo />} />
           <Route path="career" element={<Career />} ></Route>
-          <Route path="permission" element={<PermissionsEmp />} />
+          <Route path="permissions" element={<PermissionsEmp />} />
           <Route path="payments" element={<Payments />} />
           <Route path="shift" element={<Shift />} />
           <Route path="payroll" element={<Payroll />} />

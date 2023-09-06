@@ -142,7 +142,7 @@ function GeneralInfo() {
                     className="form-control form-control-solid mb-3 mb-lg-0"
                     placeholder="Soyisim"
                     value={employeeInfo.lastName}
-                    onChange={handleInputChange}
+                    onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                   />
                 </div>
               </div>
@@ -155,7 +155,7 @@ function GeneralInfo() {
                     className="form-control form-control-solid mb-3 mb-lg-0"
                     placeholder="ornek@gmail.com"
                     value={employeeInfo.email}
-                    onChange={handleInputChange}
+                    onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                   />
                 </div>
               </div>
@@ -170,7 +170,7 @@ function GeneralInfo() {
                     className="form-control form-control-solid mb-3 mb-lg-0"
                     placeholder="(5--) --- -- --"
                     value={employeeInfo.phoneNumber}
-                    onChange={handleInputChange}
+                    onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                   />
                 </div>
               </div>
@@ -275,7 +275,7 @@ function GeneralInfo() {
                     className="form-control form-control-solid mb-3 mb-lg-0"
                     placeholder="ornek@gmail.com"
                     value={employeeInfo.dateOfStart}
-                    onChange={handleInputChange}
+                    onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                   />
                 </div>
               </div>

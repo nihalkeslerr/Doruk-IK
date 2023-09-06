@@ -8,30 +8,6 @@ import axios from "axios";
 function Career() {
   
   const { id } = useParams();
-  const [employee, setEmployee] = useState(); //Tek bir kullanıcı bilgisini depolamak için
-
-  const fetchEmployee = () => {
-    //İd bilgisine göre çalışan bilgisi çekme fonksiyonu
-    setEmployee();
-    axios
-      .get(`http://localhost:3004/employees/${id}`)
-      .then((response) => {
-        if (response.status === 200) {
-          console.log("response:", response);
-          setEmployee(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  useEffect(() => {
-    if (id) {
-      fetchEmployee(id);
-    }
-  }, [id]);
-
   const [activeTab, setActiveTab] = useState("position");
 
   const handleTabChange = (tabName) => {
@@ -100,7 +76,7 @@ function Career() {
       </div>
       <div className="careerTable">
         {activeTab === "position" && (
-          <Position employee={employee} setEmployee={setEmployee} />
+          <Position />
         )}
 
         {activeTab === "addPosition" && (

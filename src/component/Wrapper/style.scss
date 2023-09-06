@@ -422,6 +422,10 @@ input:checked + .slider:before {
   display: contents;
   text-align: center;
 }
+.dahnUA div:first-child {
+  overflow: scroll !important;
+ text-overflow: initial !important;
+}
 
 @media (min-width: 992px) {
   .aside-secondary-enabled.aside-fixed.wrapper.d-flex.flex-column.flex-row-fluid.open {

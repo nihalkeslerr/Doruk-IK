@@ -158,7 +158,7 @@ function General() {
                     </NavLink>
 
                     <NavLink
-                      to={`/employees/${id}/permission`}
+                      to={`/employees/${id}/permissions`}
                       isActive={() => location.pathname === "*/permission"}
                     >
                       <li>İzinler </li>

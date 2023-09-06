@@ -172,7 +172,7 @@ function PersonalInfo() {
                   name="dateOfBirth"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   value={sendOtherInfo && sendOtherInfo.dateOfBirth}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 />
               </div>
             </div>
@@ -187,7 +187,7 @@ function PersonalInfo() {
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   placeholder="Kimlik Numarası"
                   value={sendOtherInfo && sendOtherInfo.id_number}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 />
               </div>
             </div>
@@ -272,7 +272,7 @@ function PersonalInfo() {
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   placeholder="Çocuk Sayısı"
                   value={sendOtherInfo && sendOtherInfo.numberOfChildren}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 />
               </div>
             </div>
@@ -361,7 +361,7 @@ function PersonalInfo() {
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   placeholder="Address"
                   value={sendOtherInfo && sendOtherInfo.address}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 />
               </div>
             </div>
@@ -397,7 +397,7 @@ function PersonalInfo() {
                   aria-label="Default select example"
                   name="city"
                   value={sendOtherInfo && sendOtherInfo.city}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 >
                   <option>Seç</option>
                   <option value="İstanbul">İstanbul</option>
@@ -437,7 +437,7 @@ function PersonalInfo() {
                   name="postCode"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   value={sendOtherInfo && sendOtherInfo.postCode}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 />
               </div>
             </div>
@@ -458,7 +458,7 @@ function PersonalInfo() {
                   name="bankName"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   value={sendOtherInfo && sendOtherInfo.bankName}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 />
               </div>
             </div>
@@ -497,7 +497,7 @@ function PersonalInfo() {
                   name="numberOfAccount"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   value={sendOtherInfo && sendOtherInfo.numberOfAccount}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 />
               </div>
             </div>
@@ -511,7 +511,7 @@ function PersonalInfo() {
                   name="ibanNumber"
                   className="form-control form-control-solid mb-3 mb-lg-0"
                   value={sendOtherInfo && sendOtherInfo.ibanNumber}
-                  onChange={handleInputChange}
+                  onChange={(e)=>handleInputChange(e.target.name,e.target.value)}
                 />
               </div>
             </div>
